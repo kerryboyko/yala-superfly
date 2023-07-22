@@ -1,1 +1,90 @@
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Mono&family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Serif:ital,wght@0,300;0,600;1,300;1,600&family=Ubuntu:ital,wght@0,400;0,700;1,400;1,700&display=swap");@use "sass:map";:root{margin:0;padding:0}body{margin:0;padding:0}a{text-decoration:none;color:#427aa1;cursor:pointer}a:hover{text-decoration:underline;color:#057ac8}.markdown-display{white-space:pre-wrap;font-family:"Noto Sans";font-size:0.8625rem}.markdown-display a{text-decoration:none;color:#427aa1;cursor:pointer}.markdown-display a:hover{text-decoration:underline}.markdown-display ol{white-space:normal}.markdown-display ol li{list-style-type:decimal}.markdown-display ul{white-space:normal}.markdown-display ul li{list-style-type:disc}.markdown-display li{margin-left:1.25rem;display:list-item;list-style-position:outside;white-space:normal}.markdown-display blockquote{font-family:"Noto Serif";white-space:normal;margin-left:1rem;padding-left:1rem;border-left:0.25rem solid #36454f;font-weight:300}.markdown-display blockquote strong{font-weight:600}.markdown-display h1,.markdown-display h2,.markdown-display h3,.markdown-display h4,.markdown-display h5,.markdown-display h6{font-family:"Ubuntu"}.markdown-display h6{font-size:0.8625rem}.markdown-display h5{font-size:1.25rem}.markdown-display h4{font-size:1.5rem}.markdown-display h3{font-size:1.75rem}.markdown-display h2{font-size:2rem}.markdown-display h1{font-size:2rem}.markdown-editor .input{width:100%}.markdown-editor .input-container{position:relative}.markdown-editor .is-supported{position:absolute;right:0;top:-1rem;font-family:"Ubuntu";font-size:0.75rem}.markdown-editor__footer{justify-content:flex-end}
+/* scss files here are going to be copied to app/styles, 
+   which can then be accessed by links() tabs
+*/
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Mono&family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Serif:ital,wght@0,300;0,600;1,300;1,600&family=Ubuntu:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+@use "sass:map";
+:root {
+  margin: 0;
+  padding: 0; }
+
+body {
+  margin: 0;
+  padding: 0; }
+
+a {
+  text-decoration: none;
+  color: #427aa1;
+  cursor: pointer; }
+  a:hover {
+    text-decoration: underline;
+    color: #057ac8; }
+
+.markdown-display {
+  white-space: pre-wrap;
+  font-family: "Noto Sans";
+  font-size: 0.8625rem; }
+  .markdown-display a {
+    text-decoration: none;
+    color: #427aa1;
+    cursor: pointer; }
+    .markdown-display a:hover {
+      text-decoration: underline; }
+  .markdown-display ol {
+    white-space: normal; }
+    .markdown-display ol li {
+      list-style-type: decimal; }
+  .markdown-display ul {
+    white-space: normal; }
+    .markdown-display ul li {
+      list-style-type: disc; }
+  .markdown-display li {
+    margin-left: 1.25rem;
+    display: list-item;
+    list-style-position: outside;
+    white-space: normal; }
+  .markdown-display blockquote {
+    font-family: "Noto Serif";
+    white-space: normal;
+    margin-left: 1rem;
+    padding-left: 1rem;
+    border-left: 0.25rem solid #36454f;
+    font-weight: 300; }
+    .markdown-display blockquote strong {
+      font-weight: 600; }
+    .markdown-display blockquote p {
+      padding-bottom: 0.5rem; }
+  .markdown-display h1,
+  .markdown-display h2,
+  .markdown-display h3,
+  .markdown-display h4,
+  .markdown-display h5,
+  .markdown-display h6 {
+    font-family: "Ubuntu"; }
+  .markdown-display h6 {
+    font-size: 0.8625rem; }
+  .markdown-display h5 {
+    font-size: 1.25rem; }
+  .markdown-display h4 {
+    font-size: 1.5rem; }
+  .markdown-display h3 {
+    font-size: 1.75rem; }
+  .markdown-display h2 {
+    font-size: 2rem; }
+  .markdown-display h1 {
+    font-size: 2rem; }
+
+.markdown-editor .input {
+  width: 100%; }
+
+.markdown-editor .input-container {
+  position: relative; }
+
+.markdown-editor .is-supported {
+  position: absolute;
+  right: 0;
+  top: -1rem;
+  font-family: "Ubuntu";
+  font-size: 0.75rem; }
+
+.markdown-editor__footer {
+  justify-content: flex-end; }
