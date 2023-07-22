@@ -3,6 +3,8 @@ import { SERVER_URL } from "~/utils/env";
 
 import { mapAuthSession } from "./mappers";
 import type { AuthSession } from "./types";
+import { LoaderArgs } from "@remix-run/node";
+import { getAuthSession } from "./session.server";
 
 export async function createEmailAuthAccount(email: string, password: string) {
   const { data, error } = await getSupabaseAdmin().auth.admin.createUser({
@@ -89,4 +91,14 @@ export async function verifyAuthSession(authSession: AuthSession) {
   );
 
   return Boolean(authAccount);
+}
+
+export async function verifyAuthSessionByRequest(
+  request: LoaderArgs["request"],
+) {
+  const session = await getAuthSession(request);
+  if (session === null || session === undefined) {
+    return false;
+  }
+  return await verifyAuthSession(session);
 }
