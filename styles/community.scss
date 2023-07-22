@@ -1,0 +1,77 @@
+@import "breakpoints";
+@import "palette";
+@import "mixins/map-deep-get";
+@import "component/button";
+
+.community {
+  display: grid;
+  grid-template-areas:
+    "sidebar"
+    "outlet";
+  @media (min-width: $breakpoint-tablet) {
+    grid-template-areas: "sidebar outlet";
+    grid-template-columns: 16rem auto;
+  }
+  @media (min-width: $breakpoint-desktop) {
+    grid-template-columns: 24rem auto;
+  }
+  &__sidebar {
+    margin: 1rem 1rem 0 1rem;
+    grid-area: sidebar;
+    font-family: "Noto Sans";
+    width: calc(100% - 2rem);
+    text-align: center;
+
+    &__heading {
+      margin: 0.5rem 0 1rem 0;
+      font-family: "Ubuntu";
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: map-deep-get($palettes, "blue", "ucla");
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+        color: map-deep-get($palettes, "blue", "honolulu");
+      }
+    }
+    &__route {
+      margin: 0.5rem 0 1rem 0;
+      font-size: 1rem;
+      font-weight: 400;
+      text-align: center;
+      color: map-deep-get($palettes, "blue", "ucla");
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+        color: map-deep-get($palettes, "blue", "honolulu");
+      }
+    }
+    &__created-by {
+      margin: 0.5rem 0 1rem 0;
+      font-size: 1rem;
+      font-weight: 400;
+      text-align: center;
+    }
+    &__header-image {
+      width: 100%;
+      & img {
+        width: 100%;
+        object-fit: contain;
+      }
+    }
+    &__description {
+      font-weight: 400;
+      font-size: 0.75rem;
+      text-align: start;
+    }
+    &__create-new-post {
+      margin-bottom: 1rem;
+      & button {
+        @include button-primary();
+      }
+    }
+  }
+  &__outlet {
+    grid-area: outlet;
+  }
+}

@@ -1,0 +1,42 @@
+@import "mixins/map-deep-get";
+@import "palette";
+@import "component/button";
+
+.editor {
+  margin: 1rem;
+  &__header {
+    &__margin {
+      margin-bottom: 1rem;
+    }
+    &__title {
+    }
+    &__description {
+    }
+  }
+  &__content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    &__editor {
+      & > .ql-container {
+        min-height: 8rem;
+      }
+    }
+  }
+  &__footer {
+    display: flex;
+    justify-content: flex-end;
+    &__button-preview {
+      @include button-secondary();
+    }
+    &__button-submit {
+      margin-left: 1rem;
+
+      @include button-primary();
+    }
+  }
+  &__preview {
+    padding: 1rem 2rem;
+    background-color: rgba(map-deep-get($palettes, "grey", "french-grey"), 0.5);
+  }
+}

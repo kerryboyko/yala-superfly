@@ -67,9 +67,11 @@ export async function action({ request }: ActionArgs) {
   });
 }
 
-export const meta: MetaFunction = ({ data }) => ({
-  title: data.title,
-});
+export const meta: MetaFunction = ({ data }) => [
+  {
+    title: data.title,
+  },
+];
 
 export default function LoginPage() {
   const zo = useZorm("NewQuestionWizardScreen", LoginFormSchema);

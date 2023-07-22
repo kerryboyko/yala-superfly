@@ -1,0 +1,54 @@
+// @import "../../palette";
+// @import "../map-deep-get";
+
+// $notification-background: map-deep-get($palettes, "blue", "ucla") !default;
+// $notification-background-hover: darken(
+//   map-deep-get($palettes, "blue", "ucla"),
+//   15
+// ) !default;
+
+// $notification-color: white !default;
+// $notification-color-hover: $notification-color !default;
+
+// $notification-border: 0px solid transparent !default;
+// $notification-border-hover: $notification-border !default;
+
+// @mixin notification (
+//   $notf-background: $notification-background,
+//   $notf-background-hover: $notification-background-hover,
+//   $notf-color: $notification-color,
+//   $notf-color-hover: $notification-color-hover,
+//   $notf-border: $notification-border,
+//   $notf-border-hover: $notification-border-hover
+// ) {
+//   font-family: "Noto Sans";
+//   font-weight: 700;
+//   text-transform: uppercase;
+//   display: inline-block;
+//   line-height: 1rem;
+//   padding: 0.5rem 1.5rem;
+//   background: $notf-background;
+//   border: $notf-border;
+//   border-radius: 0.5rem;
+//   color: $notf-color;
+//   text-align: center;
+//   cursor: pointer;
+//   transition: all 0.15s ease-in-out;
+//   text-decoration: none;
+//   &:hover {
+//     background: $notf-background-hover;
+//     border: $notf-border-hover;
+//     color: $notf-color-hover;
+//   }
+//   &:disabled {
+//     background-color: map-deep-get($palettes, "grey", 200);
+//   }
+//   i {
+//     padding-left: 16px;
+//   }
+// }
+
+// @mixin button-large() {
+//   @include button();
+//   font-size: 1.25rem;
+// }

@@ -1,0 +1,59 @@
+@import "palette";
+@import "mixins/map-deep-get";
+@import "component/drag-drop-file";
+
+.warning-red {
+  color: map-deep-get($palettes, "red", "warning-red");
+}
+.safety-orange {
+  color: map-deep-get($palettes, "orange", "safety-orange");
+}
+
+.create-community {
+  & .input-container {
+    position: relative;
+  }
+  & .input {
+    border-radius: 0.5rem;
+  }
+  & .char-count {
+    position: absolute;
+    font-family: "Ubuntu";
+    font-size: 0.75rem;
+    bottom: -1rem;
+    right: 0;
+  }
+
+  &__route {
+    padding: 0 1rem;
+  }
+  &__footer {
+    justify-content: flex-end;
+  }
+  &__content {
+    &__header-image {
+      &__display {
+        &--image {
+          border-radius: 0.5rem;
+          border: 1px solid map-deep-get($palettes, "grey", "french-grey");
+          margin: 1rem 0;
+        }
+      }
+      &__loading {
+        display: flex;
+        &.icon {
+          margin-right: 1rem;
+          animation: spin 4s linear infinite;
+          color: map-deep-get($palettes, "blue", "ucla");
+        }
+      }
+    }
+  }
+}
+
+@keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}

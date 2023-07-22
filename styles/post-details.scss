@@ -1,0 +1,117 @@
+@import "breakpoints";
+@import "palette";
+@import "mixins/map-deep-get";
+@import "component/button";
+
+.post-details {
+  // background-color: map-deep-get($palettes, "white", "snow-white");
+  font-family: "Noto Sans";
+
+  margin: 1rem;
+  @media (min-width: $breakpoint-mobile) {
+  }
+
+  &__title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    font-family: "Ubuntu";
+  }
+  &__description {
+    font-family: "Noto Sans";
+    margin-bottom: 0.5rem;
+  }
+  &__link {
+    padding: 0.25rem;
+    display: flex;
+    align-items: center;
+    background-color: rgba(map-deep-get($palettes, "white", "snow-white"), 0.5);
+    &:hover {
+      background-color: map-deep-get($palettes, "white", "snow-white");
+      font-weight: 700;
+    }
+    & .link-icon {
+      margin-right: 0.5rem;
+    }
+  }
+  &__content {
+    &__text {
+      font-family: "Noto Sans";
+      margin-top: 1rem;
+      & pre {
+        font-family: "Noto Sans Mono";
+        background-color: map-deep-get($palettes, "white", "snow-white");
+        padding: 0.5rem;
+        border: 1px dashed map-deep-get($palettes, "black", "charcoal");
+      }
+    }
+  }
+  &__footer {
+    display: flex;
+    justify-content: flex-end;
+    &--new-comment-button {
+      @include button-primary();
+    }
+  }
+}
+
+.all-comments {
+  padding: 1rem;
+}
+.show-comment {
+  &.child {
+    padding-left: 1rem;
+    border-left: 3px solid
+      rgba(map-deep-get($palettes, "black", "charcoal"), 0.5);
+  }
+  &__header {
+    font-family: "Ubuntu";
+    font-size: 0.75rem;
+    margin-bottom: 0.25rem;
+  }
+  &__display {
+    font-family: "Noto Sans";
+    font-size: 0.825rem;
+    line-height: 1rem;
+    margin: 0;
+    & p {
+      margin-bottom: 1rem;
+    }
+  }
+  &__footer {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: flex-end;
+    &__reply {
+      width: 100%;
+      position: relative;
+      & .create-comment {
+        width: 100%;
+        margin-bottom: 2rem;
+      }
+      &--submit {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+      }
+    }
+    &__reply-button {
+      @include button-primary();
+      &--text {
+        margin-left: 0.5rem;
+      }
+    }
+  }
+}
+
+.create-comment {
+  margin: 0.5rem;
+  &__footer {
+    display: flex;
+    justify-content: flex-end;
+    &--submit-button {
+      @include button-primary();
+      margin-right: 0.5rem;
+    }
+  }
+}

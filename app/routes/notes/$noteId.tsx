@@ -7,8 +7,9 @@ import { deleteNote, getNote } from "~/modules/note";
 import { assertIsDelete, getRequiredParam } from "~/utils";
 
 export async function loader({ request, params }: LoaderArgs) {
-  const { userId } = await requireAuthSession(request);
-
+  const authSession = await requireAuthSession(request);
+  const { userId } = authSession;
+  console.log({ authSession });
   const id = getRequiredParam(params, "noteId");
 
   const note = await getNote({ userId, id });

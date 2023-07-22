@@ -1,0 +1,34 @@
+@use "sass:map";
+
+$palettes: (
+  "red": (
+    warning-red: #cd212e,
+    golden-gate: #ee400b,
+  ),
+  "blue": (
+    honolulu: #057ac8,
+    ucla: #427aa1,
+  ),
+  "grey": (
+    bright-grey: #e6eaed,
+    french-grey: #d1d1d5,
+    dark-silver: #717171,
+  ),
+  "beige": (
+    dutch-white: #f3dfbf,
+  ),
+  "orange": (
+    safety-orange: #ff7900,
+  ),
+  "black": (
+    true-black: #000000,
+    charcoal: #36454f,
+    jet-black: #343434,
+  ),
+  "white": (
+    snow-white: #f2f0eb,
+    true-white: #ffffff,
+    cultured: #f4f4f4,
+    platinum: #e7e7e4,
+  ),
+);

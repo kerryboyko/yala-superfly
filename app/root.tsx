@@ -20,16 +20,20 @@ import { i18nextServer } from "~/integrations/i18n";
 
 import tailwindStylesheetUrl from "./styles/tailwind.css";
 import { getBrowserEnv } from "./utils/env";
+import stylesheet from "~/styles/index.css";
 
-export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: tailwindStylesheetUrl },
+export const links: LinksFunction = () =>
+  [tailwindStylesheetUrl, stylesheet]
+    .filter((el) => !!el)
+    .map((href) => ({ rel: "stylesheet", href }));
+
+export const meta: MetaFunction = () => [
+  {
+    charset: "utf-8",
+    title: "Remix Notes",
+    viewport: "width=device-width,initial-scale=1",
+  },
 ];
-
-export const meta: MetaFunction = () => ({
-  charset: "utf-8",
-  title: "Remix Notes",
-  viewport: "width=device-width,initial-scale=1",
-});
 
 export const loader: LoaderFunction = async ({ request }) => {
   const locale = await i18nextServer.getLocale(request);

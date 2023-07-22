@@ -1,0 +1,80 @@
+@import "palette";
+@import "mixins/map-deep-get";
+@import "component/drag-drop-file";
+
+.create-post {
+  &__container {
+    margin-top: 1rem;
+  }
+  & .header__condensed-padding {
+    &.bottom {
+      padding-bottom: 0.25rem;
+    }
+    &.top {
+      padding-top: 0.5rem;
+    }
+  }
+  & .content__condensed-padding {
+    padding-bottom: 0.25rem;
+  }
+  &__content {
+    &__embed-image {
+      &__display {
+        &--image {
+          border-radius: 0.5rem;
+          border: 1px solid map-deep-get($palettes, "grey", "french-grey");
+          margin: 1rem 0;
+        }
+      }
+      &__loading {
+        display: flex;
+        &.icon {
+          margin-right: 1rem;
+          animation: spin 4s linear infinite;
+          color: map-deep-get($palettes, "blue", "ucla");
+        }
+      }
+    }
+  }
+  & .editor__content {
+    position: relative;
+    &__editor__markdown-supported {
+      position: absolute;
+      right: 1.5rem;
+      top: -1rem;
+      font-family: "Ubuntu";
+      font-size: 0.75rem;
+    }
+  }
+}
+
+.post-preview {
+  background-color: map-deep-get($palettes, "grey", "french-grey");
+  padding-top: 1rem;
+  &__title {
+    font-family: "Noto Sans";
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  &__link {
+    text-decoration: none;
+    color: map-deep-get($palettes, "blue", "ucla");
+
+    &:hover {
+      text-decoration: underline;
+      color: map-deep-get($palettes, "blue", "honolulu");
+    }
+  }
+  &__body {
+    margin-bottom: 0.5rem;
+    font-family: "Noto Sans";
+  }
+}
+
+@keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}

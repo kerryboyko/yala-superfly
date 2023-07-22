@@ -1,0 +1,10 @@
+$breakpoint-mobile: "480px";
+$breakpoint-tablet: "768px";
+$breakpoint-desktop: "1200px";
+
+:root {
+  // allows breakpoints to be accessed in --var css variables.
+  #{"--breakpoint-mobile"}: #{"480px"};
+  #{"--breakpoint-tablet"}: #{"768px"};
+  #{"--breakpoint-desktop"}: #{"1200px"};
+}

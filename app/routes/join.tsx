@@ -76,9 +76,11 @@ export async function action({ request }: ActionArgs) {
   });
 }
 
-export const meta: MetaFunction = ({ data }) => ({
-  title: data.title,
-});
+export const meta: MetaFunction = ({ data }) => [
+  {
+    title: data.title,
+  },
+];
 
 export default function Join() {
   const zo = useZorm("NewQuestionWizardScreen", JoinFormSchema);

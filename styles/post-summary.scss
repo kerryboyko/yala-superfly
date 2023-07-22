@@ -1,0 +1,171 @@
+@import "breakpoints";
+@import "palette";
+@import "mixins/map-deep-get";
+
+.post-summary {
+  // background-color: map-deep-get($palettes, "white", "snow-white");
+
+  display: grid;
+  grid-template-areas:
+    "title title"
+    "embed embed"
+    "community community"
+    "link link"
+    "author comments"
+    "text text";
+  grid-template-columns: auto;
+  &.no-embed {
+    grid-template-areas:
+      "title title"
+      "community community"
+      "link link"
+      "author comments"
+      "text text";
+  }
+  @media (min-width: $breakpoint-mobile) {
+    grid-template-areas:
+      "embed title title"
+      "embed community community"
+      "embed link link"
+      "embed author comments"
+      "text text text";
+    grid-template-columns: 10rem 1fr 1fr;
+
+    &.no-embed {
+      grid-template-areas:
+        "title title"
+        "community community"
+        "link link"
+        "author comments"
+        "text text text";
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  margin: 1rem;
+  padding: 1rem;
+
+  box-sizing: border-box;
+  border-radius: 0.5rem;
+  &__embed {
+    grid-area: embed;
+    padding: 0.5rem 2rem 0.5rem 0.5rem;
+    &__image {
+      object-fit: cover;
+      object-position: 0 0;
+      width: 100%;
+      height: 18rem;
+      padding: 0.25rem;
+      border-radius: 0.25rem;
+      border: 1px solid map-deep-get($palettes, "grey", "french-grey");
+      @media (min-width: $breakpoint-mobile) {
+        object-fit: cover;
+        object-position: 0 0;
+        width: 100%;
+        height: 6rem;
+        padding: 0.25rem;
+        border-radius: 0.25rem;
+        border: 1px solid map-deep-get($palettes, "grey", "french-grey");
+      }
+    }
+  }
+  &__title {
+    grid-area: title;
+    font-family: "Ubuntu";
+    font-weight: 700;
+    font-size: 1.5rem;
+    padding: 0 0 1rem 0;
+    > a {
+      text-decoration: none;
+      color: map-deep-get($palettes, "blue", "ucla");
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+        color: map-deep-get($palettes, "blue", "honolulu");
+      }
+    }
+  }
+
+  &__community-link {
+    grid-area: community;
+    font-family: "Noto Sans";
+    font-weight: 400;
+  }
+  &__link {
+    grid-area: link;
+    font-family: "Noto Sans";
+    font-weight: 400;
+    font-style: italic;
+    padding: 0.25rem 0;
+    &--literal {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+    }
+    & .link-icon {
+      margin-right: 0.5rem;
+    }
+  }
+  &__author-link {
+    grid-area: author;
+    font-family: "Noto Sans";
+    font-weight: 400;
+  }
+  &__comments-link {
+    grid-area: comments;
+    justify-self: right;
+    font-family: "Noto Sans";
+    font-weight: 400;
+  }
+  &__text {
+    grid-area: text;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    &--read-more {
+      margin-top: 1rem;
+      font-weight: 700;
+      align-self: flex-end;
+    }
+  }
+}
+
+.post-summary-small {
+  display: grid;
+  padding: 0.25rem;
+  &__header {
+    display: flex;
+    justify-content: flex-start;
+    &__icon-area {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 1rem;
+      margin-right: 1rem;
+      margin-left: 1rem;
+      width: 3rem;
+    }
+    &__title {
+      width: calc(100% - 5rem);
+      font-weight: 700;
+      font-family: "Ubuntu";
+    }
+  }
+  &__text {
+    font-family: "Noto Sans";
+    width: calc(100% - 5rem);
+    margin-left: 5rem;
+    font-size: 0.75rem;
+  }
+  &__info {
+    font-family: "Ubuntu";
+    width: calc(100% - 5rem);
+    font-size: 0.75rem;
+    margin-left: 5rem;
+    display: flex;
+    justify-content: space-between;
+  }
+  &.even {
+    background-color: map-deep-get($palettes, "white", "platinum");
+  }
+}

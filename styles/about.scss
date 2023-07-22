@@ -1,0 +1,23 @@
+.about {
+  display: flex;
+  justify-content: center;
+  padding: 2rem 1rem;
+  &__text {
+    font-size: 1rem;
+    max-width: 48rem;
+    & a {
+      font-weight: 700;
+    }
+    & li {
+      padding-bottom: 0.25rem;
+    }
+    & ul {
+      padding-top: 0.25rem;
+    }
+    & blockquote {
+      & p {
+        padding-bottom: 0.5rem;
+      }
+    }
+  }
+}

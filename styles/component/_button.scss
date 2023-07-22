@@ -1,0 +1,32 @@
+@import "../palette";
+@import "../mixins/map-deep-get";
+
+@mixin button() {
+  text-transform: uppercase;
+  font-family: "Ubuntu";
+  text-transform: uppercase;
+  font-weight: 700;
+  background-color: map-deep-get($palettes, "blue", "ucla");
+  cursor: pointer;
+  &:hover {
+    background-color: map-deep-get($palettes, "red", "golden-gate");
+  }
+}
+
+@mixin button-primary() {
+  @include button();
+}
+
+@mixin button-secondary() {
+  @include button();
+  &:hover {
+    background-color: map-deep-get($palettes, "red", "honolulu");
+  }
+}
+
+@mixin button-warning() {
+  @include button();
+  &:hover {
+    background-color: map-deep-get($palettes, "red", "warning-red");
+  }
+}

@@ -15,6 +15,8 @@ const prisma = new PrismaClient();
 
 const email = "hello@supabase.com";
 
+const username = "hello";
+
 const getUserId = async (): Promise<string> => {
   const userList = await supabaseAdmin.auth.admin.listUsers();
 
@@ -56,22 +58,7 @@ async function seed() {
       data: {
         email,
         id,
-      },
-    });
-
-    await prisma.note.create({
-      data: {
-        title: "My first note",
-        body: "Hello, world!",
-        userId: user.id,
-      },
-    });
-
-    await prisma.note.create({
-      data: {
-        title: "My second note",
-        body: "Hello, world!",
-        userId: user.id,
+        username,
       },
     });
 
