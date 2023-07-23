@@ -58,7 +58,14 @@ async function seed() {
       data: {
         email,
         id,
+      },
+    });
+
+    const profile = await prisma.profile.create({
+      data: {
+        userId: user.id,
         username,
+        verified: true,
       },
     });
 

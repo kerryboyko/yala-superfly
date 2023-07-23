@@ -17,6 +17,14 @@
   font-size: 1.125rem;
   line-height: 1.175rem;
   padding: 0.25rem 0.5rem;
+  & .error {
+    color: map-deep-get($palettes, "red", "warning-red");
+    margin-left: 0.75rem;
+    margin-top: 0.75rem;
+    font-family: "Ubuntu";
+    font-weight: 700;
+    font-size: 0.75rem;
+  }
 }
 .label {
   font-family: "Ubuntu";

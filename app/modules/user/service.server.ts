@@ -11,7 +11,7 @@ export async function getUserByEmail(email: User["email"]) {
   return db.user.findUnique({ where: { email: email.toLowerCase() } });
 }
 
-export async function getUserByUsername(username: Profile["username"]) {
+export async function getProfileByUsername(username: Profile["username"]) {
   return db.profile.findUnique({ where: { username: username.toLowerCase() } });
 }
 

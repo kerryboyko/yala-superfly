@@ -6,7 +6,6 @@ export interface AuthButtonsProps {
 }
 
 export const AuthButtons = ({ isLoggedIn }: AuthButtonsProps) => {
-  console.log({ isLoggedIn });
   if (isLoggedIn) {
     return (
       <div className="login-buttons">

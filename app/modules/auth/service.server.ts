@@ -5,6 +5,8 @@ import { mapAuthSession } from "./mappers";
 import type { AuthSession } from "./types";
 import { LoaderArgs } from "@remix-run/node";
 import { getAuthSession } from "./session.server";
+import { stringIsEmail } from "~/utils/stringIsEmail";
+import { db } from "~/database";
 
 export async function createEmailAuthAccount(email: string, password: string) {
   const { data, error } = await getSupabaseAdmin().auth.admin.createUser({
@@ -27,6 +29,29 @@ export async function signInWithEmail(email: string, password: string) {
   if (!data.session || error) return null;
 
   return mapAuthSession(data.session);
+}
+
+export async function signInWithEmailOrUsername(
+  emailOrUsername: string,
+  password: string,
+) {
+  if (stringIsEmail(emailOrUsername)) {
+    return signInWithEmail(emailOrUsername, password);
+  }
+  try {
+    const { userId } = await db.profile.findUniqueOrThrow({
+      where: { username: emailOrUsername },
+      select: { userId: true },
+    });
+    const { email } = await db.user.findUniqueOrThrow({
+      where: { id: userId },
+      select: { email: true },
+    });
+    return signInWithEmail(email, password);
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
 }
 
 export async function sendMagicLink(email: string) {

@@ -1,6 +1,4 @@
-import * as React from "react";
-
-import type { ActionArgs, LoaderArgs, MetaFunction } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Form, Link, useSearchParams, useTransition } from "@remix-run/react";
 import { useTranslation } from "react-i18next";
@@ -8,13 +6,9 @@ import { parseFormAny, useZorm } from "react-zorm";
 import { z } from "zod";
 
 import { i18nextServer } from "~/integrations/i18n";
-import {
-  createAuthSession,
-  getAuthSession,
-  signInWithEmail,
-  ContinueWithEmailForm,
-} from "~/modules/auth";
+import { createAuthSession, getAuthSession } from "~/modules/auth";
 import { assertIsPost, isFormProcessing } from "~/utils";
+import { signInWithEmailOrUsername } from "~/modules/auth/service.server";
 
 export async function loader({ request }: LoaderArgs) {
   const authSession = await getAuthSession(request);
@@ -27,10 +21,7 @@ export async function loader({ request }: LoaderArgs) {
 }
 
 const LoginFormSchema = z.object({
-  email: z
-    .string()
-    .email("invalid-email")
-    .transform((email) => email.toLowerCase()),
+  emailOrUsername: z.string(),
   password: z.string().min(8, "password-too-short"),
   redirectTo: z.string().optional(),
 });
@@ -49,9 +40,12 @@ export async function action({ request }: ActionArgs) {
     );
   }
 
-  const { email, password, redirectTo } = result.data;
+  const { emailOrUsername, password, redirectTo } = result.data;
 
-  const authSession = await signInWithEmail(email, password);
+  const authSession = await signInWithEmailOrUsername(
+    emailOrUsername,
+    password,
+  );
 
   if (!authSession) {
     return json(
@@ -67,7 +61,7 @@ export async function action({ request }: ActionArgs) {
   });
 }
 
-export const meta: MetaFunction = ({ data }) => [
+export const meta: V2_MetaFunction = ({ data }) => [
   {
     title: data.title,
   },
@@ -88,10 +82,10 @@ export default function LoginPage() {
         <Form ref={zo.ref} method="post" className="space-y-6" replace>
           <div>
             <label
-              htmlFor={zo.fields.email()}
+              htmlFor={zo.fields.emailOrUsername()}
               className="block text-sm font-medium text-gray-700"
             >
-              {t("login.email")}
+              {t("login.emailOrUsername")}
             </label>
 
             <div className="mt-1">
@@ -99,17 +93,17 @@ export default function LoginPage() {
                 data-test-id="email"
                 required
                 autoFocus={true}
-                name={zo.fields.email()}
-                type="email"
+                name={zo.fields.emailOrUsername()}
+                type="text"
                 autoComplete="email"
-                className="w-full rounded border border-gray-500 px-2 py-1 text-lg"
+                className="input input__email-or-username"
                 disabled={disabled}
               />
-              {zo.errors.email()?.message && (
-                <div className="pt-1 text-red-700" id="email-error">
-                  {zo.errors.email()?.message}
+              {zo.errors.emailOrUsername()?.message ? (
+                <div id="email-error">
+                  {zo.errors.emailOrUsername()?.message}
                 </div>
-              )}
+              ) : null}
             </div>
           </div>
 
@@ -118,7 +112,7 @@ export default function LoginPage() {
               htmlFor={zo.fields.password()}
               className="block text-sm font-medium text-gray-700"
             >
-              {t("register.password")}
+              {t("login.password")}
             </label>
             <div className="mt-1">
               <input
@@ -126,7 +120,7 @@ export default function LoginPage() {
                 name={zo.fields.password()}
                 type="password"
                 autoComplete="new-password"
-                className="w-full rounded border border-gray-500 px-2 py-1 text-lg"
+                className="input input__email"
                 disabled={disabled}
               />
               {zo.errors.password()?.message && (
@@ -172,7 +166,7 @@ export default function LoginPage() {
             </div>
           </div>
         </Form>
-        <div className="mt-6">
+        {/* <div className="mt-6">
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-gray-300" />
@@ -186,7 +180,7 @@ export default function LoginPage() {
           <div className="mt-6">
             <ContinueWithEmailForm />
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
