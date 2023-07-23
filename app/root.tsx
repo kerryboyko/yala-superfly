@@ -1,7 +1,7 @@
 import type {
   LinksFunction,
   LoaderFunction,
-  MetaFunction,
+  V2_MetaFunction,
 } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
@@ -18,7 +18,7 @@ import { useChangeLanguage } from "remix-i18next";
 
 import { i18nextServer } from "~/integrations/i18n";
 
-import tailwindStylesheetUrl from "./styles/tailwind.css";
+import tailwindStylesheetUrl from "./tailwind.css";
 import { getBrowserEnv } from "./utils/env";
 import stylesheet from "~/styles/index.css";
 
@@ -27,10 +27,10 @@ export const links: LinksFunction = () =>
     .filter((el) => !!el)
     .map((href) => ({ rel: "stylesheet", href }));
 
-export const meta: MetaFunction = () => [
+export const meta: V2_MetaFunction = () => [
   {
     charset: "utf-8",
-    title: "Remix Notes",
+    title: "Yala - Yet Another Link Aggregator",
     viewport: "width=device-width,initial-scale=1",
   },
 ];

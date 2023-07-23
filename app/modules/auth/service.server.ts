@@ -102,3 +102,10 @@ export async function verifyAuthSessionByRequest(
   }
   return await verifyAuthSession(session);
 }
+
+export async function getAuthByRequest(request: LoaderArgs["request"]) {
+  const session = await getAuthSession(request);
+  if (session === null || session === undefined) {
+    return false;
+  }
+}

@@ -29,13 +29,7 @@ export function ContinueWithEmailForm() {
       replace={false}
       ref={ref}
     >
-      <input
-        type="email"
-        name="email"
-        id="magic-link"
-        className="mb-1 w-full rounded border border-gray-500 px-2 py-1 text-lg"
-        disabled={isLoading}
-      />
+      <input type="email" name="email" id="magic-link" disabled={isLoading} />
       <div
         className={`mb-2 h-6 text-center ${data?.error ? "text-red-600" : ""} ${
           isSuccessFull ? "text-green-600" : ""

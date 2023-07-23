@@ -1,13 +1,13 @@
-import { Form, Link, NavLink } from "@remix-run/react";
-import { Button } from "~/components/ui/button";
+import { Link, NavLink } from "@remix-run/react";
 import { Badge } from "~/components/ui/badge";
 import { PlusCircle } from "lucide-react";
+import { AuthButtons } from "~/components/AuthButtons/AuthButtons";
 
 export const Header = ({
-  userLoggedIn,
+  isLoggedIn,
   username,
 }: {
-  userLoggedIn: boolean;
+  isLoggedIn: boolean;
   username: string | undefined;
 }) => {
   return (
@@ -17,27 +17,18 @@ export const Header = ({
           YALA: Yet Another Link Aggregator
         </div>
 
-        {userLoggedIn ? (
-          <div className="header__username">
-            <Form method="post" action="/api/v1/logout">
-              <Button className="button logout" type="submit">
-                Logout
-              </Button>
-            </Form>
-            <div className="header__username-display">
-              Welcome, <Link to={`/u/${username}`}>{username}</Link>!
-            </div>
-          </div>
-        ) : (
-          <Form method="post" action="/api/v1/login">
-            <Button name="loginName" className="button login" type="submit">
-              Login or Sign Up
-            </Button>
-          </Form>
-        )}
+        <AuthButtons isLoggedIn={isLoggedIn} />
       </div>
-      {userLoggedIn ? (
+      {isLoggedIn ? (
         <div className="header__interaction-bar">
+          <div>
+            {isLoggedIn ? (
+              <span>
+                Welcome back, <Link to={`/user/${username}`}>{username}</Link>!
+              </span>
+            ) : null}
+          </div>
+
           <div>
             <NavLink to="/dashboard/create-community">
               {({ isActive }) =>

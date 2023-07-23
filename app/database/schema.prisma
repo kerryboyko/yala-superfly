@@ -12,7 +12,7 @@ model User {
   email     String    @unique
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  Profile   Profile[] @relation("UserProfile")
+  profile   Profile[] @relation("UserProfile")
 
   @@index(fields: [email(sort: Asc), id(sort: Asc)])
 }
@@ -22,11 +22,10 @@ model Profile {
   userId                    String                 @id @unique
   createdAt                 DateTime               @default(now())
   updatedAt                 DateTime               @updatedAt
-  username                  String?                @unique
+  username                  String                 @unique
   bannedUntil               DateTime? // This is a site ban, not the community ban. Null = no ban, though if one could default to the year 1000, that would be better.
   reasonForBan              String?
   verified                  Boolean
-  insertInstant             DateTime
   lastUpdateInstant         DateTime?
   lastLoginInstant          DateTime?
   passwordLastUpdateInstant DateTime?

@@ -1,4 +1,4 @@
-import type { User } from "~/database";
+import { Profile, User } from "@prisma/client";
 import { db } from "~/database";
 import type { AuthSession } from "~/modules/auth";
 import {
@@ -11,28 +11,42 @@ export async function getUserByEmail(email: User["email"]) {
   return db.user.findUnique({ where: { email: email.toLowerCase() } });
 }
 
+export async function getUserByUsername(username: Profile["username"]) {
+  return db.profile.findUnique({ where: { username: username.toLowerCase() } });
+}
+
 async function createUser({
+  username,
   email,
   userId,
-}: Pick<AuthSession, "userId" | "email">) {
-  return db.user
-    .create({
+}: Pick<AuthSession, "userId" | "email"> & { username: string }) {
+  return db.$transaction(async (tx) => {
+    const user = await tx.user.create({
       data: {
         email,
         id: userId,
       },
-    })
-    .then((user) => user)
-    .catch(() => null);
+    });
+    const profile = await tx.profile.create({
+      data: {
+        userId,
+        username,
+        verified: false,
+      },
+    });
+    return { user, profile };
+  });
 }
 
 export async function tryCreateUser({
   email,
   userId,
-}: Pick<AuthSession, "userId" | "email">) {
-  const user = await createUser({
+  username,
+}: Pick<AuthSession, "userId" | "email"> & { username: string }) {
+  const { user, profile } = await createUser({
     userId,
     email,
+    username,
   });
 
   // user account created and have a session but unable to store in User table
@@ -42,12 +56,13 @@ export async function tryCreateUser({
     return null;
   }
 
-  return user;
+  return { user, profile };
 }
 
 export async function createUserAccount(
   email: string,
   password: string,
+  username: string,
 ): Promise<AuthSession | null> {
   const authAccount = await createEmailAuthAccount(email, password);
 
@@ -63,7 +78,7 @@ export async function createUserAccount(
     return null;
   }
 
-  const user = await tryCreateUser(authSession);
+  const user = await tryCreateUser({ ...authSession, username });
 
   if (!user) return null;
 

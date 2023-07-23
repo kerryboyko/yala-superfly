@@ -1,0 +1,44 @@
+@import "palette";
+@import "mixins/map-deep-get";
+
+.sign-up {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 2rem;
+  width: 100%;
+  &__card {
+    min-width: 28rem;
+  }
+}
+.field {
+  margin-bottom: 1rem;
+  font-size: 1.125rem;
+  line-height: 1.175rem;
+  padding: 0.25rem 0.5rem;
+}
+.label {
+  font-family: "Ubuntu";
+  font-weight: 700;
+  margin-left: 0.75rem;
+}
+.input {
+  margin-top: 0.5rem;
+}
+.button {
+  text-transform: uppercase;
+  font-family: "Ubuntu";
+  width: calc(100% - 1rem);
+  margin: 1rem 0.5rem;
+
+  &:hover {
+    background-color: map-deep-get($palettes, "blue", "ucla");
+  }
+}
+
+.create-account {
+  &__already-have-account {
+    text-align: center;
+  }
+}

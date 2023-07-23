@@ -1,5 +1,6 @@
 @import "palette";
 @import "mixins/map-deep-get";
+@import "component/button";
 
 .header {
   font-family: "Ubuntu";
@@ -83,24 +84,19 @@
       }
     }
   }
+  & .login-buttons {
+    display: flex;
+    margin: 0.5rem 1rem;
+  }
 }
 
 .button {
   text-transform: uppercase;
   font-family: "Ubuntu";
-
-  &.login {
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+  &:hover {
     background-color: map-deep-get($palettes, "blue", "ucla");
-    &:hover {
-      background-color: map-deep-get($palettes, "red", "golden-gate");
-    }
-  }
-  &.logout {
-    background-color: map-deep-get($palettes, "blue", "ucla");
-    margin-right: 1rem;
-    &:hover {
-      background-color: map-deep-get($palettes, "red", "warning-red");
-    }
   }
 }
 

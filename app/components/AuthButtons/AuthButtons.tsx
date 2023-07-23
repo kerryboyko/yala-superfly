@@ -11,7 +11,11 @@ export const AuthButtons = ({ isLoggedIn }: AuthButtonsProps) => {
     return (
       <div className="login-buttons">
         <Form method="post" action="/api/v1/logout">
-          <Button className="button logout" type="submit">
+          <Button
+            className="login-buttons__buttons__logout--button button"
+            variant={"destructive"}
+            type="submit"
+          >
             Logout
           </Button>
         </Form>
@@ -20,16 +24,22 @@ export const AuthButtons = ({ isLoggedIn }: AuthButtonsProps) => {
   }
   return (
     <div className="login-buttons">
-      <div>
-        <Link to="/join">
-          <Button className="button logout" type="button">
+      <div className="login-buttons__buttons__sign-up">
+        <Link className="login-buttons__buttons__sign-up--link" to="/join">
+          <Button
+            className="login-buttons__buttons__sign-up--button button"
+            type="button"
+          >
             Sign Up
           </Button>
         </Link>
       </div>
-      <div>
-        <Link to="/login">
-          <Button className="button logout" type="button">
+      <div className="login-buttons__buttons__login">
+        <Link className="login-buttons__buttons__login--link" to="/login">
+          <Button
+            className="login-buttons__buttons__login--button button"
+            type="button"
+          >
             Login
           </Button>
         </Link>
