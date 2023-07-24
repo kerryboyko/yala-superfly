@@ -5,6 +5,11 @@ import aboutStyles from "~/styles/about.css";
 export const links: LinksFunction = () =>
   [aboutStyles].map((href) => ({ rel: "stylesheet", href }));
 
-export default function IndexRoute() {
-  return <AboutPage />;
+export default function TestRoute() {
+  return (
+    <div>
+      <div>This is the test route</div>
+      <AboutPage />
+    </div>
+  );
 }
