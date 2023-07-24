@@ -2,7 +2,8 @@
 @import "mixins/map-deep-get";
 
 .sign-up,
-.complete-profile {
+.complete-profile,
+.login {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -49,13 +50,9 @@
   }
 }
 
-.create-account {
-  &__already-have-account {
-    text-align: center;
-  }
-}
-
-.already-have-account {
+.already-have-account,
+.forgot-password,
+.dont-have-account {
   margin-top: 1rem;
   text-align: center;
 }

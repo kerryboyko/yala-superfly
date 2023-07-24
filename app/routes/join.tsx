@@ -18,7 +18,7 @@ import {
   getProfileByUsername,
 } from "~/modules/user";
 import { assertIsPost, isFormProcessing } from "~/utils";
-import { ContinueWithEmailForm } from "~/components/AuthButtons/ContinueWithEmailForm";
+// import { ContinueWithEmailForm } from "~/components/AuthButtons/ContinueWithEmailForm";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Label } from "~/components/ui/label";
 import { Input } from "~/components/ui/input";
@@ -35,8 +35,8 @@ import type {
   LoaderArgs,
   V2_MetaFunction,
 } from "@remix-run/node";
-import { useCallback } from "react";
-import { supabaseClient } from "~/integrations/supabase/client";
+// import { useCallback } from "react";
+// import { supabaseClient } from "~/integrations/supabase/client";
 
 export async function loader({ request }: LoaderArgs) {
   const authSession = await getAuthSession(request);
@@ -126,14 +126,14 @@ export default function Join() {
   const disabledButton = zo.validation?.success === false;
   const { t } = useTranslation("auth");
 
-  const handleGoogleLogin = useCallback(async () => {
-    await supabaseClient.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: "http://localhost:3000/oauth/callback",
-      },
-    });
-  }, []);
+  // const handleGoogleLogin = useCallback(async () => {
+  //   await supabaseClient.auth.signInWithOAuth({
+  //     provider: "google",
+  //     options: {
+  //       redirectTo: "http://localhost:3000/oauth/callback",
+  //     },
+  //   });
+  // }, []);
 
   return (
     <div className="sign-up">

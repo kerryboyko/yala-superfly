@@ -1,4 +1,9 @@
-import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
+import type {
+  ActionArgs,
+  LinksFunction,
+  LoaderArgs,
+  V2_MetaFunction,
+} from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Form, Link, useSearchParams, useTransition } from "@remix-run/react";
 import { useTranslation } from "react-i18next";
@@ -9,6 +14,15 @@ import { i18nextServer } from "~/integrations/i18n";
 import { createAuthSession, getAuthSession } from "~/modules/auth";
 import { assertIsPost, isFormProcessing } from "~/utils";
 import { signInWithEmailOrUsername } from "~/modules/auth/service.server";
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import { Label } from "~/components/ui/label";
+import { Input } from "~/components/ui/input";
+import { Button } from "~/components/ui/button";
+
+import authStyles from "~/styles/auth.css";
+
+export const links: LinksFunction = () =>
+  [authStyles].map((href) => ({ rel: "stylesheet", href }));
 
 export async function loader({ request }: LoaderArgs) {
   const authSession = await getAuthSession(request);
@@ -77,19 +91,19 @@ export default function LoginPage() {
   const { t } = useTranslation("auth");
 
   return (
-    <div className="flex min-h-full flex-col justify-center">
-      <div className="mx-auto w-full max-w-md px-8">
-        <Form ref={zo.ref} method="post" className="space-y-6" replace>
-          <div>
-            <label
-              htmlFor={zo.fields.emailOrUsername()}
-              className="block text-sm font-medium text-gray-700"
-            >
-              {t("login.emailOrUsername")}
-            </label>
+    <div className="login">
+      <Card className="card login__card">
+        <CardHeader>
+          <CardTitle>{t("login.action")}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Form ref={zo.ref} method="post" replace>
+            <div className="field field__email">
+              <Label htmlFor={zo.fields.emailOrUsername()} className="label">
+                {t("login.emailOrUsername")}
+              </Label>
 
-            <div className="mt-1">
-              <input
+              <Input
                 data-test-id="email"
                 required
                 autoFocus={true}
@@ -100,88 +114,62 @@ export default function LoginPage() {
                 disabled={disabled}
               />
               {zo.errors.emailOrUsername()?.message ? (
-                <div id="email-error">
+                <div className="error error__email" id="email-error">
                   {zo.errors.emailOrUsername()?.message}
                 </div>
               ) : null}
             </div>
-          </div>
 
-          <div>
-            <label
-              htmlFor={zo.fields.password()}
-              className="block text-sm font-medium text-gray-700"
-            >
-              {t("login.password")}
-            </label>
-            <div className="mt-1">
-              <input
+            <div className="field field__password">
+              <Label htmlFor={zo.fields.password()} className="label">
+                {t("login.password")}
+              </Label>
+              <Input
                 data-test-id="password"
                 name={zo.fields.password()}
                 type="password"
                 autoComplete="new-password"
-                className="input input__email"
+                className="input input__password"
                 disabled={disabled}
               />
               {zo.errors.password()?.message && (
-                <div className="pt-1 text-red-700" id="password-error">
+                <div className="error error__password" id="password-error">
                   {zo.errors.password()?.message}
                 </div>
               )}
             </div>
-          </div>
 
-          <input
-            type="hidden"
-            name={zo.fields.redirectTo()}
-            value={redirectTo}
-          />
-          <button
-            data-test-id="login"
-            type="submit"
-            className="w-full rounded bg-blue-500 py-2 px-4 text-white focus:bg-blue-400 hover:bg-blue-600"
-            disabled={disabled}
-          >
-            {t("login.action")}
-          </button>
-          <div className="flex items-center justify-center">
-            <div className="text-center text-sm text-gray-500">
-              <Link className="text-blue-500 underline" to="/forgot-password">
-                {t("login.forgotPassword")}?
-              </Link>
-            </div>
+            <input
+              type="hidden"
+              name={zo.fields.redirectTo()}
+              value={redirectTo}
+            />
+            <Button
+              data-test-id="login"
+              type="submit"
+              className="button login__button"
+              disabled={disabled}
+            >
+              {t("login.action")}
+            </Button>
+          </Form>
+          <hr />
+          <div className="forgot-password">
+            <Link to="/forgot-password">{t("login.forgotPassword")}?</Link>
           </div>
-          <div className="flex items-center justify-center">
-            <div className="text-center text-sm text-gray-500">
-              {t("login.dontHaveAccount")}{" "}
-              <Link
-                className="text-blue-500 underline"
-                to={{
-                  pathname: "/join",
-                  search: searchParams.toString(),
-                }}
-              >
-                {t("login.signUp")}
-              </Link>
-            </div>
+          <div className="dont-have-account">
+            {t("login.dontHaveAccount")}{" "}
+            <Link
+              to={{
+                pathname: "/join",
+                search: searchParams.toString(),
+              }}
+            >
+              {t("login.signUp")}
+            </Link>
           </div>
-        </Form>
-        {/* <div className="mt-6">
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300" />
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="bg-white px-2 text-gray-500">
-                {t("login.orContinueWith")}
-              </span>
-            </div>
-          </div>
-          <div className="mt-6">
-            <ContinueWithEmailForm />
-          </div>
-        </div> */}
-      </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
