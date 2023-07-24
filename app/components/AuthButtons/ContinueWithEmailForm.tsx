@@ -4,6 +4,9 @@ import { useTranslation } from "react-i18next";
 
 import { useTypedFetcher } from "~/hooks/use-fetcher";
 import type { action } from "~/routes/send-magic-link";
+import { Button } from "~/components/ui/button";
+import { Input } from "~/components/ui/input";
+import { Label } from "~/components/ui/label";
 
 export function ContinueWithEmailForm() {
   const ref = React.useRef<HTMLFormElement>(null);
@@ -29,7 +32,15 @@ export function ContinueWithEmailForm() {
       replace={false}
       ref={ref}
     >
-      <input type="email" name="email" id="magic-link" disabled={isLoading} />
+      <Label className="label label__email">{t("register.email")}</Label>
+      <Input
+        className="input input__magic-link"
+        type="email"
+        name="email"
+        id="magic-link"
+        disabled={isLoading}
+        placeholder="email@domain.com"
+      />
       <div
         className={`mb-2 h-6 text-center ${data?.error ? "text-red-600" : ""} ${
           isSuccessFull ? "text-green-600" : ""
@@ -37,13 +48,13 @@ export function ContinueWithEmailForm() {
       >
         {!isSuccessFull ? data?.error : t("register.checkEmail")}
       </div>
-      <button
+      <Button
+        className="button button__magic-link"
         type="submit"
         disabled={isLoading}
-        className="flex w-full items-center justify-center rounded-md bg-green-500 px-4 py-3 font-medium text-white hover:bg-green-600  "
       >
         {buttonLabel}
-      </button>
+      </Button>
     </sendMagicLink.Form>
   );
 }

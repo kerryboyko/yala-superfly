@@ -22,7 +22,7 @@ export async function loader({ request }: LoaderArgs) {
 
 const LoginFormSchema = z.object({
   emailOrUsername: z.string(),
-  password: z.string().min(8, "password-too-short"),
+  password: z.string(),
   redirectTo: z.string().optional(),
 });
 

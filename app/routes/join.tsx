@@ -18,6 +18,7 @@ import {
   getProfileByUsername,
 } from "~/modules/user";
 import { assertIsPost, isFormProcessing } from "~/utils";
+import { ContinueWithEmailForm } from "~/components/AuthButtons/ContinueWithEmailForm";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Label } from "~/components/ui/label";
 import { Input } from "~/components/ui/input";
@@ -34,9 +35,12 @@ import type {
   LoaderArgs,
   V2_MetaFunction,
 } from "@remix-run/node";
+import { useCallback } from "react";
+import { supabaseClient } from "~/integrations/supabase/client";
 
 export async function loader({ request }: LoaderArgs) {
   const authSession = await getAuthSession(request);
+  console.log({ authSession });
   const t = await i18nextServer.getFixedT(request, "auth");
   const title = t("register.title");
 
@@ -122,9 +126,18 @@ export default function Join() {
   const disabledButton = zo.validation?.success === false;
   const { t } = useTranslation("auth");
 
+  const handleGoogleLogin = useCallback(async () => {
+    await supabaseClient.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: "http://localhost:3000/oauth/callback",
+      },
+    });
+  }, []);
+
   return (
     <div className="sign-up">
-      <Card className="sign-up__card">
+      <Card className="card sign-up__card">
         <CardHeader>
           <CardTitle>{t("register.createNewAccount")}</CardTitle>
         </CardHeader>
@@ -216,25 +229,48 @@ export default function Join() {
             >
               {t("register.action")}
             </Button>
-            <div className="create-account__already-have-account">
-              {t("register.alreadyHaveAnAccount")}{" "}
-              <Link
-                to={{
-                  pathname: "/login",
-                  search: searchParams.toString(),
-                }}
-              >
-                {t("register.login")}
-              </Link>
-            </div>
           </Form>
         </CardContent>
-        {/* <div>
-          <span>{t("register.orContinueWith")}</span>
-          <div>
-            <ContinueWithEmailForm />
-          </div>
-        </div> */}
+      </Card>
+      <Card className="card magic-link__card">
+        <CardHeader>
+          <CardTitle>Google</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Button
+            data-test-id="create-account"
+            className="button create-account__button"
+            type="button"
+            onClick={handleGoogleLogin}
+          >
+            Google
+          </Button>
+        </CardContent>
+      </Card>
+      <Card className="card magic-link__card">
+        <CardHeader>
+          <CardTitle>{t("register.orContinueWith")}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ContinueWithEmailForm />
+        </CardContent>
+      </Card>
+      <Card className="card already-have-account__card">
+        <CardHeader>
+          <CardTitle>{t("register.alreadyHaveAnAccount")}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Link
+            to={{
+              pathname: "/login",
+              search: searchParams.toString(),
+            }}
+          >
+            <Button className="button login__button" type="button">
+              {t("register.login")}
+            </Button>
+          </Link>
+        </CardContent>
       </Card>
     </div>
   );

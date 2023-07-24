@@ -57,7 +57,7 @@ export const loader: LoaderFunction = async ({
   });
 
   if (!profile) {
-    throw new Error(`Able to find user, but unknown profile`);
+    return redirect("/complete-profile");
   }
 
   return json({ isLoggedIn: true, username: profile.username });

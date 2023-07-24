@@ -1,15 +1,19 @@
 @import "palette";
 @import "mixins/map-deep-get";
 
-.sign-up {
+.sign-up,
+.complete-profile {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100%;
   padding: 2rem;
   width: 100%;
-  &__card {
+  & .card {
+    max-width: 28rem;
     min-width: 28rem;
+    margin-bottom: 1rem;
   }
 }
 .field {
