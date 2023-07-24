@@ -230,9 +230,23 @@ export default function Join() {
               {t("register.action")}
             </Button>
           </Form>
+          <hr />
+          <div className="already-have-account">
+            {t("register.alreadyHaveAnAccount")}{" "}
+            <span>
+              <Link
+                to={{
+                  pathname: "/login",
+                  search: searchParams.toString(),
+                }}
+              >
+                {t("register.login")}
+              </Link>
+            </span>
+          </div>
         </CardContent>
       </Card>
-      <Card className="card magic-link__card">
+      {/* <Card className="card google__card">
         <CardHeader>
           <CardTitle>Google</CardTitle>
         </CardHeader>
@@ -246,32 +260,15 @@ export default function Join() {
             Google
           </Button>
         </CardContent>
-      </Card>
-      <Card className="card magic-link__card">
+      </Card> */}
+      {/* <Card className="card magic-link__card">
         <CardHeader>
           <CardTitle>{t("register.orContinueWith")}</CardTitle>
         </CardHeader>
         <CardContent>
           <ContinueWithEmailForm />
         </CardContent>
-      </Card>
-      <Card className="card already-have-account__card">
-        <CardHeader>
-          <CardTitle>{t("register.alreadyHaveAnAccount")}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Link
-            to={{
-              pathname: "/login",
-              search: searchParams.toString(),
-            }}
-          >
-            <Button className="button login__button" type="button">
-              {t("register.login")}
-            </Button>
-          </Link>
-        </CardContent>
-      </Card>
+      </Card> */}
     </div>
   );
 }
