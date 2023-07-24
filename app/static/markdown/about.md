@@ -1,4 +1,4 @@
-## YALA: Yet Another Link Aggregator
+# YALA: Yet Another Link Aggregator
 
 ### Who are you?
 
@@ -87,29 +87,6 @@ Not for the minimum viable product. There may be a way to integrate existing Act
 - Styling is done using SCSS.
   - Thanks to Yomesh Gupta for his article on devtools.tech: ["Setting up SASS with Remix Run"](https://devtools.tech/blog/setting-up-sass-with-remix-run---rid---lXDyMjDSdDZDXxNcJ2ep)
 - Unit Testing will be done via Jest; integration testing via Cypress.
-
-### What are the immediate issues you're working on?
-
-- [x] Login via username and password
-- [x] Login via email (magic-link)
-- [ ] Once logged in, check if the user has set up a profile yet. If no, send them to /create-profile
-- [ ] Provide form to create profile.
-- [ ] Reconnect previously written functionality using new Auth provider. (Long story short - this was originally written using FusionAuth as the auth provider but Supabase was just a better solution. Rather than try to add Supabase to the existing repo, it was just quicker to create a new Remix Supa-Fly project.)
-
-### What's on the roadmap?
-
-On the roadmap as of 7/18/2023
-
-- [ ] Upvotes & Downvotes for posts and comments
-- [ ] "Reactions" (like Slashdot moderation) for posts and comments
-- [ ] "Tags" so that users can tag posts and comments for easy retrieval later
-- [ ] Subscriptions to communities
-- [ ] A list of most popular communities (by page loads, by subscribers, by posts, by comments, etc)
-- [ ] A list of most popular posts (by page loads, by comments, by upvotes, etc)
-- [ ] A list of the most relevant & recent (using a "special sauce" to determine page rank from a combination of upvotes and time since posting)
-- [ ] A moderation tool
-- [ ] Integration with 3rd Party Auth Services (such as Google.)
-- [ ] Unit & Integration testing. Normally I do TDD first, but I needed to get used to the Remix environment.
 
 ## Special Thanks:
 
