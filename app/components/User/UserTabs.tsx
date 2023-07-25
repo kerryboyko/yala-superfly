@@ -3,30 +3,88 @@ import MarkdownDisplay from "../Markdown/MarkdownDisplay";
 
 export interface UserTabsProps {
   username: string;
+  profile: {
+    userId: string;
+    createdAt: string; // DateTime,
+    bannedUntil: string | null | undefined; // DateTime,
+    memberships: string[];
+    _count: {
+      comments: number;
+      posts: number;
+      moderates: number;
+      subscribes: number;
+    };
+  };
+  isThisUser: boolean;
 }
 
-const TABS: [string | null, string][] = [
-  [null, "Overview"],
-  ["posts", "Posts"],
-  ["comments", "Comments"],
-  ["subscriptions", "Subscriptions"],
-  ["moderation", "Moderation"],
-];
+type slug = [string, string]; // [routeslug, Label];
+const SLUGS: Record<string, slug> = {
+  comments: ["comments", "Comments"],
+  posts: ["posts", "Posts"],
+  moderates: ["moderation", "Moderation"],
+  subscribes: ["subscriptions", "Subscriptions"],
+};
 
-export const UserTabs = ({ username }: UserTabsProps) => {
+export const UserTabs = ({ username, profile, isThisUser }: UserTabsProps) => {
   return (
-    <div className="user-nav-tabs-container">
-      <div className="user-nav-tabs">
-        {TABS.map(([value, text]) => (
+    <div className="user-nav-tabs">
+      <div className="user-nav-tabs__container">
+        <NavLink
+          key={"overview"}
+          to={`/user/${username}`}
+          className="user-nav-tabs--link"
+          end
+        >
+          {({ isActive }) => (
+            <div
+              className={`user-nav-tabs__tab ${isActive ? "is-active" : ""}`}
+            >
+              <div className="user-nav-tabs__label">Overview</div>
+            </div>
+          )}
+        </NavLink>
+        {Object.entries(profile._count).map(([page, amount]) => (
           <NavLink
-            key={value}
-            to={`/user/${username}${value !== null ? "/" + value : ""}`}
-            className="user-nav-link"
+            key={page}
+            to={`/user/${username}/${SLUGS[page][0]}`}
+            className="user-nav-tabs--link"
             end
           >
-            <MarkdownDisplay markdown={text} />
+            {({ isActive }) => (
+              <div
+                className={`user-nav-tabs__tab ${isActive ? "is-active" : ""}`}
+              >
+                <div className="user-nav-tabs__label">{SLUGS[page][1]}</div>
+                {amount > 0 ? (
+                  <div
+                    className={`user-nav-tabs__count ${
+                      isActive ? "is-active" : ""
+                    }`}
+                  >
+                    {amount}
+                  </div>
+                ) : null}
+              </div>
+            )}
           </NavLink>
         ))}
+        {isThisUser ? (
+          <NavLink
+            key={"messages"}
+            to={`/user/${username}/messages`}
+            className="user-nav-tabs--link"
+            end
+          >
+            {({ isActive }) => (
+              <div
+                className={`user-nav-tabs__tab ${isActive ? "is-active" : ""}`}
+              >
+                <div className="user-nav-tabs__label">Messages</div>
+              </div>
+            )}
+          </NavLink>
+        ) : null}
       </div>
     </div>
   );

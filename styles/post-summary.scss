@@ -132,7 +132,12 @@
 
 .post-summary-small {
   display: grid;
-  padding: 0.25rem;
+  padding: 0.25rem 0.25rem 0.75rem 0.25rem;
+  margin-bottom: 0.5rem;
+  &:not(:last-child) {
+    border-bottom: 1px dotted
+      rgba(map-deep-get($palettes, "black", "charcoal"), 0.5);
+  }
   &__header {
     display: flex;
     justify-content: flex-start;
@@ -164,8 +169,5 @@
     margin-left: 5rem;
     display: flex;
     justify-content: space-between;
-  }
-  &.even {
-    background-color: map-deep-get($palettes, "white", "platinum");
   }
 }

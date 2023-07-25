@@ -1,6 +1,7 @@
 import type { LinksFunction, LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
+  Link,
   Outlet,
   isRouteErrorResponse,
   useLoaderData,
@@ -9,47 +10,79 @@ import {
 } from "@remix-run/react";
 import { UserTabs } from "~/components/User/UserTabs";
 import { db } from "~/database/db.server";
-import { requireAuthSession } from "~/modules/auth";
+import { getAuthSession } from "~/modules/auth";
 
 import userStyles from "~/styles/user.css";
 import postSummaryStyles from "~/styles/post-summary.css";
+import { format, formatDistance } from "date-fns";
 
 export const links: LinksFunction = () =>
   [userStyles, postSummaryStyles].map((href) => ({ rel: "stylesheet", href }));
 
 export const loader = async ({ params, request }: LoaderArgs) => {
-  const user = await db.user.findUnique({
+  const profile = await db.profile.findUnique({
     where: { username: params.username },
     select: {
-      id: true,
+      userId: true,
+      createdAt: true,
+      bannedUntil: true,
+      memberships: true,
       username: true,
+      _count: {
+        select: {
+          comments: true,
+          posts: true,
+          moderates: true,
+          subscribes: true,
+        },
+      },
     },
   });
-  if (!user) {
+
+  if (!profile) {
     throw new Response("Not found.", {
       status: 404,
     });
   }
 
-  const authUser = await requireAuthSession(request);
-  let visitorIsLoggedIn = authUser !== null;
-  let visitorIsThisUser = authUser?.extraParams?.userId === user.id;
+  const authUser = await getAuthSession(request);
+  const isThisUser = authUser?.userId === profile.userId;
   return json({
-    user: {
-      ...user,
-      isThisUser: visitorIsLoggedIn && visitorIsThisUser,
-    },
+    profile,
+    isThisUser,
+    username: profile.username,
+    joinedWhen: formatDistance(new Date(profile.createdAt), new Date(), {
+      addSuffix: true,
+    }),
+    createdAt: format(new Date(profile.createdAt), "d MMMM, u - h:mm a"),
   });
 };
 
 export default function UserProfileRoute() {
-  const data = useLoaderData<typeof loader>();
+  const { profile, isThisUser, joinedWhen, createdAt } =
+    useLoaderData<typeof loader>();
 
   return (
     <div>
-      <UserTabs username={data.user.username} />
-      <div className="outlet">
-        <Outlet />
+      <UserTabs
+        username={profile.username}
+        profile={profile}
+        isThisUser={isThisUser}
+      />
+      <div className="framing">
+        <div className="profile">
+          <div className="profile__header">
+            <span>
+              Profile of{" "}
+              <Link className="nav-link" to={`/user/${profile.username}`}>
+                {profile.username}
+              </Link>
+            </span>
+          </div>
+          <div className="profile__joined">Joined: {joinedWhen}</div>
+          <div className="profile__created">{createdAt}</div>
+        </div>
+        <Outlet context={{ isThisUser, username: profile.username }} />
       </div>
     </div>
   );
@@ -62,7 +95,7 @@ export function ErrorBoundary() {
   if (isRouteErrorResponse(error) && error.status === 404) {
     return (
       <div className="error-container">
-        Error: ${username} does not seem to be a user in our database.
+        Error: {username} does not seem to be a user in our database.
       </div>
     );
   }

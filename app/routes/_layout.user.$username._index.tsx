@@ -4,6 +4,7 @@ import {
   Link,
   isRouteErrorResponse,
   useLoaderData,
+  useOutletContext,
   useParams,
   useRouteError,
 } from "@remix-run/react";
@@ -15,13 +16,14 @@ import type { PostSummaryData } from "~/types/posts";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import CommentSummarySmall from "~/components/Comment/CommentSummarySmall";
 import { requireAuthSession } from "~/modules/auth";
+import { boolean } from "zod";
 
 export const loader = async ({ params, request }: LoaderArgs) => {
-  const user = await db.user.findUnique({
+  const profile = await db.profile.findUnique({
     where: { username: params.username },
     select: {
       _count: { select: { posts: true } },
-      id: true,
+      userId: true,
       username: true,
       createdAt: true,
       posts: {
@@ -54,51 +56,40 @@ export const loader = async ({ params, request }: LoaderArgs) => {
           },
         },
       },
-      subscribes: {
-        select: {
-          community: {
-            select: {
-              name: true,
-              route: true,
-            },
-          },
-        },
-      },
     },
   });
 
-  if (!user) {
+  if (!profile) {
     throw new Response("Not found.", {
       status: 404,
     });
   }
 
-  const authUser = await requireAuthSession(request);
-  let visitorIsLoggedIn = authUser !== null;
-  let visitorIsThisUser = authUser?.extraParams?.userId === user.id;
-
   return json({
-    user: {
-      ...pick(user, ["username"]),
+    profile: {
+      ...pick(profile, ["username"]),
     },
-    joinedWhen: formatDistance(new Date(user.createdAt), new Date(), {
+    joinedWhen: formatDistance(new Date(profile.createdAt), new Date(), {
       addSuffix: true,
     }),
-    createdAt: format(new Date(user.createdAt), "d MMM, u - h:mm a"),
+    createdAt: format(new Date(profile.createdAt), "d MMMM, u - h:mm a"),
 
-    numberPosts: user._count.posts,
+    numberPosts: profile._count.posts,
     overview: {
-      posts: user.posts.map(
+      posts: profile.posts.map(
         (post): PostSummaryData => ({
-          ...pick(post, ["createdAt", "title", "embeds", "id", "text", "link"]),
-          createdAt: format(new Date(post.createdAt), "do MMM, yyyy h:mm aaaa"),
-          author: user.username,
+          ...pick(post, ["title", "embeds", "id", "text", "link"]),
+          createdAt: format(
+            new Date(post.createdAt),
+            "do MMMM, yyyy h:mm aaaa",
+          ),
+          author: profile.username,
           communityRoute: post.community.route,
           communityName: post.community.name,
           commentCount: post._count.comments,
         }),
       ),
-      comments: user.comments.map((comment) => ({
+      comments: profile.comments.map((comment) => ({
         ...comment,
         createdAt: format(
           new Date(comment.createdAt),
@@ -106,68 +97,51 @@ export const loader = async ({ params, request }: LoaderArgs) => {
         ),
       })),
     },
-    subscribes: visitorIsLoggedIn && visitorIsThisUser ? user.subscribes : null,
-    isThisUser: visitorIsLoggedIn && visitorIsThisUser,
   });
 };
 
 export default function UserProfileOverview() {
   const data = useLoaderData<typeof loader>();
-
   return (
-    <div>
-      <div className="intro-overview">
-        <div className="intro-overview__header">
-          {data.isThisUser ? (
-            <span>Your Profile</span>
-          ) : (
-            <span>
-              Profile of{" "}
-              <Link className="nav-link" to={`/user/${data.user.username}`}>
-                {data.user.username}
-              </Link>
-            </span>
-          )}
-        </div>
-        <div className="intro-overview__joined">Joined: {data.joinedWhen}</div>
-        <div className="intro-overview__created">Created: {data.createdAt}</div>
-      </div>
-      <Card className="latest latest-posts">
-        <CardHeader>
-          <CardTitle>Latest Posts:</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {data.overview.posts.map((post, idx) => (
-            <PostSummarySmall
-              index={idx}
-              showCommunity={true}
-              {...post}
-              key={post.id}
-            />
-          ))}
-        </CardContent>
-      </Card>
+    <div className="overview">
+      <div className="card-area">
+        <Card className="card latest latest-posts">
+          <CardHeader>
+            <CardTitle>Latest Posts:</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {data.overview.posts.map((post, idx) => (
+              <PostSummarySmall
+                index={idx}
+                showCommunity={true}
+                {...post}
+                key={post.id}
+              />
+            ))}
+          </CardContent>
+        </Card>
 
-      <Card className="latest latest-comments">
-        <CardHeader>
-          <CardTitle>Latest Comments:</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {data.overview.comments.map((comment, idx) => (
-            <CommentSummarySmall
-              key={`${comment.id}-${comment.post.id}-${comment.post.community.route}`}
-              index={idx}
-              id={comment.id}
-              postId={comment.post.id}
-              postTitle={comment.post.title}
-              communityName={comment.post.community.name}
-              communityRoute={comment.post.community.route}
-              text={comment.text}
-              createdAt={comment.createdAt}
-            />
-          ))}
-        </CardContent>
-      </Card>
+        <Card className="card latest latest-comments">
+          <CardHeader>
+            <CardTitle>Latest Comments:</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {data.overview.comments.map((comment, idx) => (
+              <CommentSummarySmall
+                key={`${comment.id}-${comment.post.id}-${comment.post.community.route}`}
+                index={idx}
+                id={comment.id}
+                postId={comment.post.id}
+                postTitle={comment.post.title}
+                communityName={comment.post.community.name}
+                communityRoute={comment.post.community.route}
+                text={comment.text}
+                createdAt={comment.createdAt}
+              />
+            ))}
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
