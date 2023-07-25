@@ -103,45 +103,43 @@ export const loader = async ({ params, request }: LoaderArgs) => {
 export default function UserProfileOverview() {
   const data = useLoaderData<typeof loader>();
   return (
-    <div className="overview">
-      <div className="card-area">
-        <Card className="card latest latest-posts">
-          <CardHeader>
-            <CardTitle>Latest Posts:</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {data.overview.posts.map((post, idx) => (
-              <PostSummarySmall
-                index={idx}
-                showCommunity={true}
-                {...post}
-                key={post.id}
-              />
-            ))}
-          </CardContent>
-        </Card>
+    <div className="card-area">
+      <Card className="card latest latest-posts">
+        <CardHeader>
+          <CardTitle>Latest Posts:</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {data.overview.posts.map((post, idx) => (
+            <PostSummarySmall
+              index={idx}
+              showCommunity={true}
+              {...post}
+              key={post.id}
+            />
+          ))}
+        </CardContent>
+      </Card>
 
-        <Card className="card latest latest-comments">
-          <CardHeader>
-            <CardTitle>Latest Comments:</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {data.overview.comments.map((comment, idx) => (
-              <CommentSummarySmall
-                key={`${comment.id}-${comment.post.id}-${comment.post.community.route}`}
-                index={idx}
-                id={comment.id}
-                postId={comment.post.id}
-                postTitle={comment.post.title}
-                communityName={comment.post.community.name}
-                communityRoute={comment.post.community.route}
-                text={comment.text}
-                createdAt={comment.createdAt}
-              />
-            ))}
-          </CardContent>
-        </Card>
-      </div>
+      <Card className="card latest latest-comments">
+        <CardHeader>
+          <CardTitle>Latest Comments:</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {data.overview.comments.map((comment, idx) => (
+            <CommentSummarySmall
+              key={`${comment.id}-${comment.post.id}-${comment.post.community.route}`}
+              index={idx}
+              id={comment.id}
+              postId={comment.post.id}
+              postTitle={comment.post.title}
+              communityName={comment.post.community.name}
+              communityRoute={comment.post.community.route}
+              text={comment.text}
+              createdAt={comment.createdAt}
+            />
+          ))}
+        </CardContent>
+      </Card>
     </div>
   );
 }

@@ -8,12 +8,13 @@ import {
 import { db } from "~/database/db.server";
 import pick from "lodash/pick";
 import { format } from "date-fns";
-import { requireAuthSession } from "~/modules/auth";
+import { getAuthSession, requireAuthSession } from "~/modules/auth";
 
 import { grabQueryParams } from "~/logic/grabQueryParams";
 import type { Pagination, PostSummaryData } from "~/types/posts";
 
 import PostSummary from "~/components/Post/PostSummary";
+import { Paginator } from "~/components/Paginator/Paginator";
 
 const defaultPagination: Pagination = {
   perPage: 25,
@@ -29,11 +30,11 @@ export const loader = async ({ params, request }: LoaderArgs) => {
   // we really do need this.  Maybe some sort of caching?
   const skip = Math.max(0, (pagination.pageNum - 1) * pagination.perPage);
 
-  const user = await db.user.findUnique({
+  const profile = await db.profile.findUnique({
     where: { username: params.username },
     select: {
       _count: { select: { posts: true } },
-      id: true,
+      userId: true,
       username: true,
       posts: {
         skip,
@@ -75,48 +76,51 @@ export const loader = async ({ params, request }: LoaderArgs) => {
     },
   });
 
-  if (!user) {
+  if (!profile) {
     throw new Response("Not found.", {
       status: 404,
     });
   }
 
-  if (skip > user._count.posts) {
+  if (skip > profile._count.posts) {
     throw new Response("Not Enough Posts.", {
       status: 406,
     });
   }
-  const authUser = await requireAuthSession(request);
-  let visitorIsLoggedIn = authUser !== null;
-  let visitorIsThisUser = authUser?.extraParams?.userId === user.id;
+  const authUser = await getAuthSession(request);
+  let isThisUser = authUser?.userId === profile.userId;
 
   return json({
-    user: {
-      ...pick(user, ["username"]),
-    },
-    numberPosts: user._count.posts,
-    posts: user.posts.map(
+    ...profile,
+    numberPosts: profile._count.posts,
+    posts: profile.posts.map(
       (post): PostSummaryData => ({
         ...pick(post, ["createdAt", "title", "embeds", "id", "text", "link"]),
         createdAt: format(new Date(post.createdAt), "do MMM, yyyy h:mm aaaa"),
-        author: user.username,
+        author: profile.username,
         communityRoute: post.community.route,
         communityName: post.community.name,
         commentCount: post._count.comments,
       }),
     ),
-    isThisUser: visitorIsLoggedIn && visitorIsThisUser,
+    isThisUser: isThisUser,
+    pagination,
   });
 };
 
 export default function UserProfilePosts() {
   const data = useLoaderData();
-
   return (
     <div>
       {data.posts.map((post: PostSummaryData, idx: number) => (
         <PostSummary showCommunity={true} index={idx} key={post.id} {...post} />
       ))}
+      <Paginator
+        perPage={data.pagination.perPage}
+        currentPage={data.pagination.pageNum}
+        totalCount={data.numberPosts}
+        onChange={console.log}
+      />
     </div>
   );
 }

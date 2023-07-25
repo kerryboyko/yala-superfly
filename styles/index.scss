@@ -145,3 +145,22 @@ a {
     justify-content: flex-end;
   }
 }
+
+.pagination {
+  background-color: map-deep-get($palettes, "grey", "bright-grey");
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+
+  display: flex;
+  justify-content: space-around;
+  font-family: "Ubuntu";
+  &__entry {
+    display: flex;
+    align-items: center;
+    & select {
+      margin: 0 0.25rem;
+      border: 1px solid map-deep-get($palettes, "black", "charcoal");
+      border-radius: 0.25rem;
+    }
+  }
+}

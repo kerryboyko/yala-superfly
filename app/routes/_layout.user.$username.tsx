@@ -82,7 +82,9 @@ export default function UserProfileRoute() {
           <div className="profile__joined">Joined: {joinedWhen}</div>
           <div className="profile__created">{createdAt}</div>
         </div>
-        <Outlet context={{ isThisUser, username: profile.username }} />
+        <div className="outlet">
+          <Outlet context={{ isThisUser, username: profile.username }} />
+        </div>
       </div>
     </div>
   );

@@ -15,14 +15,15 @@ $golden-gate: map-deep-get($palettes, "red", "golden-gate");
     justify-content: space-between;
   }
 }
-.overview {
-  width: 100%;
+.outlet {
   padding: 0 1rem;
+  width: 100%;
 }
 
 .profile {
   min-width: 18rem;
   text-align: center;
+  padding: 0 1rem;
   &__header {
     font-family: "Noto Sans";
     font-weight: 700;
@@ -109,10 +110,6 @@ $golden-gate: map-deep-get($palettes, "red", "golden-gate");
       background-color: map-deep-get($palettes, "red", "golden-gate");
     }
   }
-}
-
-.outlet {
-  padding: 1rem;
 }
 
 .comment-summary {

@@ -19,14 +19,14 @@ export interface UserTabsProps {
 }
 
 type slug = [string, string]; // [routeslug, Label];
-const SLUGS: Record<string, slug> = {
-  comments: ["comments", "Comments"],
-  posts: ["posts", "Posts"],
-  moderates: ["moderation", "Moderation"],
-  subscribes: ["subscriptions", "Subscriptions"],
-};
 
 export const UserTabs = ({ username, profile, isThisUser }: UserTabsProps) => {
+  const SLUGS: Record<keyof typeof profile._count, slug> = {
+    comments: ["comments", "Comments"],
+    posts: ["posts", "Posts"],
+    moderates: ["moderation", "Moderation"],
+    subscribes: ["subscriptions", "Subscriptions"],
+  };
   return (
     <div className="user-nav-tabs">
       <div className="user-nav-tabs__container">
@@ -44,10 +44,17 @@ export const UserTabs = ({ username, profile, isThisUser }: UserTabsProps) => {
             </div>
           )}
         </NavLink>
-        {Object.entries(profile._count).map(([page, amount]) => (
+        {(
+          [
+            "posts",
+            "comments",
+            "subscribes",
+            "moderates",
+          ] as (keyof typeof profile._count)[]
+        ).map((key: keyof typeof profile._count) => (
           <NavLink
-            key={page}
-            to={`/user/${username}/${SLUGS[page][0]}`}
+            key={key}
+            to={`/user/${username}/${SLUGS[key][0]}`}
             className="user-nav-tabs--link"
             end
           >
@@ -55,14 +62,14 @@ export const UserTabs = ({ username, profile, isThisUser }: UserTabsProps) => {
               <div
                 className={`user-nav-tabs__tab ${isActive ? "is-active" : ""}`}
               >
-                <div className="user-nav-tabs__label">{SLUGS[page][1]}</div>
-                {amount > 0 ? (
+                <div className="user-nav-tabs__label">{SLUGS[key][1]}</div>
+                {profile._count[key] > 0 ? (
                   <div
                     className={`user-nav-tabs__count ${
                       isActive ? "is-active" : ""
                     }`}
                   >
-                    {amount}
+                    {profile._count[key]}
                   </div>
                 ) : null}
               </div>
