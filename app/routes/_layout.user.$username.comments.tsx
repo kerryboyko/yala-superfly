@@ -30,13 +30,18 @@ export const loader = async ({ params, request }: LoaderArgs) => {
   // we really do need this.  Maybe some sort of caching?
   const skip = Math.max(0, (pagination.pageNum - 1) * pagination.perPage);
 
-  const user = await db.user.findUnique({
+  const profile = await db.profile.findUnique({
     where: { username: params.username },
     select: {
       _count: { select: { comments: true } },
-      id: true,
+      userId: true,
       username: true,
       comments: {
+        skip,
+        take: pagination.perPage,
+        orderBy: {
+          createdAt: "desc",
+        },
         select: {
           id: true,
           createdAt: true,
@@ -47,6 +52,24 @@ export const loader = async ({ params, request }: LoaderArgs) => {
               id: true,
               title: true,
               community: { select: { name: true, route: true } },
+            },
+          },
+          reactions: {
+            select: {
+              reaction: {
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
+          tags: {
+            select: {
+              tag: {
+                select: {
+                  name: true,
+                },
+              },
             },
           },
         },

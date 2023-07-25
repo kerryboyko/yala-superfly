@@ -45,10 +45,7 @@ function getEnv(
 /**
  * Server env
  */
-export const SERVER_URL =
-  process.env.NODE_ENV === "production"
-    ? getEnv("SERVER_URL")
-    : getEnv("SERVER_URL_DEV");
+export const SERVER_URL = getEnv("SERVER_URL");
 export const SUPABASE_SERVICE_ROLE = getEnv("SUPABASE_SERVICE_ROLE");
 export const SESSION_SECRET = getEnv("SESSION_SECRET");
 

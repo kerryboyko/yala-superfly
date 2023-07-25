@@ -1,9 +1,6 @@
 -- CreateExtension
 CREATE EXTENSION IF NOT EXISTS "citext" WITH SCHEMA "public";
 
--- CreateExtension
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA "extensions";
-
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
@@ -163,7 +160,7 @@ CREATE TABLE "PostTag" (
 -- CreateTable
 CREATE TABLE "CommentTag" (
     "id" SERIAL NOT NULL,
-    "comment" INTEGER NOT NULL,
+    "commentId" INTEGER NOT NULL,
     "tagName" TEXT NOT NULL,
     "taggerId" TEXT NOT NULL,
 
@@ -324,6 +321,9 @@ ALTER TABLE "PostTag" ADD CONSTRAINT "PostTag_tagName_fkey" FOREIGN KEY ("tagNam
 
 -- AddForeignKey
 ALTER TABLE "PostTag" ADD CONSTRAINT "PostTag_taggerId_fkey" FOREIGN KEY ("taggerId") REFERENCES "Profile"("userId") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "CommentTag" ADD CONSTRAINT "CommentTag_commentId_fkey" FOREIGN KEY ("commentId") REFERENCES "Comment"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "CommentTag" ADD CONSTRAINT "CommentTag_tagName_fkey" FOREIGN KEY ("tagName") REFERENCES "Tag"("name") ON DELETE CASCADE ON UPDATE CASCADE;
