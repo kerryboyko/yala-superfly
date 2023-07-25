@@ -59,7 +59,7 @@ model Comment {
   parentId       Int?
   authorId       String
   isSticked      Boolean           @default(false)
-  communityRoute String
+  communityRoute String            @db.Citext
   postId         Int
   author         Profile           @relation("CommentAuthor", fields: [authorId], references: [userId], onDelete: Cascade)
   community      Community         @relation("CommentCommunity", fields: [communityRoute], references: [route], onDelete: Cascade)
@@ -92,7 +92,7 @@ model Post {
   embeds         String?
   link           String?
   authorId       String
-  communityRoute String
+  communityRoute String         @db.Citext
   isSticked      Boolean        @default(false)
   comments       Comment[]      @relation("CommentPost")
   author         Profile        @relation("PostAuthor", fields: [authorId], references: [userId], onDelete: Cascade)
@@ -122,7 +122,7 @@ model Community {
 
 model CommunityBan {
   id             Int       @id @unique @default(autoincrement())
-  communityRoute String
+  communityRoute String    @db.Citext
   bannedUserId   String
   bannedById     String
   banReason      String?
@@ -133,7 +133,7 @@ model CommunityBan {
 
 model CommunityModerators {
   id             Int       @id @unique @default(autoincrement())
-  communityRoute String
+  communityRoute String    @db.Citext
   moderatorId    String
   community      Community @relation("ModeratedCommunity", fields: [communityRoute], references: [route], onDelete: Cascade)
   moderator      Profile   @relation("ModeratesCommunity", fields: [moderatorId], references: [userId], onDelete: Cascade)
@@ -141,7 +141,7 @@ model CommunityModerators {
 
 model CommunitySubscribers {
   id             Int       @id @unique @default(autoincrement())
-  communityRoute String
+  communityRoute String    @db.Citext
   subscriberId   String
   community      Community @relation("SubscribedCommunity", fields: [communityRoute], references: [route], onDelete: Cascade)
   subscriber     Profile   @relation("CommunitySubscriber", fields: [subscriberId], references: [userId], onDelete: Cascade)
@@ -162,13 +162,13 @@ model Message {
 }
 
 model Reaction {
-  name     String            @id @unique @db.Citext
+  name     String            @id @unique
   comments CommentReaction[] @relation("CommentReactionType")
   posts    PostReaction[]    @relation("PostReactionType")
 }
 
 model Tag {
-  name       String       @id @unique @db.Citext
+  name       String       @id @unique
   CommentTag CommentTag[] @relation("CommentTagIdentity")
   PostTag    PostTag[]    @relation("PostTagIdentity")
 }

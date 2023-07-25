@@ -1,29 +1,34 @@
-/*
-  Warnings:
+-- CreateExtension
+CREATE EXTENSION IF NOT EXISTS "citext" WITH SCHEMA "public";
 
-  - You are about to drop the `Note` table. If the table is not empty, all the data it contains will be lost.
+-- CreateExtension
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA "extensions";
 
-*/
--- DropForeignKey
-ALTER TABLE "Note" DROP CONSTRAINT "Note_userId_fkey";
+-- CreateTable
+CREATE TABLE "User" (
+    "id" TEXT NOT NULL,
+    "email" CITEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
--- DropTable
-DROP TABLE "Note";
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+);
 
 -- CreateTable
 CREATE TABLE "Profile" (
     "userId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "username" TEXT,
+    "username" CITEXT NOT NULL,
     "bannedUntil" TIMESTAMP(3),
     "reasonForBan" TEXT,
     "verified" BOOLEAN NOT NULL,
-    "insertInstant" TIMESTAMP(3) NOT NULL,
     "lastUpdateInstant" TIMESTAMP(3),
     "lastLoginInstant" TIMESTAMP(3),
     "passwordLastUpdateInstant" TIMESTAMP(3),
-    "memberships" TEXT[]
+    "memberships" TEXT[],
+
+    CONSTRAINT "Profile_pkey" PRIMARY KEY ("userId")
 );
 
 -- CreateTable
@@ -35,7 +40,7 @@ CREATE TABLE "Comment" (
     "parentId" INTEGER,
     "authorId" TEXT NOT NULL,
     "isSticked" BOOLEAN NOT NULL DEFAULT false,
-    "communityRoute" TEXT NOT NULL,
+    "communityRoute" CITEXT NOT NULL,
     "postId" INTEGER NOT NULL,
 
     CONSTRAINT "Comment_pkey" PRIMARY KEY ("id")
@@ -69,7 +74,7 @@ CREATE TABLE "Post" (
     "embeds" TEXT,
     "link" TEXT,
     "authorId" TEXT NOT NULL,
-    "communityRoute" TEXT NOT NULL,
+    "communityRoute" CITEXT NOT NULL,
     "isSticked" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "Post_pkey" PRIMARY KEY ("id")
@@ -77,7 +82,7 @@ CREATE TABLE "Post" (
 
 -- CreateTable
 CREATE TABLE "Community" (
-    "route" TEXT NOT NULL,
+    "route" CITEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "createdById" TEXT NOT NULL,
@@ -92,7 +97,7 @@ CREATE TABLE "Community" (
 -- CreateTable
 CREATE TABLE "CommunityBan" (
     "id" SERIAL NOT NULL,
-    "communityRoute" TEXT NOT NULL,
+    "communityRoute" CITEXT NOT NULL,
     "bannedUserId" TEXT NOT NULL,
     "bannedById" TEXT NOT NULL,
     "banReason" TEXT,
@@ -103,7 +108,7 @@ CREATE TABLE "CommunityBan" (
 -- CreateTable
 CREATE TABLE "CommunityModerators" (
     "id" SERIAL NOT NULL,
-    "communityRoute" TEXT NOT NULL,
+    "communityRoute" CITEXT NOT NULL,
     "moderatorId" TEXT NOT NULL,
 
     CONSTRAINT "CommunityModerators_pkey" PRIMARY KEY ("id")
@@ -112,7 +117,7 @@ CREATE TABLE "CommunityModerators" (
 -- CreateTable
 CREATE TABLE "CommunitySubscribers" (
     "id" SERIAL NOT NULL,
-    "communityRoute" TEXT NOT NULL,
+    "communityRoute" CITEXT NOT NULL,
     "subscriberId" TEXT NOT NULL,
 
     CONSTRAINT "CommunitySubscribers_pkey" PRIMARY KEY ("id")
@@ -186,13 +191,19 @@ CREATE TABLE "CommentReaction" (
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
+CREATE INDEX "User_email_id_idx" ON "User"("email", "id");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Profile_userId_key" ON "Profile"("userId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Profile_username_key" ON "Profile"("username");
 
 -- CreateIndex
-CREATE INDEX "Profile_username_idx" ON "Profile"("username" ASC);
+CREATE INDEX "Profile_username_idx" ON "Profile"("username");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Comment_id_key" ON "Comment"("id");
@@ -213,7 +224,7 @@ CREATE UNIQUE INDEX "Community_route_key" ON "Community"("route");
 CREATE UNIQUE INDEX "Community_name_key" ON "Community"("name");
 
 -- CreateIndex
-CREATE INDEX "Community_name_idx" ON "Community"("name" ASC);
+CREATE INDEX "Community_name_idx" ON "Community"("name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "CommunityBan_id_key" ON "CommunityBan"("id");
@@ -245,20 +256,17 @@ CREATE UNIQUE INDEX "PostReaction_id_key" ON "PostReaction"("id");
 -- CreateIndex
 CREATE UNIQUE INDEX "CommentReaction_id_key" ON "CommentReaction"("id");
 
--- CreateIndex
-CREATE INDEX "User_email_id_idx" ON "User"("email" ASC, "id" ASC);
-
 -- AddForeignKey
 ALTER TABLE "Profile" ADD CONSTRAINT "Profile_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Comment" ADD CONSTRAINT "Comment_parentId_fkey" FOREIGN KEY ("parentId") REFERENCES "Comment"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Comment" ADD CONSTRAINT "Comment_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "Profile"("userId") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Comment" ADD CONSTRAINT "Comment_communityRoute_fkey" FOREIGN KEY ("communityRoute") REFERENCES "Community"("route") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Comment" ADD CONSTRAINT "Comment_parentId_fkey" FOREIGN KEY ("parentId") REFERENCES "Comment"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Comment" ADD CONSTRAINT "Comment_postId_fkey" FOREIGN KEY ("postId") REFERENCES "Post"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -279,13 +287,13 @@ ALTER TABLE "Post" ADD CONSTRAINT "Post_communityRoute_fkey" FOREIGN KEY ("commu
 ALTER TABLE "Community" ADD CONSTRAINT "Community_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "Profile"("userId") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "CommunityBan" ADD CONSTRAINT "CommunityBan_communityRoute_fkey" FOREIGN KEY ("communityRoute") REFERENCES "Community"("route") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "CommunityBan" ADD CONSTRAINT "CommunityBan_bannedById_fkey" FOREIGN KEY ("bannedById") REFERENCES "Profile"("userId") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "CommunityBan" ADD CONSTRAINT "CommunityBan_bannedUserId_fkey" FOREIGN KEY ("bannedUserId") REFERENCES "Profile"("userId") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "CommunityBan" ADD CONSTRAINT "CommunityBan_bannedById_fkey" FOREIGN KEY ("bannedById") REFERENCES "Profile"("userId") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "CommunityBan" ADD CONSTRAINT "CommunityBan_communityRoute_fkey" FOREIGN KEY ("communityRoute") REFERENCES "Community"("route") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "CommunityModerators" ADD CONSTRAINT "CommunityModerators_communityRoute_fkey" FOREIGN KEY ("communityRoute") REFERENCES "Community"("route") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -303,10 +311,10 @@ ALTER TABLE "CommunitySubscribers" ADD CONSTRAINT "CommunitySubscribers_subscrib
 ALTER TABLE "Message" ADD CONSTRAINT "Message_fromId_fkey" FOREIGN KEY ("fromId") REFERENCES "Profile"("userId") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Message" ADD CONSTRAINT "Message_toId_fkey" FOREIGN KEY ("toId") REFERENCES "Profile"("userId") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Message" ADD CONSTRAINT "Message_parentId_fkey" FOREIGN KEY ("parentId") REFERENCES "Message"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Message" ADD CONSTRAINT "Message_parentId_fkey" FOREIGN KEY ("parentId") REFERENCES "Message"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Message" ADD CONSTRAINT "Message_toId_fkey" FOREIGN KEY ("toId") REFERENCES "Profile"("userId") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "PostTag" ADD CONSTRAINT "PostTag_postId_fkey" FOREIGN KEY ("postId") REFERENCES "Post"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -324,19 +332,19 @@ ALTER TABLE "CommentTag" ADD CONSTRAINT "CommentTag_tagName_fkey" FOREIGN KEY ("
 ALTER TABLE "CommentTag" ADD CONSTRAINT "CommentTag_taggerId_fkey" FOREIGN KEY ("taggerId") REFERENCES "Profile"("userId") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "PostReaction" ADD CONSTRAINT "PostReaction_reactionName_fkey" FOREIGN KEY ("reactionName") REFERENCES "Reaction"("name") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "PostReaction" ADD CONSTRAINT "PostReaction_postId_fkey" FOREIGN KEY ("postId") REFERENCES "Post"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "PostReaction" ADD CONSTRAINT "PostReaction_postId_fkey" FOREIGN KEY ("postId") REFERENCES "Post"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "PostReaction" ADD CONSTRAINT "PostReaction_reactionName_fkey" FOREIGN KEY ("reactionName") REFERENCES "Reaction"("name") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "PostReaction" ADD CONSTRAINT "PostReaction_reactorId_fkey" FOREIGN KEY ("reactorId") REFERENCES "Profile"("userId") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "CommentReaction" ADD CONSTRAINT "CommentReaction_reactionName_fkey" FOREIGN KEY ("reactionName") REFERENCES "Reaction"("name") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "CommentReaction" ADD CONSTRAINT "CommentReaction_commentId_fkey" FOREIGN KEY ("commentId") REFERENCES "Comment"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "CommentReaction" ADD CONSTRAINT "CommentReaction_commentId_fkey" FOREIGN KEY ("commentId") REFERENCES "Comment"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "CommentReaction" ADD CONSTRAINT "CommentReaction_reactionName_fkey" FOREIGN KEY ("reactionName") REFERENCES "Reaction"("name") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "CommentReaction" ADD CONSTRAINT "CommentReaction_reactorId_fkey" FOREIGN KEY ("reactorId") REFERENCES "Profile"("userId") ON DELETE CASCADE ON UPDATE CASCADE;
