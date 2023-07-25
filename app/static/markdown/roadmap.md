@@ -1,3 +1,6 @@
+### Check out the Github!
+[This is the github link for the sourcecode - if you find an issue, feel free to report it!](https://github.com/kerryboyko/yala-superfly)
+
 ## Current Roadmap
 
 ### What are the items you're stuck on, or postponing at this point, but which are important.
@@ -10,9 +13,8 @@
 ### What are the immediate issues you're working on?
 
 - [x] Login via username and password
+- [x] Created seperate Supabase projects for production and development - a "Kick the tires" methodology. The sooner I can get real people to look at the bugs on the site, the sooner I can continue working on them, so I'm creating two DBs, one for production and one for development.  
 - [ ] Login via email (magic-link)
-- [ ] Once logged in, check if the user has set up a profile yet. If no, send them to /create-profile
-- [ ] Provide form to create profile.
 - [ ] Reconnect previously written functionality using new Auth provider. (Long story short - this was originally written using FusionAuth as the auth provider but Supabase was just a better solution. Rather than try to add Supabase to the existing repo, it was just quicker to create a new Remix Supa-Fly project.)
 
 ### What's on the roadmap?
