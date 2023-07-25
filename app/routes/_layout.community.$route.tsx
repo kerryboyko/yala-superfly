@@ -9,16 +9,20 @@ import {
   Link,
 } from "@remix-run/react";
 import { formatRelative } from "date-fns";
+import omit from "lodash/omit";
 import MarkdownDisplay from "~/components/Markdown/MarkdownDisplay";
+import SubscribeButton from "~/components/Subscription/SubscribeButton";
 import { Button } from "~/components/ui/button";
 import { db } from "~/database/db.server";
+import { getAuthSession } from "~/modules/auth";
 import communityStyles from "~/styles/community.css";
 
 export const links: LinksFunction = () =>
   [communityStyles].map((href) => ({ rel: "stylesheet", href }));
 
-export const loader = async ({ params }: LoaderArgs) => {
-  console.log({ params });
+export const loader = async ({ params, request }: LoaderArgs) => {
+  const authUser = await getAuthSession(request);
+  const userId = authUser?.userId;
   const community = await db.community.findUnique({
     where: { route: params.route },
     select: {
@@ -30,6 +34,11 @@ export const loader = async ({ params }: LoaderArgs) => {
       createdBy: {
         select: { username: true },
       },
+      communitySubscribers: {
+        where: {
+          subscriberId: userId,
+        },
+      },
     },
   });
   if (!community) {
@@ -39,16 +48,18 @@ export const loader = async ({ params }: LoaderArgs) => {
   }
   return json({
     community: {
-      ...community,
+      ...omit(community, ["communitySubscribers"]),
       createdAt: formatRelative(new Date(community.createdAt), Date.now()),
       createdBy: community.createdBy.username,
+      userIsSubscribed:
+        community.communitySubscribers[0]?.subscriberId === userId,
     },
   });
 };
 
 export default function CommunityProfileRoute() {
   const { community } = useLoaderData<typeof loader>();
-
+  console.log("community", community);
   return (
     <div className="community">
       <div className="community__sidebar">
@@ -72,6 +83,12 @@ export default function CommunityProfileRoute() {
           <br />
           by{" "}
           <Link to={`/user/${community.createdBy}`}>{community.createdBy}</Link>
+        </div>
+        <div className="community__subscribe-button-container">
+          <SubscribeButton
+            communityRoute={community.route}
+            isSubscribed={community.userIsSubscribed}
+          />
         </div>
         <div className="community__sidebar__create-new-post">
           <Link to={`/community/${community.route}/create-new-post`}>

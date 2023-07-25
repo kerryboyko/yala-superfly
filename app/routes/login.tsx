@@ -5,9 +5,15 @@ import type {
   V2_MetaFunction,
 } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { Form, Link, useSearchParams, useTransition } from "@remix-run/react";
+import {
+  Form,
+  Link,
+  useActionData,
+  useSearchParams,
+  useTransition,
+} from "@remix-run/react";
 import { useTranslation } from "react-i18next";
-import { parseFormAny, useZorm } from "react-zorm";
+import { createCustomIssues, parseFormAny, useZorm } from "react-zorm";
 import { z } from "zod";
 
 import { i18nextServer } from "~/integrations/i18n";
@@ -45,6 +51,7 @@ export async function action({ request }: ActionArgs) {
   const formData = await request.formData();
   const result = await LoginFormSchema.safeParseAsync(parseFormAny(formData));
 
+  const issues = createCustomIssues(LoginFormSchema);
   if (!result.success) {
     return json(
       {
@@ -62,10 +69,10 @@ export async function action({ request }: ActionArgs) {
   );
 
   if (!authSession) {
-    return json(
-      { errors: { email: "invalid-email-password", password: null } },
-      { status: 400 },
+    issues.password(
+      "We weren't able to use that email and password to login. Are you sure it was entered correctly? Both email and password are case sensitive.",
     );
+    return json({ ok: false, serverIssues: issues.toArray() }, { status: 400 });
   }
 
   return createAuthSession({
@@ -82,7 +89,10 @@ export const meta: V2_MetaFunction = ({ data }) => [
 ];
 
 export default function LoginPage() {
-  const zo = useZorm("NewQuestionWizardScreen", LoginFormSchema);
+  const formResponse = useActionData();
+  const zo = useZorm("NewQuestionWizardScreen", LoginFormSchema, {
+    customIssues: formResponse?.serverIssues,
+  });
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get("redirectTo") ?? undefined;
 

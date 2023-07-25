@@ -2,6 +2,7 @@
 @import "palette";
 @import "mixins/map-deep-get";
 @import "component/button";
+@import "component/subscriptions";
 
 .community {
   display: grid;
@@ -65,6 +66,7 @@
       text-align: start;
     }
     &__create-new-post {
+      margin-top: 1rem;
       margin-bottom: 1rem;
       & button {
         @include button-primary();

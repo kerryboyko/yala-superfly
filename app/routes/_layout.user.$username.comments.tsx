@@ -6,7 +6,7 @@ import {
   useRouteError,
 } from "@remix-run/react";
 import { db } from "~/database/db.server";
-import { requireAuthSession } from "~/modules/auth";
+import { getAuthSession, requireAuthSession } from "~/modules/auth";
 
 import pick from "lodash/pick";
 import { format } from "date-fns";
@@ -15,6 +15,8 @@ import { grabQueryParams } from "~/logic/grabQueryParams";
 import type { Pagination } from "~/types/posts";
 import type { CommentSummaryData } from "~/components/Comment/CommentSummary";
 import CommentSummary from "~/components/Comment/CommentSummary";
+import Paginator from "~/components/Paginator/Paginator";
+import { Card } from "~/components/ui/card";
 
 const defaultPagination: Pagination = {
   perPage: 25,
@@ -77,26 +79,25 @@ export const loader = async ({ params, request }: LoaderArgs) => {
     },
   });
 
-  if (!user) {
+  if (!profile) {
     throw new Response("Not found.", {
       status: 404,
     });
   }
 
-  if (skip > user._count.comments) {
+  if (skip > profile._count.comments) {
     throw new Response("Not Enough Comments.", {
       status: 406,
     });
   }
-  const authUser = await requireAuthSession(request);
-  let visitorIsLoggedIn = authUser !== null;
-  let visitorIsThisUser = authUser?.extraParams?.userId === user.id;
+  const authUser = await getAuthSession(request);
+  const visitorIsThisUser = authUser?.userId === profile.userId;
 
   return json({
-    user: {
-      ...pick(user, ["username"]),
+    profile: {
+      ...pick(profile, ["username", "userId"]),
     },
-    comments: user.comments.map(
+    comments: profile.comments.map(
       (comment): CommentSummaryData => ({
         ...pick(comment, ["id", "text"]),
         createdAt: format(new Date(comment.createdAt), "d MMM, u - h:mm a"),
@@ -106,7 +107,9 @@ export const loader = async ({ params, request }: LoaderArgs) => {
         postTitle: comment.post.title,
       }),
     ),
-    isThisUser: visitorIsLoggedIn && visitorIsThisUser,
+    isThisUser: visitorIsThisUser,
+    pagination,
+    numberComments: profile._count.comments,
   });
 };
 
@@ -115,9 +118,16 @@ export default function UserComments() {
 
   return (
     <div className="user-comments">
-      {data.comments.map((comment: CommentSummaryData, idx: number) => (
-        <CommentSummary key={comment.id} index={idx} {...comment} />
-      ))}
+      <Card>
+        {data.comments.map((comment: CommentSummaryData, idx: number) => (
+          <CommentSummary key={comment.id} index={idx} {...comment} />
+        ))}
+      </Card>
+      <Paginator
+        perPage={data.pagination.perPage}
+        currentPage={data.pagination.pageNum}
+        totalCount={data.numberComments}
+      />
     </div>
   );
 }

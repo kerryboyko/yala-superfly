@@ -119,7 +119,6 @@ export default function UserProfilePosts() {
         perPage={data.pagination.perPage}
         currentPage={data.pagination.pageNum}
         totalCount={data.numberPosts}
-        onChange={console.log}
       />
     </div>
   );

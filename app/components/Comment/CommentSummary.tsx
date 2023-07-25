@@ -48,7 +48,7 @@ export const CommentSummary: React.FC<CommentSummaryData> = ({
           Re: <Link to={postPath}>{postTitle}</Link>
         </div>
         <div className="comment-summary__link__community-name">
-          <Link to={communityPath}>{communityName}</Link>{" "}
+          On <Link to={communityPath}>/c/{communityName}</Link> , posted{" "}
           <Link to={permalink}>{createdAt}</Link>
         </div>
       </div>
