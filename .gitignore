@@ -18,4 +18,5 @@ node_modules
 **/supabase/.temp
 **/supabase/.env
 
+.cache
 /.cache

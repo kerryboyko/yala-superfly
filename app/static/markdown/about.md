@@ -1,4 +1,4 @@
-## YALA: Yet Another Link Aggregator
+# YALA: Yet Another Link Aggregator
 
 ### Who are you?
 
@@ -76,40 +76,17 @@ Not for the minimum viable product. There may be a way to integrate existing Act
 
 ### What's your tech stack?
 
-- This is being built on the [Remix Supa-Fly stack](https://github.com/rphlmr/supa-fly-stack). 
-- [Remix](https://remix.run/) is a front-end/back-end framework that uses the technology behind [React Router](https://reactrouter.com/en/main) to create a server-side rendering framework for React that supports nested routes.  It is similar to, but distinct from, Next.js.
-- The main BaaS (backend as a service) provider is [Supabase](https://supabase.com/), chosen because they have simple authentication using JWT tokens and provide a Postgres database.  
+- This is being built on the [Remix Supa-Fly stack](https://github.com/rphlmr/supa-fly-stack).
+- [Remix](https://remix.run/) is a front-end/back-end framework that uses the technology behind [React Router](https://reactrouter.com/en/main) to create a server-side rendering framework for React that supports nested routes. It is similar to, but distinct from, Next.js.
+- The main BaaS (backend as a service) provider is [Supabase](https://supabase.com/), chosen because they have simple authentication using JWT tokens and provide a Postgres database.
   - [PostgreSQL](https://www.postgresql.org/) Postgres was chosen both because of the relational nature of conversational data and the ability to handle JSON data, which means that altering future schemas for future needs won't be as challenging compared to something like MariaDB.
-  - The auth services are also provided by Supabase and rely on cookie storage of JWT tokens, which are passed in the header of the user's requests (when logged in). 
+  - The auth services are also provided by Supabase and rely on cookie storage of JWT tokens, which are passed in the header of the user's requests (when logged in).
 - The ORM used for that database is [Prisma](https://www.prisma.io/), (which honestly, coming from Knex.js and raw SQL, feels like cheating!).
 - Deployment is on [Fly.io](https://fly.io).
 - The base UI framework is using [Shadcn/UI](https://ui.shadcn.com/), a command line tool based on [Radix](https://www.radix-ui.com/).
 - Styling is done using SCSS.
   - Thanks to Yomesh Gupta for his article on devtools.tech: ["Setting up SASS with Remix Run"](https://devtools.tech/blog/setting-up-sass-with-remix-run---rid---lXDyMjDSdDZDXxNcJ2ep)
 - Unit Testing will be done via Jest; integration testing via Cypress.
-
-### What are the immediate issues you're working on?
-
-- [X] Login via username and password
-- [X] Login via email (magic-link)
-- [ ] Once logged in, check if the user has set up a profile yet. If no, send them to /create-profile
-- [ ] Provide form to create profile. 
-- [ ] Reconnect previously written functionality using new Auth provider. (Long story short - this was originally written using FusionAuth as the auth provider but Supabase was just a better solution. Rather than try to add Supabase to the existing repo, it was just quicker to create a new Remix Supa-Fly project.)
-
-### What's on the roadmap?
-
-On the roadmap as of 7/18/2023
-
-- [ ] Upvotes & Downvotes for posts and comments
-- [ ] "Reactions" (like Slashdot moderation) for posts and comments
-- [ ] "Tags" so that users can tag posts and comments for easy retrieval later
-- [ ] Subscriptions to communities
-- [ ] A list of most popular communities (by page loads, by subscribers, by posts, by comments, etc)
-- [ ] A list of most popular posts (by page loads, by comments, by upvotes, etc)
-- [ ] A list of the most relevant & recent (using a "special sauce" to determine page rank from a combination of upvotes and time since posting)
-- [ ] A moderation tool
-- [ ] Integration with 3rd Party Auth Services (such as Google.)
-- [ ] Unit & Integration testing. Normally I do TDD first, but I needed to get used to the Remix environment.
 
 ## Special Thanks:
 

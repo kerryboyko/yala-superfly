@@ -1,4 +1,5 @@
 import { Profile, User } from "@prisma/client";
+import { redirect } from "@remix-run/node";
 import { db } from "~/database";
 import type { AuthSession } from "~/modules/auth";
 import {
@@ -11,7 +12,7 @@ export async function getUserByEmail(email: User["email"]) {
   return db.user.findUnique({ where: { email: email.toLowerCase() } });
 }
 
-export async function getUserByUsername(username: Profile["username"]) {
+export async function getProfileByUsername(username: Profile["username"]) {
   return db.profile.findUnique({ where: { username: username.toLowerCase() } });
 }
 
@@ -65,6 +66,7 @@ export async function createUserAccount(
   username: string,
 ): Promise<AuthSession | null> {
   const authAccount = await createEmailAuthAccount(email, password);
+  console.log({ authAccount });
 
   // ok, no user account created
   if (!authAccount) return null;
@@ -83,4 +85,30 @@ export async function createUserAccount(
   if (!user) return null;
 
   return authSession;
+}
+
+export async function updateProfileUsername({
+  userId,
+  username,
+}: {
+  userId: string;
+  username: string;
+}) {
+  try {
+    // ensure userId is already in the DB;
+    await db.user.findUniqueOrThrow({
+      where: { id: userId },
+    });
+
+    const result = await db.profile.upsert({
+      where: { userId },
+      update: { username },
+      create: { userId, username, verified: false },
+    });
+
+    return result;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
 }

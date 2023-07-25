@@ -1,2 +1,2 @@
 export const formatCommunityName = (name: string) =>
-  name.replace(/[^\w\-_]/gi, "");
+  name.toLowerCase().replace(/[^\w\-_]/gi, "");

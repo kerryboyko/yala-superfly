@@ -20,9 +20,7 @@ export const UserTabs = ({ username }: UserTabsProps) => {
         {TABS.map(([value, text]) => (
           <NavLink
             key={value}
-            to={`/dashboard/user/${username}${
-              value !== null ? "/" + value : ""
-            }`}
+            to={`/user/${username}${value !== null ? "/" + value : ""}`}
             className="user-nav-link"
             end
           >

@@ -25,6 +25,7 @@ interface PostDetails {
   author: {
     username: string;
   };
+  authorIsThisUser: boolean;
 }
 
 export const PostDetails = ({
@@ -36,6 +37,7 @@ export const PostDetails = ({
   embeds,
   community,
   author,
+  authorIsThisUser,
 }: PostDetails) => {
   const allEmbeds = embeds?.split(";");
   return (
@@ -77,6 +79,12 @@ export const PostDetails = ({
             </Link>
           ) : null}
         </CardDescription>
+        {authorIsThisUser ? (
+          <CardDescription className="debug debug__message">
+            FIXME: The logged in user is the author of this post, and should
+            have tools to edit or delete this post here.
+          </CardDescription>
+        ) : null}
       </CardHeader>
       {text || embeds ? (
         <CardContent className="post-details__content">

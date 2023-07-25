@@ -1,53 +1,54 @@
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
 }
 
-generator client {
-  provider = "prisma-client-js"
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [citext(schema: "public"), uuid_ossp(map: "uuid-ossp", schema: "extensions")]
 }
 
 model User {
-  id        String    @id @default(cuid())
-  email     String    @unique
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  profile   Profile[] @relation("UserProfile")
+  id        String   @id @default(cuid())
+  email     String   @unique @db.Citext
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  profile   Profile? @relation("UserProfile")
 
-  @@index(fields: [email(sort: Asc), id(sort: Asc)])
+  @@index([email, id])
 }
 
 model Profile {
-  user                      User                   @relation("UserProfile", fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId                    String                 @id @unique
   createdAt                 DateTime               @default(now())
   updatedAt                 DateTime               @updatedAt
-  username                  String                 @unique
-  bannedUntil               DateTime? // This is a site ban, not the community ban. Null = no ban, though if one could default to the year 1000, that would be better.
+  username                  String                 @unique @db.Citext
+  bannedUntil               DateTime?
   reasonForBan              String?
   verified                  Boolean
   lastUpdateInstant         DateTime?
   lastLoginInstant          DateTime?
   passwordLastUpdateInstant DateTime?
   memberships               String[]
-  comments                  Comment[]              @relation("CommentAuthor") // this user's comments
-  commentVotes              CommentVote[]          @relation("CommentVoter") // this user's votes on comments
-  postVotes                 PostVote[]             @relation("PostVoter") // this user's votes on posts
-  posts                     Post[]                 @relation("PostAuthor") // this user's posts
-  communities               Community[]            @relation("CommunityCreator") // the communities this user has created
-  communityBans             CommunityBan[]         @relation("CommunityBan") // the communities this user is banned from
-  hasBanned                 CommunityBan[]         @relation("BanningUser") // the people that this user has banned from communities
-  moderates                 CommunityModerators[]  @relation("ModeratesCommunity") // the communities this user moderates
-  subscribes                CommunitySubscribers[] @relation("CommunitySubscriber") // the communites this user subscribes to. 
-  sentMessages              Message[]              @relation("SentMessage") // messages this user has sent
-  receivedMessages          Message[]              @relation("ReceivedMessage") // messages this user has received
-  taggedPosts               PostTag[]              @relation("TaggedPost") // posts this user has tagged (any string)
-  taggedComments            CommentTag[]           @relation("TaggedComment") // comments this user has tagged (any string)
-  reactedComments           CommentReaction[]      @relation("ReactedToComment") // comments this user has reacted to (limited choices)
-  reactedPosts              PostReaction[]         @relation("ReactedToPost") // posts this user has reacted to (limited choices)
+  comments                  Comment[]              @relation("CommentAuthor")
+  reactedComments           CommentReaction[]      @relation("ReactedToComment")
+  taggedComments            CommentTag[]           @relation("TaggedComment")
+  commentVotes              CommentVote[]          @relation("CommentVoter")
+  communities               Community[]            @relation("CommunityCreator")
+  hasBanned                 CommunityBan[]         @relation("BanningUser")
+  communityBans             CommunityBan[]         @relation("CommunityBan")
+  moderates                 CommunityModerators[]  @relation("ModeratesCommunity")
+  subscribes                CommunitySubscribers[] @relation("CommunitySubscriber")
+  sentMessages              Message[]              @relation("SentMessage")
+  receivedMessages          Message[]              @relation("ReceivedMessage")
+  posts                     Post[]                 @relation("PostAuthor")
+  reactedPosts              PostReaction[]         @relation("ReactedToPost")
+  taggedPosts               PostTag[]              @relation("TaggedPost")
+  postVotes                 PostVote[]             @relation("PostVoter")
+  user                      User                   @relation("UserProfile", fields: [userId], references: [id], onDelete: Cascade)
 
-  // this creates an index of the username field in order to speed lookups, and the sort helps with binary search.
-  @@index(fields: [username(sort: Asc)])
+  @@index([username])
 }
 
 model Comment {
@@ -55,31 +56,31 @@ model Comment {
   createdAt      DateTime          @default(now())
   updatedAt      DateTime          @updatedAt
   text           String
-  parent         Comment?          @relation("ParentComment", fields: [parentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  parentId       Int? // id of the parent comment. if null, this is a top level comment.
-  childComments  Comment[]         @relation("ParentComment")
-  author         Profile           @relation("CommentAuthor", fields: [authorId], references: [userId], onDelete: Cascade, onUpdate: Cascade)
+  parentId       Int?
   authorId       String
   isSticked      Boolean           @default(false)
-  community      Community         @relation("CommentCommunity", fields: [communityRoute], onDelete: Cascade, onUpdate: Cascade, references: [route])
-  communityRoute String
-  reactions      CommentReaction[] @relation("CommentHasReaction")
-  post           Post              @relation("CommentPost", fields: [postId], references: [id])
+  communityRoute String            @db.Citext
   postId         Int
+  author         Profile           @relation("CommentAuthor", fields: [authorId], references: [userId], onDelete: Cascade)
+  community      Community         @relation("CommentCommunity", fields: [communityRoute], references: [route], onDelete: Cascade)
+  parent         Comment?          @relation("ParentComment", fields: [parentId], references: [id], onDelete: Cascade)
+  childComments  Comment[]         @relation("ParentComment")
+  post           Post              @relation("CommentPost", fields: [postId], references: [id])
+  reactions      CommentReaction[] @relation("CommentHasReaction")
 }
 
 model CommentVote {
   id      Int     @id @unique @default(autoincrement())
-  voter   Profile @relation("CommentVoter", fields: [voterId], references: [userId], onDelete: Cascade, onUpdate: Cascade)
   voterId String
   isUp    Boolean @default(true)
+  voter   Profile @relation("CommentVoter", fields: [voterId], references: [userId], onDelete: Cascade)
 }
 
 model PostVote {
   id      Int     @id @unique @default(autoincrement())
-  voter   Profile @relation("PostVoter", fields: [voterId], references: [userId], onDelete: Cascade, onUpdate: Cascade)
   voterId String
   isUp    Boolean @default(true)
+  voter   Profile @relation("PostVoter", fields: [voterId], references: [userId], onDelete: Cascade)
 }
 
 model Post {
@@ -90,132 +91,123 @@ model Post {
   text           String?
   embeds         String?
   link           String?
-  author         Profile        @relation("PostAuthor", fields: [authorId], references: [userId], onDelete: Cascade, onUpdate: Cascade)
   authorId       String
-  community      Community      @relation("PostedIn", fields: [communityRoute], references: [route], onDelete: Cascade, onUpdate: Cascade)
-  communityRoute String
+  communityRoute String         @db.Citext
   isSticked      Boolean        @default(false)
+  comments       Comment[]      @relation("CommentPost")
+  author         Profile        @relation("PostAuthor", fields: [authorId], references: [userId], onDelete: Cascade)
+  community      Community      @relation("PostedIn", fields: [communityRoute], references: [route], onDelete: Cascade)
   reactions      PostReaction[] @relation("PostHasReaction")
   tags           PostTag[]      @relation("PostHasTag")
-  comments       Comment[]      @relation("CommentPost")
 }
 
 model Community {
-  route                String                 @id @unique
+  route                String                 @id @unique @db.Citext
   createdAt            DateTime               @default(now())
   updatedAt            DateTime               @updatedAt
-  createdBy            Profile                @relation("CommunityCreator", fields: [createdById], references: [userId], onDelete: Cascade, onUpdate: Cascade)
   createdById          String
   name                 String                 @unique
   headerImage          String?
   description          String?
   isPublic             Boolean                @default(true)
-  posts                Post[]                 @relation("PostedIn")
+  comments             Comment[]              @relation("CommentCommunity")
+  createdBy            Profile                @relation("CommunityCreator", fields: [createdById], references: [userId], onDelete: Cascade)
   communityBans        CommunityBan[]         @relation("BannedFrom")
   moderators           CommunityModerators[]  @relation("ModeratedCommunity")
   communitySubscribers CommunitySubscribers[] @relation("SubscribedCommunity")
-  comments             Comment[]              @relation("CommentCommunity")
+  posts                Post[]                 @relation("PostedIn")
 
-  @@index(fields: [name(sort: Asc)])
+  @@index([name])
 }
 
 model CommunityBan {
   id             Int       @id @unique @default(autoincrement())
-  community      Community @relation("BannedFrom", fields: [communityRoute], references: [route], onDelete: Cascade, onUpdate: Cascade)
-  communityRoute String
-  bannedUser     Profile   @relation("CommunityBan", fields: [bannedUserId], references: [userId], onDelete: Cascade, onUpdate: Cascade)
+  communityRoute String    @db.Citext
   bannedUserId   String
-  bannedBy       Profile   @relation("BanningUser", fields: [bannedById], references: [userId], onDelete: Cascade, onUpdate: Cascade)
   bannedById     String
   banReason      String?
+  bannedBy       Profile   @relation("BanningUser", fields: [bannedById], references: [userId], onDelete: Cascade)
+  bannedUser     Profile   @relation("CommunityBan", fields: [bannedUserId], references: [userId], onDelete: Cascade)
+  community      Community @relation("BannedFrom", fields: [communityRoute], references: [route], onDelete: Cascade)
 }
 
 model CommunityModerators {
   id             Int       @id @unique @default(autoincrement())
-  community      Community @relation("ModeratedCommunity", fields: [communityRoute], references: [route], onDelete: Cascade, onUpdate: Cascade)
-  communityRoute String
-  moderator      Profile   @relation("ModeratesCommunity", fields: [moderatorId], references: [userId], onDelete: Cascade, onUpdate: Cascade)
+  communityRoute String    @db.Citext
   moderatorId    String
+  community      Community @relation("ModeratedCommunity", fields: [communityRoute], references: [route], onDelete: Cascade)
+  moderator      Profile   @relation("ModeratesCommunity", fields: [moderatorId], references: [userId], onDelete: Cascade)
 }
 
 model CommunitySubscribers {
   id             Int       @id @unique @default(autoincrement())
-  community      Community @relation("SubscribedCommunity", fields: [communityRoute], references: [route], onDelete: Cascade, onUpdate: Cascade)
-  communityRoute String
-  subscriber     Profile   @relation("CommunitySubscriber", fields: [subscriberId], references: [userId], onDelete: Cascade, onUpdate: Cascade)
+  communityRoute String    @db.Citext
   subscriberId   String
+  community      Community @relation("SubscribedCommunity", fields: [communityRoute], references: [route], onDelete: Cascade)
+  subscriber     Profile   @relation("CommunitySubscriber", fields: [subscriberId], references: [userId], onDelete: Cascade)
 }
 
-// Messages are semi-private messages sent from user to user. 
-// Semi-private in that they are intended to be private but are not encrypted.
 model Message {
   id            Int       @id @unique @default(autoincrement())
-  from          Profile   @relation("SentMessage", fields: [fromId], references: [userId], onDelete: Cascade, onUpdate: Cascade)
   fromId        String
-  to            Profile   @relation("ReceivedMessage", fields: [toId], references: [userId], onDelete: Cascade, onUpdate: Cascade)
   toId          String
-  parent        Message?  @relation("ParentMessage", fields: [parentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   parentId      Int?
-  childMessages Message[] @relation("ParentMessage")
   text          String
   createdAt     DateTime  @default(now())
   read          Boolean   @default(false)
+  from          Profile   @relation("SentMessage", fields: [fromId], references: [userId], onDelete: Cascade)
+  parent        Message?  @relation("ParentMessage", fields: [parentId], references: [id], onDelete: Cascade)
+  childMessages Message[] @relation("ParentMessage")
+  to            Profile   @relation("ReceivedMessage", fields: [toId], references: [userId], onDelete: Cascade)
 }
 
-// reactions are like "flair" - the user chooses from a limited number of options.
-// starting flair list will probably be: 
-// 'insightful', 'interesting', 'informative', 'funny', 'citation needed', 'citation provided'
-// 'outdated information', 'malicious', 'technically incorrect', 'benign ignorance'
-// 'incomplete', 'I just like it', and "I just don't like it."
 model Reaction {
   name     String            @id @unique
-  posts    PostReaction[]    @relation("PostReactionType")
   comments CommentReaction[] @relation("CommentReactionType")
+  posts    PostReaction[]    @relation("PostReactionType")
 }
 
-// tags can be any text string, for example: 
-// "#cars", "#barbiedoll", "#chewbacca", "#poker"
 model Tag {
   name       String       @id @unique
-  PostTag    PostTag[]    @relation("PostTagIdentity")
   CommentTag CommentTag[] @relation("CommentTagIdentity")
+  PostTag    PostTag[]    @relation("PostTagIdentity")
 }
 
 model PostTag {
   id       Int     @id @unique @default(autoincrement())
-  post     Post    @relation("PostHasTag", fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   postId   Int
-  tag      Tag     @relation("PostTagIdentity", fields: [tagName], references: [name], onDelete: Cascade, onUpdate: Cascade)
   tagName  String
-  tagger   Profile @relation("TaggedPost", fields: [taggerId], references: [userId], onDelete: Cascade, onUpdate: Cascade)
   taggerId String
+  post     Post    @relation("PostHasTag", fields: [postId], references: [id], onDelete: Cascade)
+  tag      Tag     @relation("PostTagIdentity", fields: [tagName], references: [name], onDelete: Cascade)
+  tagger   Profile @relation("TaggedPost", fields: [taggerId], references: [userId], onDelete: Cascade)
 }
 
 model CommentTag {
   id       Int     @id @unique @default(autoincrement())
   comment  Int
-  tag      Tag     @relation("CommentTagIdentity", fields: [tagName], references: [name], onDelete: Cascade, onUpdate: Cascade)
   tagName  String
-  tagger   Profile @relation("TaggedComment", fields: [taggerId], references: [userId], onDelete: Cascade, onUpdate: Cascade)
   taggerId String
+  tag      Tag     @relation("CommentTagIdentity", fields: [tagName], references: [name], onDelete: Cascade)
+  tagger   Profile @relation("TaggedComment", fields: [taggerId], references: [userId], onDelete: Cascade)
 }
 
 model PostReaction {
   id           Int      @id @unique @default(autoincrement())
-  reaction     Reaction @relation("PostReactionType", fields: [reactionName], references: [name], onDelete: Cascade, onUpdate: Cascade)
   reactionName String
-  post         Post     @relation("PostHasReaction", fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   postId       Int
-  reactor      Profile  @relation("ReactedToPost", fields: [reactorId], references: [userId], onDelete: Cascade, onUpdate: Cascade)
   reactorId    String
+  post         Post     @relation("PostHasReaction", fields: [postId], references: [id], onDelete: Cascade)
+  reaction     Reaction @relation("PostReactionType", fields: [reactionName], references: [name], onDelete: Cascade)
+  reactor      Profile  @relation("ReactedToPost", fields: [reactorId], references: [userId], onDelete: Cascade)
 }
 
 model CommentReaction {
   id           Int      @id @unique @default(autoincrement())
-  reaction     Reaction @relation("CommentReactionType", fields: [reactionName], references: [name], onDelete: Cascade, onUpdate: Cascade)
   reactionName String
-  comment      Comment  @relation("CommentHasReaction", fields: [commentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   commentId    Int
-  reactor      Profile  @relation("ReactedToComment", fields: [reactorId], references: [userId], onDelete: Cascade, onUpdate: Cascade)
   reactorId    String
+  comment      Comment  @relation("CommentHasReaction", fields: [commentId], references: [id], onDelete: Cascade)
+  reaction     Reaction @relation("CommentReactionType", fields: [reactionName], references: [name], onDelete: Cascade)
+  reactor      Profile  @relation("ReactedToComment", fields: [reactorId], references: [userId], onDelete: Cascade)
 }

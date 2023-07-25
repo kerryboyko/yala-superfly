@@ -32,7 +32,6 @@ export const loader: LoaderFunction = async ({
   }>
 > => {
   const authSession = await getAuthSession(request);
-  console.log({ authSession });
   if (!authSession) {
     return json({ isLoggedIn: false, username: undefined });
   }
@@ -48,49 +47,19 @@ export const loader: LoaderFunction = async ({
       updatedAt: true,
     },
   });
+  if (!user) {
+    throw new Error(`Unknown User`);
+  }
 
   const profile = await db.profile.findUnique({
     where: { userId },
     select: { username: true, verified: true },
   });
-  console.log({ user, profile });
-  // if (user && profile === null) {
-  //   return redirect("/create-profile");
-  // }
 
-  // if(!authUser){
-  //   return json({isLoggedIn: false, username: undefined});
-  // }
-  // const {userId} = authUser;
-  // const user = await db.user.findUniqueOrThrow({where: u})
-  // const authUser = await requireAuthSession(request);
+  if (!profile) {
+    return redirect("/complete-profile");
+  }
 
-  // if (authUser === null) {
-  //   return json({ isLoggedIn: false, message: "No Authentication" });
-  // }
-  // console.log({ authUser });
-  // const { userId } = authUser;
-  // const userRecord = await db.user.findUnique({ where: { id: userId } });
-  // console.log({ userRecord });
-  // const userProfile = await db.profile.findUnique({ where: { userId } });
-  // console.log({ userProfile });
-  // if (userRecord && !userProfile) {
-  //   return redirect("/create-profile", { request });
-  // }
-  // const uuid = authUser?.extraParams?.userId;
-  // const userRecord = await db.user.findUnique({
-  //   where: {
-  //     id: uuid,
-  //   },
-  // });
-  // if (!userRecord) {
-  //   logout(request);
-  //   return json({
-  //     isLoggedIn: false,
-  //     message: "Authenticated but there's no record by that user",
-  //   });
-  // }
-  // return json({ isLoggedIn: true, user: userRecord });
   return json({ isLoggedIn: true, username: profile.username });
 };
 
@@ -99,9 +68,11 @@ export default function Dashboard() {
 
   return (
     <>
-      <main>
+      <main className="main">
         <Header isLoggedIn={data.isLoggedIn} username={data.username} />
-        <Outlet />
+        <div className="outlet-main">
+          <Outlet />
+        </div>
       </main>
     </>
   );

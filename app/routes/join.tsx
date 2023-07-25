@@ -1,21 +1,24 @@
 import { redirect, json } from "@remix-run/node";
-import { Form, Link, useSearchParams, useTransition } from "@remix-run/react";
+import {
+  Form,
+  Link,
+  useActionData,
+  useSearchParams,
+  useTransition,
+} from "@remix-run/react";
 import { useTranslation } from "react-i18next";
-import { parseFormAny, useZorm } from "react-zorm";
+import { createCustomIssues, parseFormAny, useZorm } from "react-zorm";
 import { z } from "zod";
 
 import { i18nextServer } from "~/integrations/i18n";
-import {
-  createAuthSession,
-  getAuthSession,
-  ContinueWithEmailForm,
-} from "~/modules/auth";
+import { createAuthSession, getAuthSession } from "~/modules/auth";
 import {
   getUserByEmail,
   createUserAccount,
-  getUserByUsername,
+  getProfileByUsername,
 } from "~/modules/user";
 import { assertIsPost, isFormProcessing } from "~/utils";
+// import { ContinueWithEmailForm } from "~/components/AuthButtons/ContinueWithEmailForm";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Label } from "~/components/ui/label";
 import { Input } from "~/components/ui/input";
@@ -30,12 +33,14 @@ import type {
   ActionArgs,
   LinksFunction,
   LoaderArgs,
-  MetaFunction,
   V2_MetaFunction,
 } from "@remix-run/node";
+// import { useCallback } from "react";
+// import { supabaseClient } from "~/integrations/supabase/client";
 
 export async function loader({ request }: LoaderArgs) {
   const authSession = await getAuthSession(request);
+  console.log({ authSession });
   const t = await i18nextServer.getFixedT(request, "auth");
   const title = t("register.title");
 
@@ -47,10 +52,10 @@ export async function loader({ request }: LoaderArgs) {
 const JoinFormSchema = z.object({
   email: z
     .string()
-    .email("invalid-email")
+    .email("Email is invalid")
     .transform((email) => email.toLowerCase()),
-  username: z.string().min(4, "username-too-short"),
-  password: z.string().min(8, "password-too-short"),
+  username: z.string().min(4, "Usernames must be a minimum of 4 characters"),
+  password: z.string().min(8, "Passwords must be a minimum of 8 characters"),
   redirectTo: z.string().optional(),
 });
 
@@ -58,7 +63,9 @@ export async function action({ request }: ActionArgs) {
   assertIsPost(request);
   const formData = await request.formData();
   const result = await JoinFormSchema.safeParseAsync(parseFormAny(formData));
-  console.log({ result });
+
+  const issues = createCustomIssues(JoinFormSchema);
+
   if (!result.success) {
     return json(
       {
@@ -73,28 +80,25 @@ export async function action({ request }: ActionArgs) {
   const existingEmail = await getUserByEmail(email);
 
   if (existingEmail) {
-    return json(
-      { errors: { email: "user-already-exist", password: null } },
-      { status: 400 },
-    );
+    issues.email("There is already a user with that e-mail address");
   }
 
-  const existingUsername = await getUserByUsername(username);
+  const existingUsername = await getProfileByUsername(username);
 
-  if (existingEmail) {
-    return json(
-      { errors: { email: "user-already-exist", password: null } },
-      { status: 400 },
-    );
+  if (existingUsername) {
+    issues.username("There is already a user with that username");
+  }
+
+  if (issues.hasIssues()) {
+    return json({ ok: false, serverIssues: issues.toArray() }, { status: 400 });
   }
 
   const authSession = await createUserAccount(email, password, username);
-
   if (!authSession) {
-    return json(
-      { errors: { email: "unable-to-create-account", password: null } },
-      { status: 500 },
+    issues.email(
+      "We're unable to create your account at this time. Please try again later",
     );
+    return json({ ok: false, serverIssues: issues.toArray() }, { status: 400 });
   }
 
   return createAuthSession({
@@ -111,21 +115,57 @@ export const meta: V2_MetaFunction = ({ data }) => [
 ];
 
 export default function Join() {
-  const zo = useZorm("NewQuestionWizardScreen", JoinFormSchema);
+  const formResponse = useActionData();
+  const zo = useZorm("sign-up-form", JoinFormSchema, {
+    customIssues: formResponse?.serverIssues,
+  });
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get("redirectTo") ?? undefined;
   const transition = useTransition();
-  const disabled = isFormProcessing(transition.state);
+  const disabledFields = isFormProcessing(transition.state);
+  const disabledButton = zo.validation?.success === false;
   const { t } = useTranslation("auth");
+
+  // const handleGoogleLogin = useCallback(async () => {
+  //   await supabaseClient.auth.signInWithOAuth({
+  //     provider: "google",
+  //     options: {
+  //       redirectTo: "http://localhost:3000/oauth/callback",
+  //     },
+  //   });
+  // }, []);
 
   return (
     <div className="sign-up">
-      <Card className="sign-up__card">
+      <Card className="card sign-up__card">
         <CardHeader>
           <CardTitle>{t("register.createNewAccount")}</CardTitle>
         </CardHeader>
         <CardContent>
           <Form ref={zo.ref} method="post" replace>
+            <div className="field field__email">
+              <Label className="label" htmlFor={zo.fields.email()}>
+                {t("register.email")}
+              </Label>
+              <Input
+                className="input input__email"
+                data-test-id="email"
+                required
+                autoFocus={true}
+                name={zo.fields.email()}
+                type="email"
+                autoComplete="email"
+                placeholder="email@domain.com"
+                disabled={disabledFields}
+              />
+              {zo.errors.email((err) =>
+                err.message ? (
+                  <div className="error error__email" id="email-error">
+                    {err.message}
+                  </div>
+                ) : null,
+              )}
+            </div>
             <div className="field field__username">
               <Label
                 className="label label__username"
@@ -142,36 +182,16 @@ export default function Join() {
                 type="text"
                 autoComplete="username"
                 placeholder="Username"
-                disabled={disabled}
+                disabled={disabledFields}
               />
-              {zo.errors.username()?.message && (
-                <div className="error error__username" id="username-error">
-                  {zo.errors.username()?.message}
-                </div>
+              {zo.errors.username((err) =>
+                err.message ? (
+                  <div className="error error__username" id="username-error">
+                    {err.message}
+                  </div>
+                ) : null,
               )}
             </div>
-            <div className="field field__email">
-              <Label className="label" htmlFor={zo.fields.email()}>
-                {t("register.email")}
-              </Label>
-              <Input
-                className="input input__email"
-                data-test-id="email"
-                required
-                autoFocus={true}
-                name={zo.fields.email()}
-                type="email"
-                autoComplete="email"
-                placeholder="email@domain.com"
-                disabled={disabled}
-              />
-              {zo.errors.email()?.message && (
-                <div className="error error__email" id="email-error">
-                  {zo.errors.email()?.message}
-                </div>
-              )}
-            </div>
-
             <div className="field field__password">
               <Label
                 className="label label__password"
@@ -185,12 +205,14 @@ export default function Join() {
                 name={zo.fields.password()}
                 type="password"
                 autoComplete="new-password"
-                disabled={disabled}
+                disabled={disabledFields}
               />
-              {zo.errors.password()?.message && (
-                <div className="error error__password" id="password-error">
-                  {zo.errors.password()?.message}
-                </div>
+              {zo.errors.password((err) =>
+                err.message ? (
+                  <div className="error error__password" id="password-error">
+                    {err.message}
+                  </div>
+                ) : null,
               )}
             </div>
 
@@ -203,12 +225,15 @@ export default function Join() {
               data-test-id="create-account"
               className="button create-account__button"
               type="submit"
-              disabled={disabled}
+              disabled={disabledButton}
             >
               {t("register.action")}
             </Button>
-            <div className="create-account__already-have-account">
-              {t("register.alreadyHaveAnAccount")}{" "}
+          </Form>
+          <hr />
+          <div className="already-have-account">
+            {t("register.alreadyHaveAnAccount")}{" "}
+            <span>
               <Link
                 to={{
                   pathname: "/login",
@@ -217,16 +242,33 @@ export default function Join() {
               >
                 {t("register.login")}
               </Link>
-            </div>
-          </Form>
-        </CardContent>
-        {/* <div>
-          <span>{t("register.orContinueWith")}</span>
-          <div>
-            <ContinueWithEmailForm />
+            </span>
           </div>
-        </div> */}
+        </CardContent>
       </Card>
+      {/* <Card className="card google__card">
+        <CardHeader>
+          <CardTitle>Google</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Button
+            data-test-id="create-account"
+            className="button create-account__button"
+            type="button"
+            onClick={handleGoogleLogin}
+          >
+            Google
+          </Button>
+        </CardContent>
+      </Card> */}
+      {/* <Card className="card magic-link__card">
+        <CardHeader>
+          <CardTitle>{t("register.orContinueWith")}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ContinueWithEmailForm />
+        </CardContent>
+      </Card> */}
     </div>
   );
 }

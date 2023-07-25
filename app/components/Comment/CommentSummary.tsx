@@ -34,7 +34,7 @@ export const CommentSummary: React.FC<CommentSummaryData> = ({
   const origin = findOrigin();
 
   const [communityPath, postPath, permalink] = useMemo(() => {
-    const communityPath = `/dashboard/community/${communityRoute}`;
+    const communityPath = `/community/${communityRoute}`;
     const postPath = `/post/${postId}`;
     const permalinkPath = communityPath + postPath + `#comment-${id}`;
     const permalink = origin + permalinkPath;

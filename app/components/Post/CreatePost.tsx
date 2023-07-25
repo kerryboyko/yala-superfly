@@ -18,7 +18,6 @@ export const CreatePost = () => {
   const [showPreview, setShowPreview] = useState<boolean>(false);
   const [postTitle, setPostTitle] = useState<string>("");
   const [postLink, setPostLink] = useState<string>("");
-  const [postEmbed, setPostEmbed] = useState<string>("");
   const [postBody, setPostBody] = useState<string>("");
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [deleteHashCode, setDeleteHashCode] = useState<string>("");
@@ -33,32 +32,6 @@ export const CreatePost = () => {
     setPostLink(event?.target?.value);
   };
 
-  const handleImageFile = async (fileList: any) => {
-    setIsUploading(true);
-    const result = await fetch("/api/v1/upload-to-imgur", {
-      method: "post",
-      body: fileList,
-    });
-
-    const json = await result.json();
-    const { link, deletehash } = json;
-
-    setPostEmbed(link);
-    setDeleteHashCode(deletehash);
-    setIsUploading(false);
-  };
-
-  const handleDeleteImage = async () => {
-    try {
-      await fetch(`/api/v1/delete-from-imgur/${deleteHashCode}`, {
-        method: "post",
-      });
-      setPostEmbed("");
-      setDeleteHashCode("");
-    } catch (err) {
-      console.error(err);
-    }
-  };
   const handlePostChange: ChangeEventHandler<HTMLTextAreaElement> = (event) => {
     setPostBody(event.target.value);
   };
@@ -87,10 +60,10 @@ export const CreatePost = () => {
           value={postLink}
         />
       </CardContent>
-      <div className="create-post__content__description">
-        <CardHeader className="header__condensed-padding bottom top">
+      {/* <div className="create-post__content__image">
+         <CardHeader className="header__condensed-padding bottom top">
           <CardTitle>Image Upload (optional)</CardTitle>
-        </CardHeader>
+        </CardHeader> 
         <CardContent className="content__condensed-padding">
           {postEmbed ? (
             <div className="create-post__content__embed-image__display">
@@ -116,8 +89,8 @@ export const CreatePost = () => {
           ) : (
             <DragDropFile size="small" handleFiles={handleImageFile} />
           )}
-        </CardContent>
-      </div>
+        </CardContent> 
+      </div> */}
       <CardHeader className="editor__header header__condensed-padding bottom top">
         <CardTitle className="editor__header__title">Text (optional)</CardTitle>
       </CardHeader>
@@ -162,9 +135,9 @@ export const CreatePost = () => {
                 )}
               </div>
             ) : null}
-            {postEmbed ? (
+            {/* {postEmbed ? (
               <img alt="" className="post-preview__embed" src={postEmbed} />
-            ) : null}
+            ) : null} */}
             <MarkdownDisplay markdown={postBody} />
           </CardContent>
           <hr />

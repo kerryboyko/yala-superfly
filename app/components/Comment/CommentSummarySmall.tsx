@@ -28,9 +28,7 @@ export const CommentSummarySmall: React.FC<CommentSummary> = ({
       className={`comment-summary-small ${index % 2 === 0 ? "even" : "odd"}`}
     >
       <div className="comment-summary-small__link">
-        <Link
-          to={`/dashboard/community/${communityRoute}/post/${postId}#comment-${id}`}
-        >
+        <Link to={`/community/${communityRoute}/post/${postId}#comment-${id}`}>
           Re: {postTitle} in {communityName} at {createdAt}
         </Link>
       </div>

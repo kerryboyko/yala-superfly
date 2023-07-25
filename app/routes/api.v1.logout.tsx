@@ -9,3 +9,7 @@ export async function action({ request }: ActionArgs) {
 
   return await destroyAuthSession(request);
 }
+
+export async function loader({ request }: ActionArgs) {
+  return await destroyAuthSession(request);
+}
