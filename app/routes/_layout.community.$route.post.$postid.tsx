@@ -23,7 +23,7 @@ import { formDataToObject } from "~/logic/formDataToObject";
 import postDetailsStyles from "~/styles/post-details.css";
 import type { RecursiveCommentTreeNode } from "~/types/comments";
 import { z } from "zod";
-import { requireAuthSession } from "~/modules/auth";
+import { getAuthSession, requireAuthSession } from "~/modules/auth";
 
 import { useEffect } from "react";
 
@@ -31,7 +31,8 @@ export const links: LinksFunction = () =>
   [postDetailsStyles].map((href) => ({ rel: "stylesheet", href }));
 
 export const loader = async ({ request, params }: LoaderArgs) => {
-  // params.route is not used here.
+  const authSession = await getAuthSession(request);
+
   const post = await db.post.findUnique({
     where: {
       id: parseInt(params.postid as string, 10),
@@ -44,12 +45,14 @@ export const loader = async ({ request, params }: LoaderArgs) => {
       link: true,
       embeds: true,
       community: { select: { name: true, route: true } },
+      authorId: true, // will use to match against uuid from token
       author: { select: { username: true } },
       comments: {
         select: {
           id: true,
           createdAt: true,
           updatedAt: true,
+          authorId: true,
           author: {
             select: {
               username: true,
@@ -78,6 +81,7 @@ export const loader = async ({ request, params }: LoaderArgs) => {
     comments: commentTree,
     communityRoute: params.route,
     postId: params.postid,
+    loggedInUser: authSession?.userId,
   });
 };
 
@@ -90,11 +94,11 @@ const commentSchema = z.object({
 });
 
 export const action: ActionFunction = async ({ request }) => {
-  console.log("hitting");
-  const authUser = await requireAuthSession(request);
-  if (authUser === null) {
-    return redirect("/");
-  }
+  const authSession = await requireAuthSession(request, {
+    onFailRedirectTo: "/login",
+    verify: true,
+  });
+
   // this is used to post comments;
   try {
     const formData = await request.formData().then(formDataToObject);
@@ -108,11 +112,11 @@ export const action: ActionFunction = async ({ request }) => {
         ? null
         : parseInt(formData["comment-postId"], 10),
       communityRoute: formData["comment-community-route"],
-      authorId: authUser.extraParams.userId,
+      authorId: authSession.userId,
     });
     console.log(payload);
     const reply = await db.comment.create({ data: payload });
-    return payload.parentId === null ? redirect(`#comment-${reply.id}`) : null;
+    return redirect(`#comment-${reply.id}`);
   } catch (err: any) {
     console.error(err);
     return json({ status: 500, message: err?.message });
@@ -130,7 +134,12 @@ export default function PostRoute() {
   }, [navigation]);
   return (
     <div className="post-details">
-      {data && data.post ? <PostDetails {...data.post} /> : null}
+      {data && data.post ? (
+        <PostDetails
+          {...data.post}
+          authorIsThisUser={data.post.authorId === data.loggedInUser}
+        />
+      ) : null}
       <Form className="create-comment" method="post">
         <CreateComment
           placeholder="Write your comment here..."
@@ -148,7 +157,11 @@ export default function PostRoute() {
       </Form>
       <div className="all-comments">
         {data.comments.map((comment: RecursiveCommentTreeNode) => (
-          <ShowComment key={comment.comment?.id} {...comment} />
+          <ShowComment
+            key={comment.comment?.id}
+            {...comment}
+            loggedInUser={data.loggedInUser}
+          />
         ))}
       </div>
     </div>

@@ -18,7 +18,5 @@ export const loader = async ({ params }: LoaderArgs) => {
       status: 404,
     });
   }
-  return redirect(
-    `/dashboard/community/${post.community.route}/post/${idNumber}`,
-  );
+  return redirect(`/community/${post.community.route}/post/${idNumber}`);
 };

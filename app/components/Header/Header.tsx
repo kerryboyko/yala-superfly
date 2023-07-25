@@ -30,7 +30,7 @@ export const Header = ({
           </div>
 
           <div>
-            <NavLink to="/dashboard/create-community">
+            <NavLink to="/create-community">
               {({ isActive }) =>
                 isActive ? null : (
                   <Badge className="command-icon__badge">

@@ -1,4 +1,10 @@
-import type { ActionArgs, LinksFunction, LoaderArgs } from "@remix-run/node";
+import type {
+  ActionArgs,
+  LinksFunction,
+  LoaderArgs,
+  LoaderFunction,
+  TypedResponse,
+} from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Form, useActionData } from "@remix-run/react";
 import { CreateCommunityForm } from "~/components/Community/CreateCommunity";
@@ -8,6 +14,7 @@ import { z } from "zod";
 import { COMMUNITY_NAME_CHAR_LIMITS } from "~/constants/communityNameLimits";
 
 import createCommunityStyles from "~/styles/createcommunity.css";
+import { getAuthSession, requireAuthSession } from "~/modules/auth";
 
 const formSchema = z.object({
   communityName: z
@@ -22,28 +29,29 @@ const formSchema = z.object({
     .string()
     .min(3)
     .max(COMMUNITY_NAME_CHAR_LIMITS.communityName),
-  headerImage: z.string().optional(),
 });
 export const links: LinksFunction = () =>
   [createCommunityStyles].map((href) => ({ rel: "stylesheet", href }));
 
-export const loader = async ({ request }: LoaderArgs) => {
-  const authUser = await requireAuthSession(request);
-  if (authUser === null) {
-    return redirect("/");
+export const loader: LoaderFunction = async ({ request }) => {
+  const authSession = await getAuthSession(request);
+  if (!authSession) {
+    return redirect("/login");
   }
+
   return null;
 };
 
 export const action = async ({ request }: ActionArgs) => {
-  const authUser = await requireAuthSession(request);
-  if (authUser === null) {
-    return redirect("/");
-  }
-  const userId = authUser.extraParams.userId;
+  const authSession = await requireAuthSession(request, {
+    onFailRedirectTo: "/login",
+    verify: true,
+  });
+  const { userId } = authSession;
   const data = await request.formData().then(formDataToObject);
+
   try {
-    const { communityName, communityDescription, communityRoute, headerImage } =
+    const { communityName, communityDescription, communityRoute } =
       formSchema.parse(data);
 
     const transactionData = await db.$transaction(async (tx) => {
@@ -53,7 +61,6 @@ export const action = async ({ request }: ActionArgs) => {
           description: communityDescription,
           route: communityRoute,
           createdById: userId,
-          headerImage,
         },
       });
       const { route } = community;
@@ -61,18 +68,19 @@ export const action = async ({ request }: ActionArgs) => {
       const commMod = await tx.communityModerators.create({
         data: {
           communityRoute: route,
-          userId,
+          moderatorId: userId,
         },
       });
       const commSub = await tx.communitySubscribers.create({
         data: {
           communityRoute: route,
-          userId,
+          subscriberId: userId,
         },
       });
       return { community, commMod, commSub };
     });
-    return redirect(`/dashboard/community/${transactionData.community.route}`);
+    console.log({ transactionData });
+    return redirect(`/community/${transactionData.community.route}`);
   } catch (err: any) {
     let errors: any = {};
     // zod validation errors

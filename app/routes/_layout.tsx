@@ -68,9 +68,11 @@ export default function Dashboard() {
 
   return (
     <>
-      <main>
+      <main className="main">
         <Header isLoggedIn={data.isLoggedIn} username={data.username} />
-        <Outlet />
+        <div className="outlet-main">
+          <Outlet />
+        </div>
       </main>
     </>
   );

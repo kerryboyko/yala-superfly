@@ -15,8 +15,6 @@ import { Label } from "~/components/ui/label";
 
 import { COMMUNITY_NAME_CHAR_LIMITS } from "~/constants/communityNameLimits";
 import { formatCommunityName } from "~/logic/formatCommunityName";
-import { DragDropFile } from "../DragDropFile/DragDropFile";
-import { Loader2 } from "lucide-react";
 
 const safetyCountClass = (
   text: string,
@@ -43,6 +41,7 @@ const inputHandler =
       setter(event.target.value);
     }
   };
+const bucket = "community-headers";
 
 export const CreateCommunityForm = ({
   errors,
@@ -51,9 +50,6 @@ export const CreateCommunityForm = ({
 }) => {
   const [communityName, setCommunityName] = useState<string>("");
   const [communityDescription, setCommunityDescription] = useState<string>("");
-  const [headerImage, setHeaderImage] = useState<string>("");
-  const [deleteHashCode, setDeleteHashCode] = useState<string>("");
-  const [isUploading, setIsUploading] = useState<boolean>(false);
 
   const formattedCommunityShortName = useMemo(
     (): string => formatCommunityName(communityName),
@@ -85,38 +81,6 @@ export const CreateCommunityForm = ({
     setCommunityDescription,
     COMMUNITY_NAME_CHAR_LIMITS.description,
   );
-
-  const handleImageFile = async (fileList: any) => {
-    setIsUploading(true);
-    try {
-      const result = await fetch("/api/v1/upload-to-imgur", {
-        method: "post",
-        body: fileList,
-      });
-
-      const json = await result.json();
-      const { link, deletehash } = json;
-
-      setHeaderImage(link);
-      setDeleteHashCode(deletehash);
-      setIsUploading(false);
-    } catch (err) {
-      console.error(err);
-      setIsUploading(false);
-    }
-  };
-
-  const handleDeleteImage = async () => {
-    try {
-      await fetch(`/api/v1/delete-from-imgur/${deleteHashCode}`, {
-        method: "post",
-      });
-      setHeaderImage("");
-      setDeleteHashCode("");
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
   return (
     <Card className="create-community">
@@ -160,7 +124,7 @@ export const CreateCommunityForm = ({
           ) : null}
 
           <div className="create-community__content__shortname__route-display text-sm">
-            Your community will be accessible at /dashboard/community/
+            Your community will be accessible at /community/
             {formattedCommunityShortName}
           </div>
         </div>
@@ -170,7 +134,7 @@ export const CreateCommunityForm = ({
             htmlFor="communityDescription"
             className="create-community__content__description label"
           >
-            Description|
+            Description
           </Label>
           <div className="create-community__content__description__input-container input-container">
             <MarkdownTextarea
@@ -193,39 +157,6 @@ export const CreateCommunityForm = ({
             </div>
           ) : null}
         </div>
-        <div className="create-community__content__description grid gap-2">
-          <Label className="create-community__content__description label">
-            Header Image
-          </Label>
-          {headerImage ? (
-            <div className="create-community__content__header-image__display">
-              <img
-                className="create-community__content__header-image__display--image"
-                alt="not found"
-                width={"250px"}
-                src={headerImage}
-              />
-              <Button type="button" onClick={handleDeleteImage}>
-                Remove
-              </Button>
-            </div>
-          ) : isUploading ? (
-            <div className="create-community__content__header-image__loading">
-              <Loader2
-                size={"1.5rem"}
-                className="create-community__content__header-image__loading icon"
-              />
-              Uploading, please wait...
-            </div>
-          ) : (
-            <DragDropFile handleFiles={handleImageFile} />
-          )}
-        </div>
-
-        <div className="create-community__content__image-file--notice text-xs">
-          (Image files are hosted at Imgur.com. An S3 solution may be available
-          in the future.)
-        </div>
       </CardContent>
       <CardFooter className="create-community__footer">
         <Button type="submit">Create Community</Button>
@@ -235,7 +166,6 @@ export const CreateCommunityForm = ({
         name="communityRoute"
         value={formattedCommunityShortName}
       />
-      <input type="hidden" name="headerImage" value={headerImage} />
     </Card>
   );
 };

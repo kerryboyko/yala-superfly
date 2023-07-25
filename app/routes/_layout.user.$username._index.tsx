@@ -123,10 +123,7 @@ export default function UserProfileOverview() {
           ) : (
             <span>
               Profile of{" "}
-              <Link
-                className="nav-link"
-                to={`/dashboard/user/${data.user.username}`}
-              >
+              <Link className="nav-link" to={`/user/${data.user.username}`}>
                 {data.user.username}
               </Link>
             </span>

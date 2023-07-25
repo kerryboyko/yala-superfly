@@ -20,27 +20,24 @@ const payloadSchema = z.object({
   title: z.string(),
   link: z.union([z.null(), z.literal(""), z.string().trim().url()]).optional(),
   text: z.union([z.null(), z.literal(""), z.string().trim()]).optional(),
-  embeds: z
-    .union([z.null(), z.literal(""), z.string().trim().url()])
-    .optional(),
 });
 export const action: ActionFunction = async ({ request, params }) => {
-  const authUser = await requireAuthSession(request);
-  if (authUser === null) {
-    return redirect("/");
-  }
+  const authSession = await requireAuthSession(request, {
+    onFailRedirectTo: "/login",
+    verify: true,
+  });
+  const { userId } = authSession;
 
   const data = await request.formData().then(formDataToObject);
 
   const payload = {
-    authorId: authUser.extraParams.userId,
+    authorId: userId,
     communityRoute: params.route,
     title: data["post-title"],
     link: data["post-link"] ?? null,
     text: data["post-text"] ? sanitize(data["post-text"]) : null,
-    embeds: data["image-embed"] ?? null,
   };
-  if (!payload.link && !payload.text && !payload.embeds) {
+  if (!payload.link && !payload.text) {
     throw new Error(`Post contains no link, no text, and no embedded image`);
   }
   try {
@@ -48,7 +45,7 @@ export const action: ActionFunction = async ({ request, params }) => {
       data: payloadSchema.parse(payload),
     });
     return redirect(
-      `/dashboard/community/${postData.communityRoute}/post/${postData.id}`,
+      `/community/${postData.communityRoute}/post/${postData.id}`,
     );
   } catch (err) {
     console.error(err);

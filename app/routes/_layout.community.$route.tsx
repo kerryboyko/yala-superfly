@@ -18,6 +18,7 @@ export const links: LinksFunction = () =>
   [communityStyles].map((href) => ({ rel: "stylesheet", href }));
 
 export const loader = async ({ params }: LoaderArgs) => {
+  console.log({ params });
   const community = await db.community.findUnique({
     where: { route: params.route },
     select: {
@@ -70,12 +71,10 @@ export default function CommunityProfileRoute() {
           Created {community.createdAt}
           <br />
           by{" "}
-          <Link to={`/dashboard/user/${community.createdBy}`}>
-            {community.createdBy}
-          </Link>
+          <Link to={`/user/${community.createdBy}`}>{community.createdBy}</Link>
         </div>
         <div className="community__sidebar__create-new-post">
-          <Link to={`/dashboard/community/${community.route}/create-new-post`}>
+          <Link to={`/community/${community.route}/create-new-post`}>
             <Button type="button">Create New Post</Button>
           </Link>
         </div>

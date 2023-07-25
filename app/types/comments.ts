@@ -2,6 +2,7 @@ export interface Comment {
   id: number;
   createdAt: Date | string;
   updatedAt: Date | string;
+  authorId: string;
   author: {
     username: string;
   };

@@ -102,7 +102,7 @@ model Post {
 }
 
 model Community {
-  route                String                 @id @unique
+  route                String                 @id @unique @db.Citext
   createdAt            DateTime               @default(now())
   updatedAt            DateTime               @updatedAt
   createdById          String
@@ -162,13 +162,13 @@ model Message {
 }
 
 model Reaction {
-  name     String            @id @unique
+  name     String            @id @unique @db.Citext
   comments CommentReaction[] @relation("CommentReactionType")
   posts    PostReaction[]    @relation("PostReactionType")
 }
 
 model Tag {
-  name       String       @id @unique
+  name       String       @id @unique @db.Citext
   CommentTag CommentTag[] @relation("CommentTagIdentity")
   PostTag    PostTag[]    @relation("PostTagIdentity")
 }

@@ -8,6 +8,7 @@ import { MessageSquarePlus } from "lucide-react";
 import type { MouseEventHandler } from "react";
 import { useEffect, useState } from "react";
 import CreateComment from "./CreateComment";
+import { comment } from "postcss";
 
 export const ShowComment = ({
   comment: {
@@ -15,22 +16,25 @@ export const ShowComment = ({
     createdAt,
     updatedAt,
     author: { username },
+    authorId,
     parentId,
     postId,
     community: { route },
     text,
   },
   childComments = [],
-}: RecursiveCommentTreeNode) => {
+  loggedInUser,
+}: RecursiveCommentTreeNode & { loggedInUser?: string }) => {
   let navigation = useNavigation();
 
   const [showReplyField, setShowReplyField] = useState<boolean>(false);
 
   const humanCreatedAt = format(new Date(createdAt), "d MMM, u - h:mm a");
   const humanUpdatedAt = format(new Date(updatedAt), "d MMM, u - h:mm a");
-  const handleShowReply: MouseEventHandler<HTMLButtonElement> = () => {
+  const handleShowReply: MouseEventHandler<HTMLDivElement> = () => {
     setShowReplyField(true);
   };
+  const authorIsLoggedInUser = loggedInUser === authorId;
 
   useEffect(
     function resetFormOnSuccess() {
@@ -44,13 +48,13 @@ export const ShowComment = ({
   return (
     <div
       id={`comment-${id}`}
-      className={`show-comment ${parentId === null ? "top-level" : "child"}`}
+      className={`show-comment ${parentId === null ? "top-level" : "child"} ${
+        authorIsLoggedInUser ? "author-is-logged-in-user" : ""
+      }`}
     >
       <div className="show-comment__header">
-        Comment by <Link to={`/dashboard/user/${username}`}>{username}</Link> -{" "}
-        <Link
-          to={`/dashboard/community/${route}/post/${postId}/comment/${id}/`}
-        >
+        Comment by <Link to={`/user/${username}`}>{username}</Link> -{" "}
+        <Link to={`/community/${route}/post/${postId}/comment/${id}/`}>
           Created: {humanCreatedAt}{" "}
           {updatedAt !== createdAt ? "Updated: " + humanUpdatedAt : null}
         </Link>
@@ -58,6 +62,12 @@ export const ShowComment = ({
       <div className="show-comment__display">
         <MarkdownDisplay markdown={text} />
       </div>
+      {authorIsLoggedInUser ? (
+        <div className="debug debug__message">
+          FIXME: The logged in user is the author of this post, and should have
+          tools to edit or delete this post here.
+        </div>
+      ) : null}
       {showReplyField ? (
         <Form method="POST">
           <div className="show-comment__footer">
@@ -82,21 +92,22 @@ export const ShowComment = ({
         </Form>
       ) : (
         <div className="show-comment__footer">
-          <Badge className="show-comment__footer__reply-button">
+          <Badge
+            onClick={handleShowReply}
+            className="show-comment__footer__reply-button"
+          >
             <MessageSquarePlus size="1rem" />
-            <button
-              type="button"
-              className="show-comment__footer__reply-button--submit"
-              onMouseDown={handleShowReply}
-            >
-              Reply
-            </button>
+            Reply
           </Badge>
         </div>
       )}
       {childComments && Array.isArray(childComments) && childComments.length > 0
         ? childComments.map((chiCom) => (
-            <ShowComment key={chiCom.comment.id} {...chiCom} />
+            <ShowComment
+              key={chiCom.comment.id}
+              {...chiCom}
+              loggedInUser={loggedInUser}
+            />
           ))
         : null}
     </div>
