@@ -11,7 +11,7 @@ import {
 import { formatRelative } from "date-fns";
 import omit from "lodash/omit";
 import MarkdownDisplay from "~/components/Markdown/MarkdownDisplay";
-import BanUsers from "~/components/ModTools/BanUsers";
+import BanUsers from "~/components/ModTools/BanControl/BanUsers";
 import SubscribeButton from "~/components/Subscription/SubscribeButton";
 import { Button } from "~/components/ui/button";
 import { db } from "~/database/db.server";
@@ -96,7 +96,10 @@ export default function CommunityModerationRoute() {
   const data = useLoaderData<typeof loader>();
   return (
     <div className="moderate-community">
-      <BanUsers communityRoute={data.route || ""} />
+      <BanUsers
+        communityRoute={data.route || ""}
+        bannedUsers={data.community.communityBans}
+      />
       <pre>{JSON.stringify(data, null, 2)}</pre>
     </div>
   );

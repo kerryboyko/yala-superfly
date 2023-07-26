@@ -73,7 +73,7 @@ export const action: ActionFunction = async ({ request, params }) => {
   }
   const bannedUsers = listOfBannedUsers.split(",").map((u: string) => u.trim());
   const ineligibleUsers = [];
-  const eligibleUsers: string[] = [];
+  const eligibleUsers: [string, string][] = [];
   for (const bu of bannedUsers) {
     const result = await isUserNotEligibleForBan({
       username: bu,
@@ -82,23 +82,28 @@ export const action: ActionFunction = async ({ request, params }) => {
     if (!result.ok) {
       ineligibleUsers.push([bu, result.message]);
     } else {
-      eligibleUsers.push(result.userId);
+      eligibleUsers.push([bu, result.userId]);
     }
   }
   if (!eligibleUsers.length) {
     return json({ ineligibleUsers, eligibleUsers });
   }
-  const payload = eligibleUsers.map((doomedId: string) => ({
-    communityRoute,
-    bannedUserId: doomedId,
-    bannedById: userId,
-    banReason: reason?.toString() || "",
-  }));
+  const payload = eligibleUsers.map(
+    ([_doomedUser, doomedId]: [string, string]) => ({
+      communityRoute,
+      bannedUserId: doomedId,
+      bannedById: userId,
+      banReason: reason?.toString() || "",
+    }),
+  );
+
   const result = await db.communityBan.createMany({
     data: payload,
   });
+
   return json({
     ineligibleUsers,
     result,
+    bannedUsers: eligibleUsers.map(([un]) => un),
   });
 };
