@@ -76,7 +76,7 @@ export const UserTabs = ({ username, profile, isThisUser }: UserTabsProps) => {
             )}
           </NavLink>
         ))}
-        {isThisUser ? (
+        {/* {isThisUser ? (
           <NavLink
             key={"messages"}
             to={`/user/${username}/messages`}
@@ -91,7 +91,7 @@ export const UserTabs = ({ username, profile, isThisUser }: UserTabsProps) => {
               </div>
             )}
           </NavLink>
-        ) : null}
+        ) : null} */}
       </div>
     </div>
   );

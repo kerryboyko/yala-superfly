@@ -5,17 +5,11 @@ import {
   useLoaderData,
   useParams,
   useRouteError,
-  Outlet,
-  Link,
 } from "@remix-run/react";
-import { formatRelative } from "date-fns";
-import omit from "lodash/omit";
-import MarkdownDisplay from "~/components/Markdown/MarkdownDisplay";
+
 import BanUsers from "~/components/ModTools/BanControl/BanUsers";
-import SubscribeButton from "~/components/Subscription/SubscribeButton";
-import { Button } from "~/components/ui/button";
 import { db } from "~/database/db.server";
-import { getAuthSession, requireAuthSession } from "~/modules/auth";
+import { requireAuthSession } from "~/modules/auth";
 import communityStyles from "~/styles/community.css";
 
 export const links: LinksFunction = () =>
@@ -100,7 +94,6 @@ export default function CommunityModerationRoute() {
         communityRoute={data.route || ""}
         bannedUsers={data.community.communityBans}
       />
-      <pre>{JSON.stringify(data, null, 2)}</pre>
     </div>
   );
 }

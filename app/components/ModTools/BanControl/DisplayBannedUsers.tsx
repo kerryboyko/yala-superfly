@@ -8,13 +8,19 @@ import {
   TableRow,
 } from "~/components/ui/table";
 import { BannedUser } from "./BanUsers";
+import { Button } from "~/components/ui/button";
+import { useFetcher } from "@remix-run/react";
+import { Input } from "~/components/ui/input";
 
 export const DisplayBannedUsers = ({
   bannedUsers,
+  communityRoute,
 }: {
   bannedUsers: BannedUser[];
+  communityRoute: string;
 }) => {
-  console.log("bannedUsers", bannedUsers);
+  const fetcher = useFetcher();
+
   return (
     <Table>
       <TableHeader>
@@ -26,7 +32,19 @@ export const DisplayBannedUsers = ({
       <TableBody>
         {bannedUsers.map((bu: BannedUser) => (
           <TableRow key={bu.bannedUser.username}>
-            <TableCell>button goes here</TableCell>
+            <TableCell>
+              <fetcher.Form
+                method="POST"
+                action={`/api/v1/moderation/reinstate-users/${communityRoute}`}
+              >
+                <Button type="submit">Remove Ban</Button>
+                <Input
+                  type="hidden"
+                  name="userToReinstate"
+                  value={bu.bannedUser.username}
+                />
+              </fetcher.Form>
+            </TableCell>
             <TableCell>{bu.bannedUser.username}</TableCell>
             <TableCell>{bu.bannedBy.username}</TableCell>
             <TableCell>{bu.banReason}</TableCell>

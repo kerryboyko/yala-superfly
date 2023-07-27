@@ -1,10 +1,8 @@
-.subscription {
+.subscription,
+.moderation {
   font-family: "Ubuntu";
   display: grid;
-  grid-template-areas:
-    "name route stats button"
-    "description description description description";
-  grid-template-columns: 1fr 1fr 1fr 7rem;
+
   align-items: center;
   &:not(:last-child) {
     border-bottom: 1px dotted
@@ -22,14 +20,29 @@
   &__stats {
     grid-area: stats;
   }
-  &__subscribe {
-    grid-area: button;
-  }
+
   &__description {
     grid-area: description;
     margin-top: 0.25rem;
     font-family: "Lato";
   }
+}
+
+.subscription {
+  grid-template-areas:
+    "name route stats button"
+    "description description description description";
+  grid-template-columns: 1fr 1fr 1fr 7rem;
+  &__subscribe {
+    grid-area: button;
+  }
+}
+
+.moderation {
+  grid-template-areas:
+    "name route stats"
+    "description description description";
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 .subscribe-button {

@@ -19,7 +19,7 @@ export interface BannedUser {
   bannedBy: {
     username: string;
   };
-  banReason: string;
+  banReason: string | null;
 }
 
 export const BanUsers = ({
@@ -84,7 +84,10 @@ export const BanUsers = ({
             ) : null}
           </div>
         ) : null}
-        <DisplayBannedUsers bannedUsers={bannedUsers} />
+        <DisplayBannedUsers
+          bannedUsers={bannedUsers}
+          communityRoute={communityRoute}
+        />
       </CardContent>
     </Card>
   );
