@@ -4,7 +4,9 @@ Howdy. YALA is in auper-early alpha stage. You'll find items marked as "FIXME" o
 
 In the meantime, feel free to go around and kick the tires! Try:
 
-[/c/yaladev - Yala Development Community](/c/yaladev)
+* [/c/yaladev - Yala Development Community](/c/yaladev)
+* [/allposts - a list of all the posts (so far)](/allposts)
+* [/allcommunities - a list of all the communities (so far)](/allcommunities)
 
 ### Check out the Github!
 [This is the github link for the sourcecode - if you find an issue, feel free to report it!](https://github.com/kerryboyko/yala-superfly)

@@ -1,0 +1,9 @@
+.all-posts {
+  &__header {
+    margin: 0 2rem;
+    &__heading {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+  }
+}

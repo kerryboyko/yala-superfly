@@ -1,3 +1,6 @@
+@import "../mixins/map-deep-get";
+@import "../palette";
+
 .subscription,
 .moderation {
   font-family: "Ubuntu";
@@ -13,6 +16,9 @@
   &__name {
     grid-area: name;
     font-weight: 700;
+    &__moderate-link {
+      color: map-deep-get($palettes, "red", "golden-gate");
+    }
   }
   &__route {
     grid-area: route;

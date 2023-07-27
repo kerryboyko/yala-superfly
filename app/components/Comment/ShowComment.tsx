@@ -29,8 +29,8 @@ export const ShowComment = ({
 
   const [showReplyField, setShowReplyField] = useState<boolean>(false);
 
-  const humanCreatedAt = format(new Date(createdAt), "d MMM, u - h:mm a");
-  const humanUpdatedAt = format(new Date(updatedAt), "d MMM, u - h:mm a");
+  const humanCreatedAt = format(new Date(createdAt), "d MMMM, u - h:mm a");
+  const humanUpdatedAt = format(new Date(updatedAt), "d MMMM, u - h:mm a");
   const handleShowReply: MouseEventHandler<HTMLDivElement> = () => {
     setShowReplyField(true);
   };

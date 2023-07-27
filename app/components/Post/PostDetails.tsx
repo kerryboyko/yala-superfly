@@ -59,7 +59,7 @@ export const PostDetails = ({
         </CardTitle>
         <CardDescription>
           <div className="post-details__description">
-            Posted {format(new Date(createdAt), "d MMM, u - h:mm a")} to{" "}
+            Posted {format(new Date(createdAt), "d MMMM, u - h:mm a")} to{" "}
             <Link to={getCommunityLink({ communityRoute: community.route })}>
               /community/{community.name}
             </Link>{" "}
@@ -69,7 +69,8 @@ export const PostDetails = ({
             </Link>
             {updatedAt && createdAt !== updatedAt ? (
               <div>
-                Last updated: {format(new Date(updatedAt), "d MMM, u - h:mm a")}
+                Last updated:{" "}
+                {format(new Date(updatedAt), "d MMMM, u - h:mm a")}
               </div>
             ) : null}
           </div>

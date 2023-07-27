@@ -9,10 +9,11 @@ import { SubscribeButton } from "./SubscribeButton";
 export interface Subscription {
   communityRoute: string;
   communityName: string;
-  communityDescription: string;
+  communityDescription: string | null;
   numPosts: number;
   numComments: number;
-  isSubscribed: boolean;
+  isSubscribed?: boolean;
+  isModerator?: boolean;
   showDescription: boolean;
 }
 
@@ -24,18 +25,28 @@ export const Subscription: React.FC<Subscription> = ({
   numComments,
   isSubscribed,
   showDescription,
+  isModerator,
 }) => {
-  const fetcher = useFetcher();
   const truncatedDescription = truncateWithoutWordBreak(
     communityDescription || "",
     200,
   );
-  const Icon = isSubscribed ? MinusCircle : PlusCircle;
 
   return (
     <div className={`subscription`}>
       <div className="subscription__name">
         <Link to={`/community/${communityRoute}`}>{communityName}</Link>
+        {isModerator ? (
+          <>
+            {" - "}
+            <Link
+              className="subscription__name__moderate-link"
+              to={`/community/${communityRoute}/moderation`}
+            >
+              Moderate
+            </Link>
+          </>
+        ) : null}
       </div>
       <div className="subscription__route">
         <Link to={`/community/${communityRoute}`}>/c/{communityRoute}</Link>

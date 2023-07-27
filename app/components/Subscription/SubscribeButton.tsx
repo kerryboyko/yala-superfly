@@ -7,7 +7,7 @@ export const SubscribeButton = ({
   isSubscribed,
 }: {
   communityRoute: string;
-  isSubscribed: boolean;
+  isSubscribed?: boolean;
 }) => {
   const fetcher = useFetcher();
   const Icon = isSubscribed ? MinusCircle : PlusCircle;

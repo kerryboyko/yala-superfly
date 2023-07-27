@@ -100,7 +100,7 @@ export const loader = async ({ params, request }: LoaderArgs) => {
     comments: profile.comments.map(
       (comment): CommentSummaryData => ({
         ...pick(comment, ["id", "text"]),
-        createdAt: format(new Date(comment.createdAt), "d MMM, u - h:mm a"),
+        createdAt: format(new Date(comment.createdAt), "d MMMM, u - h:mm a"),
         communityRoute: comment.post.community.route,
         postId: comment.post.id,
         communityName: comment.post.community.name,
