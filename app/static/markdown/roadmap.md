@@ -2,7 +2,9 @@
 
 Howdy. YALA is in auper-early alpha stage. You'll find items marked as "FIXME" or hit with a strikethrough.  These are placeholders to indicate that the functionality is not yet developed, but it will be soon.  
 
-In the meantime, feel free to go around and kick the tires!
+In the meantime, feel free to go around and kick the tires! Try:
+
+[/c/yaladev - Yala Development Community](/c/yaladev)
 
 ### Check out the Github!
 [This is the github link for the sourcecode - if you find an issue, feel free to report it!](https://github.com/kerryboyko/yala-superfly)
