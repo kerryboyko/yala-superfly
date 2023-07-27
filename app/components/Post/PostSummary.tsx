@@ -7,12 +7,16 @@ import {
 } from "~/logic/getPostLinks";
 import { Card, CardDescription, CardTitle } from "~/components/ui/card";
 import { Link as LinkIcon } from "lucide-react";
-import { sanitize } from "dompurify";
-import { sanitize as isoSanitize } from "isomorphic-dompurify";
+import PostTools from "./PostTools";
 
 export const PostSummary: React.FC<
-  PostSummaryData & { index: number; showCommunity?: boolean }
-> = ({ index, showCommunity, ...post }) => {
+  PostSummaryData & {
+    index: number;
+    showCommunity?: boolean;
+    userModerates?: boolean;
+    userIsAuthor?: boolean;
+  }
+> = ({ index, showCommunity, userModerates, userIsAuthor, ...post }) => {
   const firstEmbed = post.embeds?.split(";")[0];
   return (
     <Card
@@ -40,11 +44,14 @@ export const PostSummary: React.FC<
           </div>
         ) : null}
       </CardDescription>
-      <div className="post-summary__author-link">
-        By: <Link to={getAuthorRoute(post)}>{post.author}</Link>
-      </div>
-      <div className="post-summary__comments-link">
-        <Link to={getCommentLink(post)}>Comments: {post.commentCount}</Link>
+      <div className="post-summary__info">
+        <div className="post-summary__info__author-link">
+          By: <Link to={getAuthorRoute(post)}>{post.author}</Link>
+        </div>
+        <div className="post-summary__info__tools">
+          <PostTools isModerator={userModerates} isAuthor={userIsAuthor} />
+          <Link to={getCommentLink(post)}>Comments: {post.commentCount}</Link>
+        </div>
       </div>
 
       {firstEmbed ? (
@@ -58,14 +65,7 @@ export const PostSummary: React.FC<
           </Link>
         </div>
       ) : null}
-      {post.text ? (
-        <div className="post-summary__text">
-          {post.text}
-          <div className="post-summary__text--read-more">
-            <Link to={getCommentLink(post)}>Read more...</Link>
-          </div>
-        </div>
-      ) : null}
+      {post.text ? <div className="post-summary__text">{post.text}</div> : null}
     </Card>
   );
 };

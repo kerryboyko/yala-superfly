@@ -66,7 +66,6 @@ export async function createUserAccount(
   username: string,
 ): Promise<AuthSession | null> {
   const authAccount = await createEmailAuthAccount(email, password);
-  console.log({ authAccount });
 
   // ok, no user account created
   if (!authAccount) return null;

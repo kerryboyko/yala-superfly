@@ -79,7 +79,6 @@ export const action = async ({ request }: ActionArgs) => {
       });
       return { community, commMod, commSub };
     });
-    console.log({ transactionData });
     return redirect(`/community/${transactionData.community.route}`);
   } catch (err: any) {
     let errors: any = {};

@@ -20,8 +20,6 @@ import { assertIsPost, safeRedirect } from "~/utils";
 export async function loader({ request }: LoaderArgs) {
   const authSession = await getAuthSession(request);
 
-  console.log("AUTHSESSION", authSession);
-
   if (authSession) return redirect("/");
 
   return json({});

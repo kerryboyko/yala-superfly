@@ -44,7 +44,6 @@ import type {
 
 export async function loader({ request }: LoaderArgs) {
   const authSession = await getAuthSession(request);
-  console.log({ authSession });
   const t = await i18nextServer.getFixedT(request, "auth");
   const title = t("register.completeProfile");
 

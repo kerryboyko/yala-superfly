@@ -9,6 +9,7 @@ export interface PostSummaryData {
   embeds: string | null;
   commentCount: number;
   text: string | null;
+  isAuthor?: boolean;
 }
 
 export interface Pagination {

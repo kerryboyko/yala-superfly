@@ -101,6 +101,7 @@ export const loader = async ({ params, request }: LoaderArgs) => {
         communityRoute: post.community.route,
         communityName: post.community.name,
         commentCount: post._count.comments,
+        isAuthor: true,
       }),
     ),
     isThisUser: isThisUser,
@@ -113,7 +114,13 @@ export default function UserProfilePosts() {
   return (
     <div>
       {data.posts.map((post: PostSummaryData, idx: number) => (
-        <PostSummary showCommunity={true} index={idx} key={post.id} {...post} />
+        <PostSummary
+          userIsAuthor={post.isAuthor}
+          showCommunity={true}
+          index={idx}
+          key={post.id}
+          {...post}
+        />
       ))}
       <Paginator
         perPage={data.pagination.perPage}

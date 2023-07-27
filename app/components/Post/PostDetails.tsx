@@ -10,6 +10,7 @@ import { getAuthorRoute, getCommunityLink } from "~/logic/getPostLinks";
 import { format } from "date-fns";
 import { Link as LinkIcon } from "lucide-react";
 import { MarkdownDisplay } from "~/components/Markdown/MarkdownDisplay";
+import PostTools from "./PostTools";
 
 interface PostDetails {
   createdAt: string;
@@ -26,6 +27,7 @@ interface PostDetails {
     username: string;
   };
   authorIsThisUser: boolean;
+  userModeratesThisCommunity: boolean;
 }
 
 export const PostDetails = ({
@@ -38,6 +40,7 @@ export const PostDetails = ({
   community,
   author,
   authorIsThisUser,
+  userModeratesThisCommunity,
 }: PostDetails) => {
   const allEmbeds = embeds?.split(";");
   return (
@@ -79,12 +82,10 @@ export const PostDetails = ({
             </Link>
           ) : null}
         </CardDescription>
-        {authorIsThisUser ? (
-          <CardDescription className="debug debug__message">
-            FIXME: The logged in user is the author of this post, and should
-            have tools to edit or delete this post here.
-          </CardDescription>
-        ) : null}
+        <PostTools
+          isModerator={userModeratesThisCommunity}
+          isAuthor={authorIsThisUser}
+        />
       </CardHeader>
       {text || embeds ? (
         <CardContent className="post-details__content">

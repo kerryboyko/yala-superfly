@@ -24,7 +24,6 @@ export const action: ActionFunction = async ({ request }) => {
   }
   try {
     const data = await request.json();
-    console.log("in post coment", data);
     dataSchema.parse(data); // check format.
     const payload = payloadSchema.parse({
       ...data,

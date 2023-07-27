@@ -1,3 +1,7 @@
+## Ready for Users!
+
+
+
 ### Check out the Github!
 [This is the github link for the sourcecode - if you find an issue, feel free to report it!](https://github.com/kerryboyko/yala-superfly)
 
@@ -15,7 +19,7 @@
 - [x] Login via username and password
 - [x] Created seperate Supabase projects for production and development - a "Kick the tires" methodology. The sooner I can get real people to look at the bugs on the site, the sooner I can continue working on them, so I'm creating two DBs, one for production and one for development.  
 - [ ] Login via email (magic-link)
-- [ ] Reconnect previously written functionality using new Auth provider. (Long story short - this was originally written using FusionAuth as the auth provider but Supabase was just a better solution. Rather than try to add Supabase to the existing repo, it was just quicker to create a new Remix Supa-Fly project.)
+- [x] Reconnect previously written functionality using new Auth provider. (Long story short - this was originally written using FusionAuth as the auth provider but Supabase was just a better solution. Rather than try to add Supabase to the existing repo, it was just quicker to create a new Remix Supa-Fly project.)
 
 ### What's on the roadmap?
 
@@ -24,10 +28,10 @@ On the roadmap as of 7/18/2023
 - [ ] Upvotes & Downvotes for posts and comments
 - [ ] "Reactions" (like Slashdot moderation) for posts and comments
 - [ ] "Tags" so that users can tag posts and comments for easy retrieval later
-- [ ] Subscriptions to communities
+- [x] Subscriptions to communities
 - [ ] A list of most popular communities (by page loads, by subscribers, by posts, by comments, etc)
 - [ ] A list of most popular posts (by page loads, by comments, by upvotes, etc)
 - [ ] A list of the most relevant & recent (using a "special sauce" to determine page rank from a combination of upvotes and time since posting)
-- [ ] A moderation tool
+- [x] A moderation tool to ban/unban users
 - [ ] Integration with 3rd Party Auth Services (such as Google.)
 - [ ] Unit & Integration testing. Normally I do TDD first, but I needed to get used to the Remix environment.

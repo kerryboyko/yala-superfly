@@ -11,9 +11,7 @@ export const action = async ({ request, params }: ActionArgs) => {
   });
   const { userId } = authUser;
   const formData = await request.formData();
-  console.log(formDataToObject(formData));
   const shouldSubscribe = formData.get("setSubscribe") === "true";
-  console.log(shouldSubscribe);
   const communityExists = await db.community.findUnique({
     where: {
       route: params.communityRoute,

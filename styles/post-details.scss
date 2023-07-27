@@ -120,3 +120,12 @@
   color: map-deep-get($palettes, "red", "warning-red");
   font-size: 0.5rem;
 }
+
+.post-tools {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 0.5rem;
+  &__command {
+    padding: 0 0.25rem;
+  }
+}

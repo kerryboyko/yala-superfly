@@ -59,7 +59,6 @@ export const loader = async ({ params, request }: LoaderArgs) => {
 
 export default function CommunityProfileRoute() {
   const { community } = useLoaderData<typeof loader>();
-  console.log("community", community);
   return (
     <div className="community">
       <div className="community__sidebar">

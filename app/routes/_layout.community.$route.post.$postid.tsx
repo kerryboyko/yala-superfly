@@ -32,7 +32,13 @@ export const links: LinksFunction = () =>
 
 export const loader = async ({ request, params }: LoaderArgs) => {
   const authSession = await getAuthSession(request);
-
+  const commData = await db.communityModerators.findFirst({
+    where: {
+      moderatorId: authSession?.userId,
+      communityRoute: params.route,
+    },
+  });
+  const userModeratesCommunity = Array.isArray(commData) && commData.length > 0;
   const post = await db.post.findUnique({
     where: {
       id: parseInt(params.postid as string, 10),
@@ -82,6 +88,7 @@ export const loader = async ({ request, params }: LoaderArgs) => {
     communityRoute: params.route,
     postId: params.postid,
     loggedInUser: authSession?.userId,
+    userModeratesCommunity,
   });
 };
 
@@ -114,7 +121,6 @@ export const action: ActionFunction = async ({ request }) => {
       communityRoute: formData["comment-community-route"],
       authorId: authSession.userId,
     });
-    console.log(payload);
     const reply = await db.comment.create({ data: payload });
     return redirect(`#comment-${reply.id}`);
   } catch (err: any) {
@@ -137,6 +143,7 @@ export default function PostRoute() {
       {data && data.post ? (
         <PostDetails
           {...data.post}
+          userModeratesCommunity={data.userModeratesCommunity}
           authorIsThisUser={data.post.authorId === data.loggedInUser}
         />
       ) : null}

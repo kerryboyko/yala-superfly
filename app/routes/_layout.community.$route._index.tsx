@@ -11,16 +11,25 @@ import PostSummary from "~/components/Post/PostSummary";
 import { db } from "~/database/db.server";
 import type { PostSummaryData } from "~/types/posts";
 import postSummaryStyles from "~/styles/post-summary.css";
+import { getAuthSession } from "~/modules/auth/session.server";
 
 export const links: LinksFunction = () =>
   [postSummaryStyles].map((href) => ({ rel: "stylesheet", href }));
 
-export const loader = async ({ params }: LoaderArgs) => {
+export const loader = async ({ request, params }: LoaderArgs) => {
+  const authUser = await getAuthSession(request);
+  // it's okay if we don't find an authuser.
+
   const communityPosts = await db.community.findUnique({
     where: { route: params.route },
     select: {
       route: true,
       name: true,
+      moderators: {
+        where: {
+          moderatorId: authUser?.userId,
+        },
+      },
       posts: {
         select: {
           _count: { select: { comments: true } },
@@ -33,6 +42,7 @@ export const loader = async ({ params }: LoaderArgs) => {
           author: {
             select: {
               username: true,
+              userId: true,
             },
           },
         },
@@ -51,15 +61,23 @@ export const loader = async ({ params }: LoaderArgs) => {
     commentCount: p._count.comments,
     communityRoute: communityPosts.route,
     communityName: communityPosts.name,
+    isAuthor: p.author.userId === authUser?.userId,
   }));
-  return json({ posts });
+  return json({ posts, userModerates: communityPosts.moderators.length > 0 });
 };
 
 export default function CommunityProfileRoute() {
-  const { posts } = useLoaderData<typeof loader>();
+  const { posts, userModerates } = useLoaderData<typeof loader>();
 
   return posts.map((post: PostSummaryData, idx: number) => (
-    <PostSummary showCommunity={false} index={idx} key={post.id} {...post} />
+    <PostSummary
+      userModerates={userModerates}
+      showCommunity={false}
+      index={idx}
+      key={post.id}
+      userIsAuthor={post.isAuthor}
+      {...post}
+    />
   ));
 }
 
