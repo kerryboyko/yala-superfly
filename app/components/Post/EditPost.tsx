@@ -13,19 +13,20 @@ import { DragDropFile } from "~/components/DragDropFile/DragDropFile";
 import { Loader2 } from "lucide-react";
 import MarkdownDisplay from "../Markdown/MarkdownDisplay";
 import MarkdownTextarea from "../Markdown/MarkdownTextarea";
+import { Link } from "@remix-run/react";
 
 export const EditPost = ({
-  postId,
-  communityRoute,
   initialText,
   postTitle,
   postLink,
+  communityRoute,
+  postId,
 }: {
-  postId: string | number;
-  communityRoute: string;
   initialText: string;
   postTitle: string;
   postLink?: string | null;
+  communityRoute: string;
+  postId: number;
 }) => {
   const [showPreview, setShowPreview] = useState<boolean>(false);
   const [postBody, setPostBody] = useState<string>(initialText);
@@ -47,7 +48,7 @@ export const EditPost = ({
           placeholder={"Type your post here"}
           onChange={handlePostChange}
           value={postBody}
-          name="post-text"
+          name="post-edit-text"
         />
       </CardContent>
       <CardFooter className="editor__footer">
@@ -58,9 +59,11 @@ export const EditPost = ({
         >
           {showPreview ? "Hide" : "Show"} Preview
         </Button>
-        <Button className="editor__footer__button-cancel" type="button">
-          Cancel Edits
-        </Button>
+        <Link to={`/community/${communityRoute}/post/${postId}/`}>
+          <Button className="editor__footer__button-cancel" type="button">
+            Cancel
+          </Button>
+        </Link>
         <Button className="editor__footer__button-submit" type="submit">
           Submit Edits
         </Button>

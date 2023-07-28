@@ -23,11 +23,13 @@ import { post } from "@supabase/storage-js/dist/module/lib/fetch";
 export const links = linkFunctionFactory(postDetailsStyles);
 
 export const loader = async ({ request, params }: LoaderArgs) => {
-  const { route, postid } = params;
+  const { route, postId } = params;
   const authUser = await requireAuthSession(request);
   const post = await db.post.findUnique({
     where: {
-      id: parseInt(params.postId as string, 10),
+      id: parseInt(postId as string, 10),
+      communityRoute: route,
+      authorId: authUser?.userId,
     },
     select: {
       id: true,
@@ -42,25 +44,45 @@ export const loader = async ({ request, params }: LoaderArgs) => {
       author: { select: { username: true } },
     },
   });
-  if (post?.authorId !== authUser.userId) {
+  if (!post) {
     throw redirect(`/community/${params.route}/post/${params.postId}`);
   }
 
   return json(post);
 };
 
-export const action: ActionFunction = async ({ request }) => {
-  // const authSession = await requireAuthSession(request, {
-  //   onFailRedirectTo: "/login",
-  //   verify: true,
-  // });
-  return null;
+export const action: ActionFunction = async ({ request, params }) => {
+  const authSession = await requireAuthSession(request, {
+    onFailRedirectTo: "/login",
+    verify: true,
+  });
+  const formData = await request.formData();
+  const { route, postId } = params;
+  const postEditText = formData.get("post-edit-text") as string;
+  const wherePost = {
+    id: Number(postId),
+    communityRoute: route || "",
+    authorId: authSession?.userId,
+  };
+  const exists = await db.post.findFirst({
+    where: wherePost,
+  });
+  if (!exists) {
+    throw redirect(`/community/${params.route}/post/${params.postId}`);
+  }
+  const post = await db.post.update({
+    where: wherePost,
+    data: {
+      text: postEditText,
+    },
+  });
+  return redirect(`/community/${params.route}/post/${params.postId}`);
 };
 
 export default function EditPostRoute() {
   const data = useLoaderData<typeof loader>();
   return (
-    <div className="edit-post-container">
+    <Form method="post">
       <EditPost
         postId={data.id}
         communityRoute={data.community.route}
@@ -69,7 +91,7 @@ export default function EditPostRoute() {
         postLink={data.link}
       />
       <pre>{JSON.stringify(data, null, 2)}</pre>
-    </div>
+    </Form>
   );
 }
 

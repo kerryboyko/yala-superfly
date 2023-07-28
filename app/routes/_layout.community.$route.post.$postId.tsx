@@ -47,6 +47,7 @@ export const loader = async ({ request, params }: LoaderArgs) => {
       id: parseInt(params.postId as string, 10),
     },
     select: {
+      id: true,
       createdAt: true,
       updatedAt: true,
       title: true,
@@ -146,7 +147,7 @@ export default function PostRoute() {
       {data && data.post ? (
         <PostDetails
           {...data.post}
-          postId={data.postId || ""}
+          postId={data.post.id || ""}
           userModeratesThisCommunity={data.userModeratesCommunity}
           authorIsThisUser={data.post.authorId === data.loggedInUser}
         />

@@ -2,13 +2,22 @@
 @import "palette";
 
 .delete-post-button {
-  background-color: map-deep-get($palettes, "red", "warning-red");
+  background-color: transparent;
+  color: map-deep-get($palettes, "red", "warning-red");
+  box-shadow: none;
   height: auto;
-  padding: 0.25rem 0.5rem;
+  padding: 0 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
   &--icon {
     height: 1rem;
     width: 1rem;
     margin-right: 0.25rem;
+  }
+  &:hover {
+    background-color: transparent;
+    text-decoration: underline;
   }
 }
 

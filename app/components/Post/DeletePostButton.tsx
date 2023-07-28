@@ -32,10 +32,10 @@ export function DeletePostButton({
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button className="delete-post-button">
+        <div className="delete-post-button">
           <Trash2 className="delete-post-button--icon" />
           Delete
-        </Button>
+        </div>
       </AlertDialogTrigger>
       <AlertDialogContent>
         {postTitle ? (

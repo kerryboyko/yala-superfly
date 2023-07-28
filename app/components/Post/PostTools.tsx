@@ -1,8 +1,11 @@
+import { Link } from "@remix-run/react";
 import DeletePostButton, {
   styles as deletePostButtonStyles,
 } from "./DeletePostButton";
+import editPostButtonStyles from "~/styles/edit-post-button.css";
+import { FileEdit } from "lucide-react";
 
-export const styles = deletePostButtonStyles;
+export const styles = [editPostButtonStyles, deletePostButtonStyles];
 
 export const PostTools = ({
   isAuthor,
@@ -20,9 +23,12 @@ export const PostTools = ({
   return (
     <div className="post-tools">
       {isAuthor ? (
-        <div className="post-tools__command">
-          <s>Edit</s>
-        </div>
+        <Link to={`/community/${communityRoute}/post/edit/${postId}`}>
+          <div className="edit-post-button">
+            <FileEdit className="edit-post-button--icon" />
+            Edit
+          </div>
+        </Link>
       ) : null}
       {isAuthor || isModerator ? (
         <div className="post-tools__command">
