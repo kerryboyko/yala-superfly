@@ -11,9 +11,9 @@ import BanUsers from "~/components/ModTools/BanControl/BanUsers";
 import { db } from "~/database/db.server";
 import { requireAuthSession } from "~/modules/auth";
 import communityStyles from "~/styles/community.css";
+import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 
-export const links: LinksFunction = () =>
-  [communityStyles].map((href) => ({ rel: "stylesheet", href }));
+export const links = linkFunctionFactory(communityStyles);
 
 export const loader = async ({ params, request }: LoaderArgs) => {
   const authUser = await requireAuthSession(request, {

@@ -11,7 +11,9 @@ import {
 import { formatRelative } from "date-fns";
 import omit from "lodash/omit";
 import MarkdownDisplay from "~/components/Markdown/MarkdownDisplay";
-import SubscribeButton from "~/components/Subscription/SubscribeButton";
+import SubscribeButton, {
+  styles as subscribeButtonStyles,
+} from "~/components/Subscription/SubscribeButton";
 import { Button } from "~/components/ui/button";
 import { db } from "~/database/db.server";
 import { getAuthSession } from "~/modules/auth";
@@ -19,7 +21,10 @@ import communityStyles from "~/styles/community.css";
 
 import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 
-export const links = linkFunctionFactory(communityStyles);
+export const links = linkFunctionFactory(
+  subscribeButtonStyles,
+  communityStyles,
+);
 
 export const loader = async ({ params, request }: LoaderArgs) => {
   const authUser = await getAuthSession(request);

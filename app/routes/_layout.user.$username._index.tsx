@@ -1,10 +1,8 @@
 import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
-  Link,
   isRouteErrorResponse,
   useLoaderData,
-  useOutletContext,
   useParams,
   useRouteError,
 } from "@remix-run/react";
@@ -20,8 +18,6 @@ import {
   CardTitle,
 } from "~/components/ui/custom/card";
 import CommentSummarySmall from "~/components/Comment/CommentSummarySmall";
-import { requireAuthSession } from "~/modules/auth";
-import { boolean } from "zod";
 
 export const loader = async ({ params, request }: LoaderArgs) => {
   const profile = await db.profile.findUnique({

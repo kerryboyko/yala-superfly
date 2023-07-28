@@ -44,7 +44,7 @@ export const loader = async ({ request, params }: LoaderArgs) => {
   const userModeratesCommunity = Array.isArray(commData) && commData.length > 0;
   const post = await db.post.findUnique({
     where: {
-      id: parseInt(params.postid as string, 10),
+      id: parseInt(params.postId as string, 10),
     },
     select: {
       createdAt: true,

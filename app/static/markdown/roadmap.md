@@ -13,8 +13,13 @@ In the meantime, feel free to go around and kick the tires! Try:
 
 ## Current Roadmap
 
+### Just completed:
+
+- [x] Authors and moderators can now delete posts. 
+
 ### What are the items you're stuck on, or postponing at this point, but which are important.
 
+- [ ] Add "loading" to various buttons (subscribe/unsubscribe/delete) to let the user know it's working. 
 - [ ] Login via social auth (via Supabase) does not seem to be working.  Part of that seems to be a bug with the latest Supabase library, but I may also have configured my callback URL wrong in Supabase. 
 - [ ] Similarly, items that require callbacks, such as "forgot password", are also not working, possibly because it is always redirection to production rather than my local machine for development. 
 - [ ] If login is done via a social network, it requires a second landing page for users to enter their usernames. 
