@@ -19,8 +19,9 @@ import { getAuthSession } from "~/modules/auth";
 import headerStyles from "~/styles/header.css";
 import indexStyles from "~/styles/index.css";
 
-export const links: LinksFunction = () =>
-  [indexStyles, headerStyles].map((href) => ({ rel: "stylesheet", href }));
+import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
+
+export const links = linkFunctionFactory(headerStyles, indexStyles);
 
 export const loader: LoaderFunction = async ({
   request,

@@ -3,8 +3,9 @@ import AboutPage from "~/static/markdown/about.md";
 import FormatMarkdownFile from "~/components/Markdown/FormatMarkdownFile";
 
 import aboutStyles from "~/styles/about.css";
-export const links: LinksFunction = () =>
-  [aboutStyles].map((href) => ({ rel: "stylesheet", href }));
+import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
+
+export const links = linkFunctionFactory(aboutStyles);
 
 export default function AboutRoute() {
   return (

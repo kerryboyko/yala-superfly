@@ -10,9 +10,9 @@ import { formDataToObject } from "~/logic/formDataToObject";
 import { sanitize } from "isomorphic-dompurify";
 import { z } from "zod";
 import { db } from "~/database/db.server";
-export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: createPostStyles },
-];
+import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
+
+export const links = linkFunctionFactory(createPostStyles);
 
 const payloadSchema = z.object({
   authorId: z.string(),

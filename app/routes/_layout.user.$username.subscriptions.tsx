@@ -1,4 +1,4 @@
-import type { LoaderArgs } from "@remix-run/node";
+import type { LinksFunction, LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
   isRouteErrorResponse,
@@ -6,20 +6,20 @@ import {
   useRouteError,
 } from "@remix-run/react";
 import { db } from "~/database/db.server";
-import { getAuthSession, requireAuthSession } from "~/modules/auth";
+import { getAuthSession } from "~/modules/auth";
 
 import pick from "lodash/pick";
-import { format } from "date-fns";
 
-import { grabQueryParams } from "~/logic/grabQueryParams";
-import type { Pagination } from "~/types/posts";
-import type { CommentSummaryData } from "~/components/Comment/CommentSummary";
-import CommentSummary from "~/components/Comment/CommentSummary";
-import Paginator from "~/components/Paginator/Paginator";
-import { Card, CardContent, CardHeader } from "~/components/ui/card";
-import Subscription from "~/components/Subscription/Subscription";
+import { Card, CardContent, CardHeader } from "~/components/ui/custom/card";
+import Subscription, {
+  styles as subscriptionStyles,
+} from "~/components/Subscription/Subscription";
 import { Button } from "~/components/ui/button";
 import { useState } from "react";
+
+import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
+
+export const links = linkFunctionFactory(subscriptionStyles);
 
 interface SubscriptionType {
   communityRoute: string;

@@ -15,20 +15,23 @@ import {
 import omit from "lodash/omit";
 import { CreateComment } from "~/components/Comment/CreateComment";
 import ShowComment from "~/components/Comment/ShowComment";
-import { PostDetails } from "~/components/Post/PostDetails";
+import {
+  PostDetails,
+  styles as postDetailsStyles,
+} from "~/components/Post/PostDetails";
 import { Button } from "~/components/ui/button";
 import { db } from "~/database/db.server";
 import createCommentTree from "~/logic/createCommentTree";
 import { formDataToObject } from "~/logic/formDataToObject";
-import postDetailsStyles from "~/styles/post-details.css";
+
 import type { RecursiveCommentTreeNode } from "~/types/comments";
 import { z } from "zod";
 import { getAuthSession, requireAuthSession } from "~/modules/auth";
 
 import { useEffect } from "react";
+import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 
-export const links: LinksFunction = () =>
-  [postDetailsStyles].map((href) => ({ rel: "stylesheet", href }));
+export const links = linkFunctionFactory(postDetailsStyles);
 
 export const loader = async ({ request, params }: LoaderArgs) => {
   const authSession = await getAuthSession(request);

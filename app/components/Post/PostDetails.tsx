@@ -5,7 +5,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "~/components/ui/card";
+} from "~/components/ui/custom/card";
 import { getAuthorRoute, getCommunityLink } from "~/logic/getPostLinks";
 import { format } from "date-fns";
 import { Link as LinkIcon } from "lucide-react";

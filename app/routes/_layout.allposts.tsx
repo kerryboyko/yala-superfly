@@ -17,12 +17,9 @@ import { getAuthSession } from "~/modules/auth/session.server";
 import { grabQueryParams } from "~/logic/grabQueryParams";
 import pick from "lodash/pick";
 import Paginator from "~/components/Paginator/Paginator";
+import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 
-export const links: LinksFunction = () =>
-  [allPostsStyles].concat(postSummaryStyles).map((href) => ({
-    rel: "stylesheet",
-    href,
-  }));
+export const links = linkFunctionFactory(postSummaryStyles, allPostsStyles);
 
 const defaultPagination: Pagination = {
   perPage: 25,

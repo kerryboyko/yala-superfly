@@ -17,8 +17,9 @@ import { db } from "~/database/db.server";
 import { getAuthSession } from "~/modules/auth";
 import communityStyles from "~/styles/community.css";
 
-export const links: LinksFunction = () =>
-  [communityStyles].map((href) => ({ rel: "stylesheet", href }));
+import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
+
+export const links = linkFunctionFactory(communityStyles);
 
 export const loader = async ({ params, request }: LoaderArgs) => {
   const authUser = await getAuthSession(request);

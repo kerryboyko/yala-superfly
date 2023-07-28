@@ -19,7 +19,12 @@ import {
 } from "~/modules/user";
 import { assertIsPost, isFormProcessing } from "~/utils";
 // import { ContinueWithEmailForm } from "~/components/AuthButtons/ContinueWithEmailForm";
-import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "~/components/ui/custom/card";
 import { Label } from "~/components/ui/label";
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";

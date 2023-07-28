@@ -1,10 +1,11 @@
-import { Link, useFetcher } from "@remix-run/react";
+import { Link } from "@remix-run/react";
 import truncateWithoutWordBreak from "~/logic/truncateWithoutWordBreak";
-import { MinusCircle } from "lucide-react";
-import { PlusCircle } from "lucide-react";
-import { useEffect, useState } from "react";
-import { Button } from "../ui/button";
+
 import { SubscribeButton } from "./SubscribeButton";
+
+import subscriptionStyles from "~/styles/subscriptions.css";
+
+export const styles = subscriptionStyles;
 
 export interface Subscription {
   communityRoute: string;

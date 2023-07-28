@@ -1,4 +1,4 @@
-import type { LoaderArgs } from "@remix-run/node";
+import type { LinksFunction, LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
   isRouteErrorResponse,
@@ -9,10 +9,15 @@ import { db } from "~/database/db.server";
 import { getAuthSession } from "~/modules/auth";
 
 import pick from "lodash/pick";
-import { Card, CardContent, CardHeader } from "~/components/ui/card";
+import { Card, CardContent, CardHeader } from "~/components/ui/custom/card";
 import { Button } from "~/components/ui/button";
 import { useState } from "react";
-import ModerationEntry from "~/components/ModTools/ModerationEntry";
+import ModerationEntry, {
+  styles as moderationEntryStyles,
+} from "~/components/ModTools/ModerationEntry";
+import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
+
+export const links: LinksFunction = linkFunctionFactory(moderationEntryStyles);
 
 interface SubscriptionType {
   communityRoute: string;

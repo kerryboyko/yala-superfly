@@ -15,6 +15,9 @@ import { COMMUNITY_NAME_CHAR_LIMITS } from "~/constants/communityNameLimits";
 
 import createCommunityStyles from "~/styles/createcommunity.css";
 import { getAuthSession, requireAuthSession } from "~/modules/auth";
+import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
+
+export const links = linkFunctionFactory(createCommunityStyles);
 
 const formSchema = z.object({
   communityName: z
@@ -30,8 +33,6 @@ const formSchema = z.object({
     .min(3)
     .max(COMMUNITY_NAME_CHAR_LIMITS.communityName),
 });
-export const links: LinksFunction = () =>
-  [createCommunityStyles].map((href) => ({ rel: "stylesheet", href }));
 
 export const loader: LoaderFunction = async ({ request }) => {
   const authSession = await getAuthSession(request);

@@ -20,7 +20,12 @@ import { i18nextServer } from "~/integrations/i18n";
 import { createAuthSession, getAuthSession } from "~/modules/auth";
 import { assertIsPost, isFormProcessing } from "~/utils";
 import { signInWithEmailOrUsername } from "~/modules/auth/service.server";
-import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "~/components/ui/custom/card";
 import { Label } from "~/components/ui/label";
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";

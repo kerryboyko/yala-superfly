@@ -5,7 +5,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../../ui/card";
+} from "../../ui/custom/card";
 import { Textarea } from "../../ui/textarea";
 import { useFetcher } from "@remix-run/react";
 import { Button } from "../../ui/button";

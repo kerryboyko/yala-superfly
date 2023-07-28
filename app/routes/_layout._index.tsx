@@ -4,8 +4,9 @@ import RoadmapPage from "~/static/markdown/roadmap.md";
 import FormatMarkdownFile from "~/components/Markdown/FormatMarkdownFile";
 
 import aboutStyles from "~/styles/about.css";
-export const links: LinksFunction = () =>
-  [aboutStyles].map((href) => ({ rel: "stylesheet", href }));
+import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
+
+export const links: LinksFunction = linkFunctionFactory(aboutStyles);
 
 export default function IndexRoute() {
   return (

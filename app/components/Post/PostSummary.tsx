@@ -5,7 +5,7 @@ import {
   getCommunityLink,
   getCommentLink,
 } from "~/logic/getPostLinks";
-import { Card, CardDescription, CardTitle } from "~/components/ui/card";
+import { Card, CardDescription, CardTitle } from "~/components/ui/custom/card";
 import { Link as LinkIcon } from "lucide-react";
 import PostTools, { styles as postToolsStyles } from "./PostTools";
 import postSummaryStyles from "~/styles/post-summary.css";

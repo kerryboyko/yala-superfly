@@ -25,15 +25,16 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "~/components/ui/card";
+} from "~/components/ui/custom/card";
 import { Label } from "~/components/ui/label";
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
 
 import authStyles from "~/styles/auth.css";
 
-export const links: LinksFunction = () =>
-  [authStyles].map((href) => ({ rel: "stylesheet", href }));
+import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
+
+export const links = linkFunctionFactory(authStyles);
 
 import type {
   ActionArgs,

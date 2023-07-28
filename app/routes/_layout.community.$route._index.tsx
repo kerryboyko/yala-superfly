@@ -13,11 +13,9 @@ import PostSummary, {
 import { db } from "~/database/db.server";
 import type { PostSummaryData } from "~/types/posts";
 import { getAuthSession } from "~/modules/auth/session.server";
+import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 
-export const links: LinksFunction = () =>
-  ([] as string[])
-    .concat(postSummaryStyles)
-    .map((href) => ({ rel: "stylesheet", href }));
+export const links = linkFunctionFactory(postSummaryStyles);
 
 export const loader = async ({ request, params }: LoaderArgs) => {
   const authUser = await getAuthSession(request);

@@ -13,7 +13,12 @@ import { format, formatDistance } from "date-fns";
 import PostSummarySmall from "~/components/Post/PostSummarySmall";
 import pick from "lodash/pick";
 import type { PostSummaryData } from "~/types/posts";
-import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "~/components/ui/custom/card";
 import CommentSummarySmall from "~/components/Comment/CommentSummarySmall";
 import { requireAuthSession } from "~/modules/auth";
 import { boolean } from "zod";

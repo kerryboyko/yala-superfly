@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardFooter,
   CardTitle,
-} from "~/components/ui/card";
+} from "~/components/ui/custom/card";
 import { Input } from "~/components/ui/input";
 import { MarkdownTextarea } from "~/components/Markdown/MarkdownTextarea";
 

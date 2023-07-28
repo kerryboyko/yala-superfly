@@ -6,7 +6,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "~/components/ui/card";
+} from "~/components/ui/custom/card";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { DragDropFile } from "~/components/DragDropFile/DragDropFile";

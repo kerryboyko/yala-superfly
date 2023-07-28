@@ -16,8 +16,9 @@ import userStyles from "~/styles/user.css";
 import postSummaryStyles from "~/styles/post-summary.css";
 import { format, formatDistance } from "date-fns";
 
-export const links: LinksFunction = () =>
-  [userStyles, postSummaryStyles].map((href) => ({ rel: "stylesheet", href }));
+import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
+
+export const links = linkFunctionFactory(postSummaryStyles, userStyles);
 
 export const loader = async ({ params, request }: LoaderArgs) => {
   const profile = await db.profile.findUnique({

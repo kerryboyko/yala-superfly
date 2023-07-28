@@ -1,7 +1,6 @@
 @import "palette";
 @import "mixins/map-deep-get";
 @import "breakpoints";
-@import "component/subscriptions";
 
 $honolulu: map-deep-get($palettes, "blue", "honolulu");
 $ucla: map-deep-get($palettes, "blue", "ucla");

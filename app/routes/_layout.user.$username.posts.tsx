@@ -18,10 +18,9 @@ import PostSummary, {
 } from "~/components/Post/PostSummary";
 import { Paginator } from "~/components/Paginator/Paginator";
 
-export const links: LinksFunction = () =>
-  ([] as string[])
-    .concat(postSummaryStyles)
-    .map((href) => ({ rel: "stylesheet", href }));
+import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
+
+export const links = linkFunctionFactory(postSummaryStyles);
 
 const defaultPagination: Pagination = {
   perPage: 25,

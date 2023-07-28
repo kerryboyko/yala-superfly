@@ -6,25 +6,26 @@ import {
   useParams,
   useRouteError,
 } from "@remix-run/react";
-import { format, formatRelative } from "date-fns";
+import { format } from "date-fns";
 import { db } from "~/database/db.server";
-import type { Pagination, PostSummaryData } from "~/types/posts";
-import postSummaryStyles from "~/styles/post-summary.css";
+import type { Pagination } from "~/types/posts";
 import allCommunitiesStyles from "~/styles/all-communities.css";
 import { getAuthSession } from "~/modules/auth/session.server";
 import { grabQueryParams } from "~/logic/grabQueryParams";
 import pick from "lodash/pick";
 import Paginator from "~/components/Paginator/Paginator";
-import Subscription from "~/components/Subscription/Subscription";
+import Subscription, {
+  styles as subscriptionStyles,
+} from "~/components/Subscription/Subscription";
 import { useState } from "react";
 import { Button } from "~/components/ui/button";
-import { Card } from "~/components/ui/card";
+import { Card } from "~/components/ui/custom/card";
+import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 
-export const links: LinksFunction = () =>
-  [allCommunitiesStyles, postSummaryStyles].map((href) => ({
-    rel: "stylesheet",
-    href,
-  }));
+export const links = linkFunctionFactory(
+  subscriptionStyles,
+  allCommunitiesStyles,
+);
 
 const defaultPagination: Pagination = {
   perPage: 25,

@@ -6,7 +6,7 @@ import {
   useRouteError,
 } from "@remix-run/react";
 import { db } from "~/database/db.server";
-import { getAuthSession, requireAuthSession } from "~/modules/auth";
+import { getAuthSession } from "~/modules/auth";
 
 import pick from "lodash/pick";
 import { format } from "date-fns";
@@ -16,7 +16,7 @@ import type { Pagination } from "~/types/posts";
 import type { CommentSummaryData } from "~/components/Comment/CommentSummary";
 import CommentSummary from "~/components/Comment/CommentSummary";
 import Paginator from "~/components/Paginator/Paginator";
-import { Card } from "~/components/ui/card";
+import { Card } from "~/components/ui/custom/card";
 
 const defaultPagination: Pagination = {
   perPage: 25,
