@@ -146,6 +146,7 @@ export default function PostRoute() {
       {data && data.post ? (
         <PostDetails
           {...data.post}
+          postId={data.postId || ""}
           userModeratesThisCommunity={data.userModeratesCommunity}
           authorIsThisUser={data.post.authorId === data.loggedInUser}
         />

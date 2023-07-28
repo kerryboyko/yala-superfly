@@ -41,7 +41,6 @@ const inputHandler =
       setter(event.target.value);
     }
   };
-const bucket = "community-headers";
 
 export const CreateCommunityForm = ({
   errors,
