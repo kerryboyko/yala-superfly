@@ -7,10 +7,11 @@ import {
   useRouteError,
 } from "@remix-run/react";
 import { format, formatRelative } from "date-fns";
-import PostSummary from "~/components/Post/PostSummary";
+import PostSummary, {
+  styles as postSummaryStyles,
+} from "~/components/Post/PostSummary";
 import { db } from "~/database/db.server";
 import type { Pagination, PostSummaryData } from "~/types/posts";
-import postSummaryStyles from "~/styles/post-summary.css";
 import allPostsStyles from "~/styles/all-posts.css";
 import { getAuthSession } from "~/modules/auth/session.server";
 import { grabQueryParams } from "~/logic/grabQueryParams";
@@ -18,7 +19,7 @@ import pick from "lodash/pick";
 import Paginator from "~/components/Paginator/Paginator";
 
 export const links: LinksFunction = () =>
-  [allPostsStyles, postSummaryStyles].map((href) => ({
+  [allPostsStyles].concat(postSummaryStyles).map((href) => ({
     rel: "stylesheet",
     href,
   }));

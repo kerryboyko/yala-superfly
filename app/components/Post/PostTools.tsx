@@ -1,9 +1,21 @@
+import DeletePostButton, {
+  styles as deletePostButtonStyles,
+} from "./DeletePostButton";
+
+export const styles = deletePostButtonStyles;
+
 export const PostTools = ({
   isAuthor,
   isModerator,
+  communityRoute,
+  postId,
+  postTitle,
 }: {
   isAuthor?: boolean;
   isModerator?: boolean;
+  communityRoute: string;
+  postId: string | number;
+  postTitle?: string;
 }) => {
   return (
     <div className="post-tools">
@@ -14,7 +26,11 @@ export const PostTools = ({
       ) : null}
       {isAuthor || isModerator ? (
         <div className="post-tools__command">
-          <s>Delete</s>
+          <DeletePostButton
+            communityRoute={communityRoute}
+            postId={postId}
+            postTitle={postTitle}
+          />
         </div>
       ) : null}
       {isModerator ? (

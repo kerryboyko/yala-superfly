@@ -14,7 +14,7 @@ export const Header = ({
     <div className="header">
       <div className="header__main">
         <div className="header__site-name">
-          YALA: Yet Another Link Aggregator
+          <Link to="/">YALA: Yet Another Link Aggregator</Link>
         </div>
 
         <AuthButtons isLoggedIn={isLoggedIn} />

@@ -10,7 +10,10 @@ import { getAuthorRoute, getCommunityLink } from "~/logic/getPostLinks";
 import { format } from "date-fns";
 import { Link as LinkIcon } from "lucide-react";
 import { MarkdownDisplay } from "~/components/Markdown/MarkdownDisplay";
-import PostTools from "./PostTools";
+import PostTools, { styles as postToolsStyles } from "./PostTools";
+import postDetailsStyles from "~/styles/post-details.css";
+
+export const styles = [postDetailsStyles].concat(postToolsStyles);
 
 interface PostDetails {
   createdAt: string;
@@ -28,6 +31,7 @@ interface PostDetails {
   };
   authorIsThisUser: boolean;
   userModeratesThisCommunity: boolean;
+  postId: number | string;
 }
 
 export const PostDetails = ({
@@ -41,8 +45,10 @@ export const PostDetails = ({
   author,
   authorIsThisUser,
   userModeratesThisCommunity,
+  postId,
 }: PostDetails) => {
   const allEmbeds = embeds?.split(";");
+
   return (
     <Card className="post-details">
       <CardHeader className="post-details__header">
@@ -84,8 +90,11 @@ export const PostDetails = ({
           ) : null}
         </CardDescription>
         <PostTools
+          postTitle={title}
           isModerator={userModeratesThisCommunity}
           isAuthor={authorIsThisUser}
+          communityRoute={community.route}
+          postId={postId}
         />
       </CardHeader>
       {text || embeds ? (

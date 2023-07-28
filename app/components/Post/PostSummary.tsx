@@ -7,7 +7,10 @@ import {
 } from "~/logic/getPostLinks";
 import { Card, CardDescription, CardTitle } from "~/components/ui/card";
 import { Link as LinkIcon } from "lucide-react";
-import PostTools from "./PostTools";
+import PostTools, { styles as postToolsStyles } from "./PostTools";
+import postSummaryStyles from "~/styles/post-summary.css";
+
+export const styles = [postSummaryStyles].concat(postToolsStyles);
 
 export const PostSummary: React.FC<
   PostSummaryData & {
@@ -49,7 +52,13 @@ export const PostSummary: React.FC<
           By: <Link to={getAuthorRoute(post)}>{post.author}</Link>
         </div>
         <div className="post-summary__info__tools">
-          <PostTools isModerator={userModerates} isAuthor={userIsAuthor} />
+          <PostTools
+            isModerator={userModerates}
+            isAuthor={userIsAuthor}
+            communityRoute={post.communityRoute}
+            postId={post.id}
+            postTitle={post.title}
+          />
           <Link to={getCommentLink(post)}>Comments: {post.commentCount}</Link>
         </div>
       </div>

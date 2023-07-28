@@ -1,4 +1,4 @@
-import type { LoaderArgs } from "@remix-run/node";
+import type { LinksFunction, LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
   isRouteErrorResponse,
@@ -13,8 +13,15 @@ import { getAuthSession, requireAuthSession } from "~/modules/auth";
 import { grabQueryParams } from "~/logic/grabQueryParams";
 import type { Pagination, PostSummaryData } from "~/types/posts";
 
-import PostSummary from "~/components/Post/PostSummary";
+import PostSummary, {
+  styles as postSummaryStyles,
+} from "~/components/Post/PostSummary";
 import { Paginator } from "~/components/Paginator/Paginator";
+
+export const links: LinksFunction = () =>
+  ([] as string[])
+    .concat(postSummaryStyles)
+    .map((href) => ({ rel: "stylesheet", href }));
 
 const defaultPagination: Pagination = {
   perPage: 25,

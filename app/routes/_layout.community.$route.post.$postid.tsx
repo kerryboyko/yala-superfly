@@ -143,7 +143,7 @@ export default function PostRoute() {
       {data && data.post ? (
         <PostDetails
           {...data.post}
-          userModeratesCommunity={data.userModeratesCommunity}
+          userModeratesThisCommunity={data.userModeratesCommunity}
           authorIsThisUser={data.post.authorId === data.loggedInUser}
         />
       ) : null}

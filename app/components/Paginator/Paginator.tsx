@@ -42,8 +42,12 @@ export const Paginator = ({ perPage, currentPage, totalCount }: any) => {
       <div className="pagination__entry pagination__per-page">
         View{" "}
         <select onChange={handleNewPerPage} name="pagination-per-page">
-          {PAGE_AMOUNTS.map((amt) => (
-            <option selected={perPage === amt} value={amt}>
+          {PAGE_AMOUNTS.map((amt, idx) => (
+            <option
+              selected={perPage === amt}
+              value={amt}
+              key={`${amt}-${idx}`}
+            >
               {amt}
             </option>
           ))}

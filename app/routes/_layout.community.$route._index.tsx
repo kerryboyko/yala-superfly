@@ -7,14 +7,17 @@ import {
   useRouteError,
 } from "@remix-run/react";
 import { formatRelative } from "date-fns";
-import PostSummary from "~/components/Post/PostSummary";
+import PostSummary, {
+  styles as postSummaryStyles,
+} from "~/components/Post/PostSummary";
 import { db } from "~/database/db.server";
 import type { PostSummaryData } from "~/types/posts";
-import postSummaryStyles from "~/styles/post-summary.css";
 import { getAuthSession } from "~/modules/auth/session.server";
 
 export const links: LinksFunction = () =>
-  [postSummaryStyles].map((href) => ({ rel: "stylesheet", href }));
+  ([] as string[])
+    .concat(postSummaryStyles)
+    .map((href) => ({ rel: "stylesheet", href }));
 
 export const loader = async ({ request, params }: LoaderArgs) => {
   const authUser = await getAuthSession(request);

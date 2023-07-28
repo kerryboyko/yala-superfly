@@ -34,6 +34,9 @@
     font-size: 1.5rem;
     margin: 0.5rem 1rem;
     color: map-deep-get($palettes, "red", "golden-gate");
+    & a {
+      color: map-deep-get($palettes, "red", "golden-gate");
+    }
   }
 
   &__commands {
