@@ -67,7 +67,7 @@ Right now - nothing much. Sign up, try it out. Kick the tires. Hopefully this pl
 
 ### Can I fork the source code?
 
-By all means! [Here you go!](https://github.com/kerryboyko/YetAnotherLinkAggregator)
+By all means! [Here you go!](https://github.com/kerryboyko/yala-superfly)
 
 ### Will you be adding ActivityPub?
 
