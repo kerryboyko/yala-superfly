@@ -73,18 +73,8 @@ export async function action({ request }: ActionArgs) {
   }
 
   // first time sign in, let's create a brand-new User row in supabase
-  const user = await tryCreateUser(authSession);
 
-  if (!user) {
-    return json(
-      {
-        message: "create-user-error",
-      },
-      { status: 500 },
-    );
-  }
-
-  return redirect(safeRedirectTo, {
+  return redirect("/complete-profile", {
     headers: {
       "Set-Cookie": await commitAuthSession(request, {
         authSession,
@@ -97,38 +87,18 @@ export default function LoginCallback() {
   const error = useActionData<typeof action>();
   const fetcher = useFetcher();
   const [searchParams] = useSearchParams();
-  const redirectTo = searchParams.get("redirectTo") ?? "/notes";
+  const redirectTo = searchParams.get("redirectTo") ?? "/";
 
   useEffect(() => {
-    const {
-      data: { subscription },
-    } = supabaseClient.auth.onAuthStateChange((event, supabaseSession) => {
-      if (event === "SIGNED_IN") {
-        // supabase sdk has ability to read url fragment that contains your token after third party provider redirects you here
-        // this fragment url looks like https://.....#access_token=evxxxxxxxx&refresh_token=xxxxxx, and it's not readable server-side (Oauth security)
-        // supabase auth listener gives us a user session, based on what it founds in this fragment url
-        // we can't use it directly, client-side, because we can't access sessionStorage from here
-
-        // we should not trust what's happen client side
-        // so, we only pick the refresh token, and let's back-end getting user session from it
-        const refreshToken = supabaseSession?.refresh_token;
-
-        if (!refreshToken) return;
-
-        const formData = new FormData();
-
-        formData.append("refreshToken", refreshToken);
-        formData.append("redirectTo", redirectTo);
-
-        fetcher.submit(formData, { method: "post", replace: true });
-      }
-    });
-
-    return () => {
-      // prevent memory leak. Listener stays alive 👨‍🎤
-      subscription.unsubscribe();
-    };
-  }, [fetcher, redirectTo]);
+    const parsedHash = new URLSearchParams(location.hash.substring(1));
+    const refreshToken = parsedHash.get("refresh_token");
+    if (refreshToken) {
+      const formData = new FormData();
+      formData.append("refreshToken", refreshToken);
+      formData.append("redirectTo", redirectTo);
+      fetcher.submit(formData, { method: "post", replace: true });
+    }
+  }, [location, redirectTo]);
 
   return error ? <div>{error.message}</div> : null;
 }

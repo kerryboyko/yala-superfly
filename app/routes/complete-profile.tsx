@@ -17,6 +17,7 @@ import {
   createUserAccount,
   getProfileByUsername,
   updateProfileUsername,
+  tryCreateUser,
 } from "~/modules/user";
 import { assertIsPost, isFormProcessing } from "~/utils";
 import {
@@ -60,45 +61,33 @@ const CompleteProfileSchema = z.object({
 
 export async function action({ request }: ActionArgs) {
   assertIsPost(request);
+  const issues = createCustomIssues(CompleteProfileSchema);
+
   const authSession = await getAuthSession(request);
   if (!authSession) {
     return redirect("/join");
   }
 
-  const { userId } = authSession;
-
   const formData = await request.formData();
-  const result = await CompleteProfileSchema.safeParseAsync(
-    parseFormAny(formData),
-  );
-
-  const issues = createCustomIssues(CompleteProfileSchema);
-
-  if (!result.success) {
-    return json(
-      {
-        errors: result.error,
-      },
-      { status: 400 },
-    );
-  }
-
-  const { username, redirectTo } = result.data;
+  const parseResult = CompleteProfileSchema.parse(formData);
+  const { username, redirectTo } = parseResult;
 
   const existingUsername = await getProfileByUsername(username);
 
   if (existingUsername) {
     issues.username("There is already a user with that username");
+    return json({ ok: false, serverIssues: issues.toArray() }, { status: 400 });
+  }
+
+  const user = await tryCreateUser({ ...authSession, username });
+
+  if (!user) {
+    return json({ message: "create-user-error" }, { status: 500 });
   }
 
   if (issues.hasIssues()) {
     return json({ ok: false, serverIssues: issues.toArray() }, { status: 400 });
   }
-
-  updateProfileUsername({
-    userId,
-    username,
-  });
 
   return redirect(redirectTo || "/");
 }
