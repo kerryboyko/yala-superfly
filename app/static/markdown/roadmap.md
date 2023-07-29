@@ -25,6 +25,7 @@ In the meantime, feel free to go around and kick the tires! Try:
 - [ ] Similarly, items that require callbacks, such as "forgot password", are also not working, possibly because it is always redirection to production rather than my local machine for development. 
 - [ ] If login is done via a social network, it requires a second landing page for users to enter their usernames. 
 - [ ] I want to provide header images for communities, but it might make sense to create the community first before the header image is added. Thus, any moderator may change the community header, community headers will have filenames based on the community, etc. 
+- [ ] I forgot to add 'locking' posts in the database schema so adding that functionality will have to wait until the next big schema migration change; I'm likely to figure out a ton of these little things so that I can just add a 'meta' JSONB field to my Posts or Community tables that can handle these unexpected needs.  Oops!
 
 ### What are the immediate issues you're working on?
 
@@ -47,3 +48,7 @@ On the roadmap as of 7/18/2023
 - [x] A moderation tool to ban/unban users
 - [ ] Integration with 3rd Party Auth Services (such as Google.)
 - [ ] Unit & Integration testing. Normally I do TDD first, but I needed to get used to the Remix environment.
+
+### What's *not* on the roadmap?
+
+- I've decided I'm not doing social share buttons. Check out [this post](https://solomon.io/why-im-done-with-social-media-buttons/) as why I don't think it's a feature users want or need. 

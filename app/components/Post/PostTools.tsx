@@ -39,14 +39,11 @@ export const PostTools = ({
           />
         </div>
       ) : null}
-      {isModerator ? (
+      {/* {isModerator ? (
         <div className="post-tools__command">
           <s>Lock</s>
         </div>
-      ) : null}
-      <div className="post-tools__command">
-        <s>Share</s>
-      </div>
+      ) : null} */}
     </div>
   );
 };
