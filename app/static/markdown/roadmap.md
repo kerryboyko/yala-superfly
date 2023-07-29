@@ -1,6 +1,6 @@
 ## Ready for Users!
 
-Howdy. YALA is in auper-early alpha stage. You'll find items marked as "FIXME" or hit with a strikethrough.  These are placeholders to indicate that the functionality is not yet developed, but it will be soon.  
+Howdy. YALA is in super-early alpha stage. You'll find items marked as "FIXME" or hit with a strikethrough.  These are placeholders to indicate that the functionality is not yet developed, but it will be soon.  
 
 In the meantime, feel free to go around and kick the tires! Try:
 
@@ -15,6 +15,7 @@ In the meantime, feel free to go around and kick the tires! Try:
 
 ### Just completed:
 
+- [x] Authors (but not moderators) can now edit posts.
 - [x] Authors and moderators can now delete posts. 
 
 ### What are the items you're stuck on, or postponing at this point, but which are important.
@@ -28,7 +29,7 @@ In the meantime, feel free to go around and kick the tires! Try:
 ### What are the immediate issues you're working on?
 
 - [x] Login via username and password
-- [x] Created seperate Supabase projects for production and development - a "Kick the tires" methodology. The sooner I can get real people to look at the bugs on the site, the sooner I can continue working on them, so I'm creating two DBs, one for production and one for development.  
+- [x] Created separate Supabase projects for production and development - a "Kick the tires" methodology. The sooner I can get real people to look at the bugs on the site, the sooner I can continue working on them, so I'm creating two DBs, one for production and one for development.  
 - [ ] Login via email (magic-link)
 - [x] Reconnect previously written functionality using new Auth provider. (Long story short - this was originally written using FusionAuth as the auth provider but Supabase was just a better solution. Rather than try to add Supabase to the existing repo, it was just quicker to create a new Remix Supa-Fly project.)
 

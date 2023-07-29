@@ -89,13 +89,6 @@ export const PostDetails = ({
             </Link>
           ) : null}
         </CardDescription>
-        <PostTools
-          postTitle={title}
-          isModerator={userModeratesThisCommunity}
-          isAuthor={authorIsThisUser}
-          communityRoute={community.route}
-          postId={postId}
-        />
       </CardHeader>
       {text || embeds ? (
         <CardContent className="post-details__content">
@@ -116,6 +109,13 @@ export const PostDetails = ({
               markdown={text}
             />
           ) : null}
+          <PostTools
+            postTitle={title}
+            isModerator={userModeratesThisCommunity}
+            isAuthor={authorIsThisUser}
+            communityRoute={community.route}
+            postId={postId}
+          />
         </CardContent>
       ) : null}
     </Card>
