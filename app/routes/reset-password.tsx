@@ -2,13 +2,18 @@ import { useEffect, useState } from "react";
 
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { Form, Link, useActionData, useTransition } from "@remix-run/react";
+import {
+  Form,
+  Link,
+  useActionData,
+  useLocation,
+  useTransition,
+} from "@remix-run/react";
 import { useTranslation } from "react-i18next";
 import { parseFormAny, useZorm } from "react-zorm";
 import { z } from "zod";
 
 import { i18nextServer } from "~/integrations/i18n";
-import { supabaseClient } from "~/integrations/supabase";
 import {
   commitAuthSession,
   getAuthSession,
@@ -88,7 +93,7 @@ export async function action({ request }: ActionArgs) {
     );
   }
 
-  return redirect("/notes", {
+  return redirect("/login", {
     headers: {
       "Set-Cookie": await commitAuthSession(request, {
         authSession,
@@ -104,27 +109,15 @@ export default function ResetPassword() {
   const actionData = useActionData<typeof action>();
   const transition = useTransition();
   const disabled = isFormProcessing(transition.state);
+  const location = useLocation();
 
   useEffect(() => {
-    const {
-      data: { subscription },
-    } = supabaseClient.auth.onAuthStateChange((event, supabaseSession) => {
-      // In local development, we doesn't see "PASSWORD_RECOVERY" event because:
-      // Effect run twice and break listener chain
-      if (event === "PASSWORD_RECOVERY" || event === "SIGNED_IN") {
-        const refreshToken = supabaseSession?.refresh_token;
-
-        if (!refreshToken) return;
-
-        setUserRefreshToken(refreshToken);
-      }
-    });
-
-    return () => {
-      // prevent memory leak. Listener stays alive 👨‍🎤
-      subscription.unsubscribe();
-    };
-  }, []);
+    const parsedHash = new URLSearchParams(location.hash.substring(1));
+    const refreshToken = parsedHash.get("refresh_token");
+    if (refreshToken) {
+      setUserRefreshToken(refreshToken);
+    }
+  }, [location, setUserRefreshToken]);
 
   return (
     <div className="flex min-h-full flex-col justify-center">
