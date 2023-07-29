@@ -47,6 +47,7 @@ In the meantime, feel free to go around and kick the tires! Try:
 
 ### What are the immediate issues you're working on?
 
+- [ ] Add confirmation to email signups 
 - [ ] Login via email (magic-link)
 - [ ] Forgot Password functionality
 
