@@ -1,4 +1,3 @@
-# YALA: Yet Another Link Aggregator
 
 ### Who are you?
 
@@ -91,3 +90,5 @@ Not for the minimum viable product. There may be a way to integrate existing Act
 ## Special Thanks:
 
 Special thanks go to the [Remix Discord Server](https://rmx.as/discord) for helping me with some thorny issues getting used to the framework.
+
+Thanks also go to my mom, who doesn't understand why anyone would want to use a site like this, but helpfully caught two misspelled words in this About page. 
