@@ -17,7 +17,7 @@ import {
   createUserAccount,
   getProfileByUsername,
 } from "~/modules/user";
-import { assertIsPost, isFormProcessing } from "~/utils";
+import { SERVER_URL, assertIsPost, isFormProcessing } from "~/utils";
 // import { ContinueWithEmailForm } from "~/components/AuthButtons/ContinueWithEmailForm";
 import {
   Card,
@@ -40,6 +40,9 @@ import type {
   LoaderArgs,
   V2_MetaFunction,
 } from "@remix-run/node";
+import { useCallback, useState } from "react";
+import { supabaseClient } from "~/integrations/supabase/client";
+import { ContinueWithEmailForm } from "~/components/AuthButtons/ContinueWithEmailForm";
 // import { useCallback } from "react";
 // import { supabaseClient } from "~/integrations/supabase/client";
 
@@ -129,18 +132,29 @@ export default function Join() {
   const disabledFields = isFormProcessing(transition.state);
   const disabledButton = zo.validation?.success === false;
   const { t } = useTranslation("auth");
+  const [debug, setDebug] = useState<any>();
 
-  // const handleGoogleLogin = useCallback(async () => {
-  //   await supabaseClient.auth.signInWithOAuth({
-  //     provider: "google",
-  //     options: {
-  //       redirectTo: "http://localhost:3000/oauth/callback",
-  //     },
-  //   });
-  // }, []);
+  const handleGoogleLogin = useCallback(async () => {
+    const { data, error } = await supabaseClient.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${SERVER_URL}/privacy-policy`,
+        queryParams: {
+          access_type: "offline",
+          prompt: "consent",
+        },
+      },
+    });
+    console.log({ data, error });
+    setDebug({ data, error });
+    return () => setDebug(undefined);
+  }, [setDebug]);
 
   return (
     <div className="sign-up">
+      <div>
+        <pre>{JSON.stringify(debug, null, 2)}</pre>
+      </div>
       <Card className="card sign-up__card">
         <CardHeader>
           <CardTitle>{t("register.createNewAccount")}</CardTitle>
@@ -250,7 +264,7 @@ export default function Join() {
           </div>
         </CardContent>
       </Card>
-      {/* <Card className="card google__card">
+      <Card className="card google__card">
         <CardHeader>
           <CardTitle>Google</CardTitle>
         </CardHeader>
@@ -264,15 +278,15 @@ export default function Join() {
             Google
           </Button>
         </CardContent>
-      </Card> */}
-      {/* <Card className="card magic-link__card">
+      </Card>
+      <Card className="card magic-link__card">
         <CardHeader>
           <CardTitle>{t("register.orContinueWith")}</CardTitle>
         </CardHeader>
         <CardContent>
           <ContinueWithEmailForm />
         </CardContent>
-      </Card> */}
+      </Card>
     </div>
   );
 }

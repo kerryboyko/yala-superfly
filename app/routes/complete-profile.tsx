@@ -3,6 +3,7 @@ import {
   Form,
   Link,
   useActionData,
+  useLocation,
   useSearchParams,
   useTransition,
 } from "@remix-run/react";
@@ -43,6 +44,7 @@ import type {
   LoaderArgs,
   V2_MetaFunction,
 } from "@remix-run/node";
+import { useEffect, useState } from "react";
 
 export async function loader({ request }: LoaderArgs) {
   const authSession = await getAuthSession(request);
@@ -109,6 +111,20 @@ export default function CompeteProfile() {
   const disabledFields = isFormProcessing(transition.state);
   const disabledButton = zo.validation?.success === false;
   const { t } = useTranslation("auth");
+  const [userRefreshToken, setUserRefreshToken] = useState<string>("");
+
+  const location = useLocation();
+
+  useEffect(() => {
+    const parsedHash = new URLSearchParams(location.hash.substring(1));
+    for (let entry in parsedHash.entries()) {
+      console.log(entry);
+    }
+    const refreshToken = parsedHash.get("refresh_token");
+    if (refreshToken) {
+      setUserRefreshToken(refreshToken);
+    }
+  }, [location, setUserRefreshToken]);
 
   return (
     <div className="complete-profile">
