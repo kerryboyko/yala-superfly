@@ -22,6 +22,7 @@ export const SocialLoginButtons = ({ serverUrl }: { serverUrl: string }) => {
   return (
     <div className="social-login-buttons">
       <button className="sign-in-with-google" onClick={handleGoogleLogin} />
+      <button className="sign-in-with-google" onClick={handleGoogleLogin} />
     </div>
   );
 };

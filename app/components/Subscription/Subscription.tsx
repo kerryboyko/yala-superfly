@@ -1,11 +1,13 @@
 import { Link } from "@remix-run/react";
 import truncateWithoutWordBreak from "~/logic/truncateWithoutWordBreak";
 
-import { SubscribeButton } from "./SubscribeButton";
-
+import {
+  SubscribeButton,
+  styles as subscribeButtonStyles,
+} from "./SubscribeButton";
 import subscriptionStyles from "~/styles/subscriptions.css";
 
-export const styles = subscriptionStyles;
+export const styles = [subscriptionStyles, subscribeButtonStyles];
 
 export interface Subscription {
   communityRoute: string;
