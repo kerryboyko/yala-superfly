@@ -11,13 +11,10 @@ export const action: ActionFunction = async ({ request }) => {
   const communityRoute = formData.get("communityRoute") as string;
   const postId = formData.get("postId") as string;
 
-  console.log({ postId });
-
   const postWhere = {
     id: parseInt(postId, 10),
     communityRoute: communityRoute,
   };
-  console.log({ postWhere });
 
   const post = await db.post.findFirstOrThrow({
     where: postWhere,

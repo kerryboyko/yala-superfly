@@ -64,7 +64,5 @@ On the roadmap as of 7/18/2023
 - [ ] As a visitor, I'd like to see a list of most posts (by votes, by visits, by 'hotness', most recent, etc.)
 - [ ] As a user, I'd like to sign in with 3rd Party Auth Services (such as Google.)
 - [ ] As a developer, I'd like Unit & Integration testing. (Normally I do TDD first, but I needed to get used to the Remix environment and see what features are feasible.) 
+- [ ] As a user, I'd like to be able to get a share menu for posts (a popover) which allows me to copy a link to the clipboard or to have a downloadable HTML code that I can embed in a webpage. 
 
-### What's *not* on the roadmap?
-
-- I've decided I'm not doing social share buttons. Check out [this post](https://solomon.io/why-im-done-with-social-media-buttons/) as why I don't think it's a feature users want or need. 

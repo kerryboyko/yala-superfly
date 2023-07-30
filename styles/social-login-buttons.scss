@@ -1,0 +1,32 @@
+@import "mixins/map-deep-get";
+@import "palette";
+
+.social-login-buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.sign-in-with-google {
+  // dimensions are 191x46
+  box-shadow: 2px 2px 4px 1px map-deep-get($palettes, "black", "charcoal");
+  width: 11rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  background-position: center;
+  background-image: url("/images/google-auth/btn_google_signin_light_normal_web.png");
+  &:active {
+    box-shadow: 1px 1px 3px 1px map-deep-get($palettes, "black", "charcoal");
+    transform: translate3d(0, 0.125rem, 0);
+    background-image: url("/images/google-auth/btn_google_signin_light_pressed_web.png");
+  }
+  &:focus {
+    box-shadow: 1px 1px 3px 1px map-deep-get($palettes, "black", "charcoal");
+    transform: translate3d(0, 0.125rem, 0);
+    background-image: url("/images/google-auth/btn_google_signin_light_focus_web.png");
+  }
+  &:disabled {
+    box-shadow: 1px 1px 3px 1px map-deep-get($palettes, "black", "charcoal");
+    transform: translate3d(0, 0.125rem, 0);
+    background-image: url("/images/google-auth/btn_google_signin_light_disabled_web.png");
+  }
+}

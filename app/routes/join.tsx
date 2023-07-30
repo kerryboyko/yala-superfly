@@ -3,6 +3,7 @@ import {
   Form,
   Link,
   useActionData,
+  useLoaderData,
   useSearchParams,
   useTransition,
 } from "@remix-run/react";
@@ -17,7 +18,7 @@ import {
   createUserAccount,
   getProfileByUsername,
 } from "~/modules/user";
-import { assertIsPost, isFormProcessing } from "~/utils";
+import { SERVER_URL, assertIsPost, isFormProcessing } from "~/utils";
 // import { ContinueWithEmailForm } from "~/components/AuthButtons/ContinueWithEmailForm";
 import {
   Card,
@@ -31,26 +32,31 @@ import { Button } from "~/components/ui/button";
 
 import authStyles from "~/styles/auth.css";
 
-export const links: LinksFunction = () =>
-  [authStyles].map((href) => ({ rel: "stylesheet", href }));
-
 import type {
   ActionArgs,
   LinksFunction,
   LoaderArgs,
   V2_MetaFunction,
 } from "@remix-run/node";
-// import { useCallback } from "react";
-// import { supabaseClient } from "~/integrations/supabase/client";
+import {
+  SocialLoginButtons,
+  styles as socialLoginButtonStyles,
+} from "~/components/AuthButtons/SocialLoginButtons";
+import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
+
+export const links: LinksFunction = linkFunctionFactory(
+  socialLoginButtonStyles,
+  authStyles,
+);
 
 export async function loader({ request }: LoaderArgs) {
   const authSession = await getAuthSession(request);
   const t = await i18nextServer.getFixedT(request, "auth");
   const title = t("register.title");
-
+  const serverUrl = process.env.SERVER_URL;
   if (authSession) return redirect("/");
 
-  return json({ title });
+  return json({ title, serverUrl });
 }
 
 const JoinFormSchema = z.object({
@@ -119,6 +125,7 @@ export const meta: V2_MetaFunction = ({ data }) => [
 ];
 
 export default function Join() {
+  const { serverUrl } = useLoaderData();
   const formResponse = useActionData();
   const zo = useZorm("sign-up-form", JoinFormSchema, {
     customIssues: formResponse?.serverIssues,
@@ -129,15 +136,6 @@ export default function Join() {
   const disabledFields = isFormProcessing(transition.state);
   const disabledButton = zo.validation?.success === false;
   const { t } = useTranslation("auth");
-
-  // const handleGoogleLogin = useCallback(async () => {
-  //   await supabaseClient.auth.signInWithOAuth({
-  //     provider: "google",
-  //     options: {
-  //       redirectTo: "http://localhost:3000/oauth/callback",
-  //     },
-  //   });
-  // }, []);
 
   return (
     <div className="sign-up">
@@ -249,30 +247,10 @@ export default function Join() {
             </span>
           </div>
         </CardContent>
+        <CardContent>
+          <SocialLoginButtons serverUrl={serverUrl} />
+        </CardContent>
       </Card>
-      {/* <Card className="card google__card">
-        <CardHeader>
-          <CardTitle>Google</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Button
-            data-test-id="create-account"
-            className="button create-account__button"
-            type="button"
-            onClick={handleGoogleLogin}
-          >
-            Google
-          </Button>
-        </CardContent>
-      </Card> */}
-      {/* <Card className="card magic-link__card">
-        <CardHeader>
-          <CardTitle>{t("register.orContinueWith")}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ContinueWithEmailForm />
-        </CardContent>
-      </Card> */}
     </div>
   );
 }

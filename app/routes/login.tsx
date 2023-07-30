@@ -9,6 +9,7 @@ import {
   Form,
   Link,
   useActionData,
+  useLoaderData,
   useSearchParams,
   useTransition,
 } from "@remix-run/react";
@@ -31,9 +32,15 @@ import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
 
 import authStyles from "~/styles/auth.css";
+import SocialLoginButtons, {
+  styles as socialLoginButtonStyles,
+} from "~/components/AuthButtons/SocialLoginButtons";
+import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 
-export const links: LinksFunction = () =>
-  [authStyles].map((href) => ({ rel: "stylesheet", href }));
+export const links: LinksFunction = linkFunctionFactory(
+  socialLoginButtonStyles,
+  authStyles,
+);
 
 export async function loader({ request }: LoaderArgs) {
   const authSession = await getAuthSession(request);
@@ -41,8 +48,9 @@ export async function loader({ request }: LoaderArgs) {
   const title = t("login.title");
 
   if (authSession) return redirect("/");
+  const serverUrl = process.env.SERVER_URL;
 
-  return json({ title });
+  return json({ title, serverUrl });
 }
 
 const LoginFormSchema = z.object({
@@ -94,6 +102,7 @@ export const meta: V2_MetaFunction = ({ data }) => [
 ];
 
 export default function LoginPage() {
+  const { serverUrl } = useLoaderData();
   const formResponse = useActionData();
   const zo = useZorm("NewQuestionWizardScreen", LoginFormSchema, {
     customIssues: formResponse?.serverIssues,
@@ -169,6 +178,7 @@ export default function LoginPage() {
             </Button>
           </Form>
           <hr />
+
           <div className="forgot-password">
             <Link to="/forgot-password">{t("login.forgotPassword")}?</Link>
           </div>
@@ -182,6 +192,9 @@ export default function LoginPage() {
             >
               {t("login.signUp")}
             </Link>
+          </div>
+          <div>
+            <SocialLoginButtons serverUrl={serverUrl} />
           </div>
         </CardContent>
       </Card>
