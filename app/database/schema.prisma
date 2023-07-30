@@ -68,20 +68,27 @@ model Comment {
   post           Post              @relation("CommentPost", fields: [postId], references: [id])
   reactions      CommentReaction[] @relation("CommentHasReaction")
   tags           CommentTag[]      @relation("CommentHasTag")
+  votes          CommentVote[]     @relation("CommentVote")
 }
 
 model CommentVote {
-  id      Int     @id @unique @default(autoincrement())
-  voterId String
-  isUp    Boolean @default(true)
-  voter   Profile @relation("CommentVoter", fields: [voterId], references: [userId], onDelete: Cascade)
+  value     Int
+  commentId Int
+  comment   Comment @relation("CommentVote", fields: [commentId], references: [id], onDelete: Cascade)
+  voterId   String
+  voter     Profile @relation("CommentVoter", fields: [voterId], references: [userId], onDelete: Cascade)
+
+  @@id([commentId, voterId])
 }
 
 model PostVote {
-  id      Int     @id @unique @default(autoincrement())
-  voterId String
-  isUp    Boolean @default(true)
+  value   Int
+  post    Post    @relation("PostVote", fields: [postId], references: [id], onDelete: Cascade)
+  postId  Int
   voter   Profile @relation("PostVoter", fields: [voterId], references: [userId], onDelete: Cascade)
+  voterId String
+
+  @@id([postId, voterId])
 }
 
 model Post {
@@ -100,6 +107,7 @@ model Post {
   community      Community      @relation("PostedIn", fields: [communityRoute], references: [route], onDelete: Cascade)
   reactions      PostReaction[] @relation("PostHasReaction")
   tags           PostTag[]      @relation("PostHasTag")
+  postVotes      PostVote[]     @relation("PostVote")
 }
 
 model Community {
