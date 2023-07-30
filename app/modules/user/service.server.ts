@@ -12,6 +12,13 @@ export async function getUserByEmail(email: User["email"]) {
   return db.user.findUnique({ where: { email: email.toLowerCase() } });
 }
 
+export async function getUserByEmailAndCheckUsername(email: User["email"]) {
+  return db.user.findUnique({
+    where: { email: email.toLowerCase() },
+    select: { profile: { select: { username: true } } },
+  });
+}
+
 export async function getProfileByUsername(username: Profile["username"]) {
   return db.profile.findUnique({ where: { username: username.toLowerCase() } });
 }
@@ -39,6 +46,25 @@ async function createUser({
   });
 }
 
+export async function tryCreateUserWithoutUsername({
+  email,
+  userId,
+}: Pick<AuthSession, "userId" | "email">) {
+  const user = await db.user.create({
+    data: {
+      email,
+      id: userId,
+    },
+  });
+  // user account created and have a session but unable to store in User table
+  // we should delete the user account to allow retry create account again
+  if (!user) {
+    await deleteAuthAccount(userId);
+    return null;
+  }
+  return { user };
+}
+
 export async function tryCreateUser({
   email,
   userId,
@@ -50,8 +76,6 @@ export async function tryCreateUser({
     username,
   });
 
-  // user account created and have a session but unable to store in User table
-  // we should delete the user account to allow retry create account again
   if (!user) {
     await deleteAuthAccount(userId);
     return null;

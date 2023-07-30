@@ -3,6 +3,7 @@ import {
   Form,
   Link,
   useActionData,
+  useLoaderData,
   useSearchParams,
   useTransition,
 } from "@remix-run/react";
@@ -50,10 +51,10 @@ export async function loader({ request }: LoaderArgs) {
   const authSession = await getAuthSession(request);
   const t = await i18nextServer.getFixedT(request, "auth");
   const title = t("register.title");
-
+  const serverUrl = process.env.SERVER_URL;
   if (authSession) return redirect("/");
 
-  return json({ title });
+  return json({ title, serverUrl });
 }
 
 const JoinFormSchema = z.object({
@@ -122,6 +123,7 @@ export const meta: V2_MetaFunction = ({ data }) => [
 ];
 
 export default function Join() {
+  const { serverUrl } = useLoaderData();
   const formResponse = useActionData();
   const zo = useZorm("sign-up-form", JoinFormSchema, {
     customIssues: formResponse?.serverIssues,
@@ -135,10 +137,12 @@ export default function Join() {
   const [debug, setDebug] = useState<any>();
 
   const handleGoogleLogin = useCallback(async () => {
+    const redirectTo = `${serverUrl}/oauth-callback`;
+    console.log(redirectTo);
     const { data, error } = await supabaseClient.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${SERVER_URL}/privacy-policy`,
+        redirectTo,
         queryParams: {
           access_type: "offline",
           prompt: "consent",
@@ -148,7 +152,7 @@ export default function Join() {
     console.log({ data, error });
     setDebug({ data, error });
     return () => setDebug(undefined);
-  }, [setDebug]);
+  }, [setDebug, serverUrl]);
 
   return (
     <div className="sign-up">
