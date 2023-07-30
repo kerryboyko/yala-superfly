@@ -1,0 +1,24 @@
+@use "sass:map";
+.social-login-buttons {
+  display: flex;
+  justify-content: center; }
+
+.sign-in-with-google {
+  box-shadow: 2px 2px 4px 1px #36454f;
+  width: 11rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  background-position: center;
+  background-image: url("/images/google-auth/btn_google_signin_light_normal_web.png"); }
+  .sign-in-with-google:active {
+    box-shadow: 1px 1px 3px 1px #36454f;
+    transform: translate3d(0, 0.125rem, 0);
+    background-image: url("/images/google-auth/btn_google_signin_light_pressed_web.png"); }
+  .sign-in-with-google:focus {
+    box-shadow: 1px 1px 3px 1px #36454f;
+    transform: translate3d(0, 0.125rem, 0);
+    background-image: url("/images/google-auth/btn_google_signin_light_focus_web.png"); }
+  .sign-in-with-google:disabled {
+    box-shadow: 1px 1px 3px 1px #36454f;
+    transform: translate3d(0, 0.125rem, 0);
+    background-image: url("/images/google-auth/btn_google_signin_light_disabled_web.png"); }

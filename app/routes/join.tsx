@@ -32,20 +32,22 @@ import { Button } from "~/components/ui/button";
 
 import authStyles from "~/styles/auth.css";
 
-export const links: LinksFunction = () =>
-  [authStyles].map((href) => ({ rel: "stylesheet", href }));
-
 import type {
   ActionArgs,
   LinksFunction,
   LoaderArgs,
   V2_MetaFunction,
 } from "@remix-run/node";
-import { useCallback, useState } from "react";
-import { supabaseClient } from "~/integrations/supabase/client";
-import { ContinueWithEmailForm } from "~/components/AuthButtons/ContinueWithEmailForm";
-// import { useCallback } from "react";
-// import { supabaseClient } from "~/integrations/supabase/client";
+import {
+  SocialLoginButtons,
+  styles as socialLoginButtonStyles,
+} from "~/components/AuthButtons/SocialLoginButtons";
+import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
+
+export const links: LinksFunction = linkFunctionFactory(
+  socialLoginButtonStyles,
+  authStyles,
+);
 
 export async function loader({ request }: LoaderArgs) {
   const authSession = await getAuthSession(request);
@@ -134,20 +136,6 @@ export default function Join() {
   const disabledFields = isFormProcessing(transition.state);
   const disabledButton = zo.validation?.success === false;
   const { t } = useTranslation("auth");
-
-  const handleGoogleLogin = useCallback(async () => {
-    const redirectTo = `${serverUrl}/oauth/callback`;
-    await supabaseClient.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo,
-        queryParams: {
-          access_type: "offline",
-          prompt: "consent",
-        },
-      },
-    });
-  }, [serverUrl]);
 
   return (
     <div className="sign-up">
@@ -259,28 +247,8 @@ export default function Join() {
             </span>
           </div>
         </CardContent>
-      </Card>
-      <Card className="card google__card">
-        <CardHeader>
-          <CardTitle>Google</CardTitle>
-        </CardHeader>
         <CardContent>
-          <Button
-            data-test-id="create-account"
-            className="button create-account__button"
-            type="button"
-            onClick={handleGoogleLogin}
-          >
-            Google
-          </Button>
-        </CardContent>
-      </Card>
-      <Card className="card magic-link__card">
-        <CardHeader>
-          <CardTitle>{t("register.orContinueWith")}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ContinueWithEmailForm />
+          <SocialLoginButtons serverUrl={serverUrl} />
         </CardContent>
       </Card>
     </div>
