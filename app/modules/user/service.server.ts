@@ -15,7 +15,7 @@ export async function getUserByEmail(email: User["email"]) {
 export async function getUserByEmailAndCheckUsername(email: User["email"]) {
   return db.user.findUnique({
     where: { email: email.toLowerCase() },
-    select: { profile: { select: { username: true } } },
+    select: { email: true, id: true, profile: { select: { username: true } } },
   });
 }
 

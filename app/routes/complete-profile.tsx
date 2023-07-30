@@ -2,14 +2,12 @@ import { redirect, json } from "@remix-run/node";
 import {
   Form,
   useActionData,
-  useLocation,
-  useSearchParams,
+  useLoaderData,
   useTransition,
 } from "@remix-run/react";
 import { useTranslation } from "react-i18next";
-import { createCustomIssues, parseFormAny, useZorm } from "react-zorm";
+import { createCustomIssues, useZorm } from "react-zorm";
 import { z } from "zod";
-
 import { i18nextServer } from "~/integrations/i18n";
 import { getAuthSession, requireAuthSession } from "~/modules/auth";
 import { getProfileByUsername } from "~/modules/user";
@@ -24,15 +22,16 @@ import {
 import { Label } from "~/components/ui/label";
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
-
-import authStyles from "~/styles/auth.css";
-
 import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
-
-export const links = linkFunctionFactory(authStyles);
-
 import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
 import { db } from "~/database";
+import { ChangeEventHandler, useState } from "react";
+import authStyles from "~/styles/auth.css";
+
+const SPEC_CHAR_REGEX = /^[^`~!@#$%^&*()+={}\[\]|\\:;“’<,>.?๐฿\s]*$/; // negated special characters - underscore is allowed, dashes allowed, spaces are not.
+const checkInvalidUsername = (u: string) => !SPEC_CHAR_REGEX.test(u);
+
+export const links = linkFunctionFactory(authStyles);
 
 export async function loader({ request }: LoaderArgs) {
   const authSession = await getAuthSession(request);
@@ -57,12 +56,17 @@ export async function loader({ request }: LoaderArgs) {
   const t = await i18nextServer.getFixedT(request, "auth");
   const title = t("register.completeProfile");
 
-  return json({ title });
+  return json({ title, authSession });
 }
 
 const CompleteProfileSchema = z.object({
-  username: z.string().min(4, "Usernames must be a minimum of 4 characters"),
-  redirectTo: z.string().optional(),
+  username: z
+    .string()
+    .min(4, "Usernames must be a minimum of 4 characters")
+    .refine(
+      (value) => !checkInvalidUsername(value),
+      `Username cannot have special characters or spaces, except underscore ('_') and dash ('-').`,
+    ),
 });
 
 export async function action({ request }: ActionArgs) {
@@ -74,12 +78,12 @@ export async function action({ request }: ActionArgs) {
   if (!authSession) {
     return redirect("/join");
   }
-
   // check if the user exists AND it doesn't have a username.
   const user = await db.user.findUnique({
     where: { id: authSession?.userId },
     select: { id: true, profile: { select: { username: true } } },
   });
+
   // I don't know what token you're using, but it ain't one of ours!
   if (!user) {
     return redirect("/join");
@@ -91,8 +95,8 @@ export async function action({ request }: ActionArgs) {
 
   // okay, we know the user has an account, but doesn't have a username.
 
-  const formData = await request.formData();
-  const parseResult = CompleteProfileSchema.parse(formData);
+  const formPayload = Object.fromEntries(await request.formData());
+  const parseResult = CompleteProfileSchema.parse(formPayload);
   const { username } = parseResult;
 
   const existingUsername = await getProfileByUsername(username);
@@ -104,16 +108,19 @@ export async function action({ request }: ActionArgs) {
     return json({ ok: false, serverIssues: issues.toArray() }, { status: 400 });
   }
 
-  const newProfile = db.profile.create({
+  const newProfile = await db.profile.create({
     data: {
       userId: user.id,
       username,
       verified: !(process.env.NODE_ENV === "production"), // FIXME, we want email verification always.
     },
   });
+  if (!newProfile) {
+    issues.username(`We could not create a profile for some unknown reason.`);
+  }
 
   if (issues.hasIssues()) {
-    return json({ ok: false, serverIssues: issues.toArray() }, { status: 400 });
+    return json({ ok: false, serverIssues: issues.toArray() }, { status: 500 });
   }
 
   return redirect("/");
@@ -126,21 +133,34 @@ export const meta: V2_MetaFunction = ({ data }) => [
 ];
 
 export default function CompeteProfile() {
+  const { authSession } = useLoaderData();
   const formResponse = useActionData();
   const zo = useZorm("complete-profile-form", CompleteProfileSchema, {
     customIssues: formResponse?.serverIssues,
   });
-  const [searchParams] = useSearchParams();
-  const redirectTo = searchParams.get("redirectTo") ?? undefined;
   const transition = useTransition();
   const disabledFields = isFormProcessing(transition.state);
-  const disabledButton = zo.validation?.success === false;
   const { t } = useTranslation("auth");
+  const [warningField, setWarningField] = useState<string>("");
+  const [usernameField, setUsernameField] = useState<string>("");
 
-  const location = useLocation();
+  const disabledButton = warningField !== "";
+
+  const handleUsernameField: ChangeEventHandler<HTMLInputElement> = (event) => {
+    const value = event.target.value;
+    if (checkInvalidUsername(value)) {
+      setWarningField(
+        `Warning: Username cannot have special characters or spaces, except underscore ('_') and dash ('-'). `,
+      );
+    } else {
+      setWarningField("");
+    }
+    setUsernameField(value);
+  };
 
   return (
     <div className="complete-profile">
+      <div>{JSON.stringify(authSession.userId, null, 2)}</div>
       <Card className="complete-profile__card">
         <CardHeader>
           <CardTitle>{t("register.addUsername")}</CardTitle>
@@ -172,6 +192,8 @@ export default function CompeteProfile() {
                 type="text"
                 autoComplete="username"
                 placeholder="Username"
+                onChange={handleUsernameField}
+                value={usernameField}
                 disabled={disabledFields}
               />
               {zo.errors.username((err) =>
@@ -180,6 +202,9 @@ export default function CompeteProfile() {
                     {err.message}
                   </div>
                 ) : null,
+              )}
+              {warningField === "" ? null : (
+                <div className="warning warning__username">{warningField}</div>
               )}
             </div>
 

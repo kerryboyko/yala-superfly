@@ -20,7 +20,6 @@ import pick from "lodash/pick";
 
 export async function loader({ request }: LoaderArgs) {
   const authSession = await getAuthSession(request);
-
   // If the user is already authenticated,
   // we'll redirect them to create profile - and we'll check if the
   // profile is complete there. If it is, we'll just re-redirect them to ('/');
@@ -62,7 +61,6 @@ export async function action({ request }: ActionArgs) {
   // We should not trust what is sent from the client
   // https://github.com/rphlmr/supa-fly-stack/issues/45
   const authSession = await refreshAccessToken(refreshToken);
-
   if (!authSession) {
     return json(
       {
@@ -98,6 +96,7 @@ export async function action({ request }: ActionArgs) {
   }
   // user is authenticated but does not have an account
   // Create an account.
+
   const newUser = await tryCreateUserWithoutUsername(
     pick(authSession, ["userId", "email"]),
   );

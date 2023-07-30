@@ -1,10 +1,8 @@
 import { json, type ActionArgs } from "@remix-run/node";
 import { db } from "~/database";
-import { formDataToObject } from "~/logic/formDataToObject";
 import { requireAuthSession } from "~/modules/auth";
 
 export const action = async ({ request, params }: ActionArgs) => {
-  console.log(params);
   const authUser = await requireAuthSession(request, {
     verify: true,
     onFailRedirectTo: "/login",

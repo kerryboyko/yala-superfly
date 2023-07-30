@@ -134,12 +134,10 @@ export default function Join() {
   const disabledFields = isFormProcessing(transition.state);
   const disabledButton = zo.validation?.success === false;
   const { t } = useTranslation("auth");
-  const [debug, setDebug] = useState<any>();
 
   const handleGoogleLogin = useCallback(async () => {
-    const redirectTo = `${serverUrl}/oauth-callback`;
-    console.log(redirectTo);
-    const { data, error } = await supabaseClient.auth.signInWithOAuth({
+    const redirectTo = `${serverUrl}/oauth/callback`;
+    await supabaseClient.auth.signInWithOAuth({
       provider: "google",
       options: {
         redirectTo,
@@ -149,16 +147,10 @@ export default function Join() {
         },
       },
     });
-    console.log({ data, error });
-    setDebug({ data, error });
-    return () => setDebug(undefined);
-  }, [setDebug, serverUrl]);
+  }, [serverUrl]);
 
   return (
     <div className="sign-up">
-      <div>
-        <pre>{JSON.stringify(debug, null, 2)}</pre>
-      </div>
       <Card className="card sign-up__card">
         <CardHeader>
           <CardTitle>{t("register.createNewAccount")}</CardTitle>
