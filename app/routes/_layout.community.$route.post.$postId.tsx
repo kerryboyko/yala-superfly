@@ -1,8 +1,6 @@
-import type {
-  ActionFunction,
-  LinksFunction,
-  LoaderArgs,
-} from "@remix-run/node";
+import { useEffect } from "react";
+
+import type { ActionFunction, LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import {
   Form,
@@ -13,6 +11,8 @@ import {
   useRouteError,
 } from "@remix-run/react";
 import omit from "lodash/omit";
+import { z } from "zod";
+
 import { CreateComment } from "~/components/Comment/CreateComment";
 import ShowComment from "~/components/Comment/ShowComment";
 import {
@@ -23,14 +23,10 @@ import { Button } from "~/components/ui/button";
 import { db } from "~/database/db.server";
 import createCommentTree from "~/logic/createCommentTree";
 import { formDataToObject } from "~/logic/formDataToObject";
-
-import type { RecursiveCommentTreeNode } from "~/types/comments";
-import { z } from "zod";
 import { getAuthSession, requireAuthSession } from "~/modules/auth";
-
-import { useEffect } from "react";
-import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 import { getMyVoteOnThisPost, getVotesByPostId } from "~/modules/post";
+import type { RecursiveCommentTreeNode } from "~/types/comments";
+import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 
 export const links = linkFunctionFactory(postDetailsStyles);
 

@@ -1,15 +1,14 @@
-import { Form } from "@remix-run/react";
-
-import type { ActionFunction, LinksFunction } from "@remix-run/node";
+import type { ActionFunction } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
-import CreatePost from "~/components/Post/CreatePost";
-import createPostStyles from "~/styles/createpost.css";
-import { requireAuthSession } from "~/modules/auth";
-
-import { formDataToObject } from "~/logic/formDataToObject";
+import { Form } from "@remix-run/react";
 import { sanitize } from "isomorphic-dompurify";
 import { z } from "zod";
+
+import CreatePost from "~/components/Post/CreatePost";
 import { db } from "~/database/db.server";
+import { formDataToObject } from "~/logic/formDataToObject";
+import { requireAuthSession } from "~/modules/auth";
+import createPostStyles from "~/styles/createpost.css";
 import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 
 export const links = linkFunctionFactory(createPostStyles);

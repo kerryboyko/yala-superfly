@@ -1,4 +1,3 @@
-
 ### Who are you?
 
 I'm [Kerry Boyko](https://linkedin.com/in/kerryboyko). I'm a senior software engineer with eight years experience, but I had to move back from the UK to the US to get some medical care. I also had to leave my job to do so, so right now I'm spending much of my time looking for a new one. This is my side project, a built-from-the-ground-up clone of Reddit. (Which itself could have been said to be a built-from-the-ground-up clone of Digg, if I recall correctly...)
@@ -91,4 +90,4 @@ Not for the minimum viable product. There may be a way to integrate existing Act
 
 Special thanks go to the [Remix Discord Server](https://rmx.as/discord) for helping me with some thorny issues getting used to the framework.
 
-Thanks also go to my mom, who doesn't understand why anyone would want to use a site like this, but helpfully caught two misspelled words in this About page. 
+Thanks also go to my mom, who doesn't understand why anyone would want to use a site like this, but helpfully caught two misspelled words in this About page.

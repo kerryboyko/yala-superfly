@@ -1,16 +1,16 @@
+import { useFetcher } from "@remix-run/react";
+
+import { Button } from "~/components/ui/button";
+import { Input } from "~/components/ui/input";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
-  TableHead,
   TableHeader,
   TableRow,
 } from "~/components/ui/table";
-import { BannedUser } from "./BanUsers";
-import { Button } from "~/components/ui/button";
-import { useFetcher } from "@remix-run/react";
-import { Input } from "~/components/ui/input";
+
+import type { BannedUser } from "./BanUsers";
 
 export const DisplayBannedUsers = ({
   bannedUsers,

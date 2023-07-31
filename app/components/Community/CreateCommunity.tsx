@@ -1,4 +1,6 @@
 import React, { useMemo, useState } from "react";
+
+import { MarkdownTextarea } from "~/components/Markdown/MarkdownTextarea";
 import { Button } from "~/components/ui/button";
 import {
   Card,
@@ -9,10 +11,7 @@ import {
   CardTitle,
 } from "~/components/ui/custom/card";
 import { Input } from "~/components/ui/input";
-import { MarkdownTextarea } from "~/components/Markdown/MarkdownTextarea";
-
 import { Label } from "~/components/ui/label";
-
 import { COMMUNITY_NAME_CHAR_LIMITS } from "~/constants/communityNameLimits";
 import { formatCommunityName } from "~/logic/formatCommunityName";
 

@@ -3,7 +3,6 @@
   "extends": [
     "@remix-run/eslint-config",
     "@remix-run/eslint-config/node",
-    "plugin:tailwindcss/recommended",
     "prettier"
   ],
   "parserOptions": {
@@ -11,15 +10,13 @@
   },
   "settings": {
     // Help eslint-plugin-tailwindcss to parse Tailwind classes outside of className
-    "tailwindcss": {
-      "callees": ["tw"]
-    },
+
     "jest": {
       "version": 27
     }
   },
   "rules": {
-    "no-console": "warn",
+    "no-console": ["warn", { "allow": ["warn", "error", "info"] }],
     "arrow-body-style": ["warn", "as-needed"],
     // @typescript-eslint
     "@typescript-eslint/no-duplicate-imports": "error",
@@ -37,7 +34,7 @@
     //import
     "import/no-cycle": "error",
     "import/no-unresolved": "error",
-    "import/no-default-export": "warn",
+    "import/no-default-export": "off",
     "import/order": [
       "error",
       {

@@ -1,4 +1,6 @@
-import type { LinksFunction, LoaderArgs } from "@remix-run/node";
+import { useState } from "react";
+
+import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
   isRouteErrorResponse,
@@ -7,19 +9,19 @@ import {
   useRouteError,
 } from "@remix-run/react";
 import { format } from "date-fns";
-import { db } from "~/database/db.server";
-import type { Pagination } from "~/types/posts";
-import allCommunitiesStyles from "~/styles/all-communities.css";
-import { getAuthSession } from "~/modules/auth/session.server";
-import { grabQueryParams } from "~/logic/grabQueryParams";
 import pick from "lodash/pick";
+
 import Paginator from "~/components/Paginator/Paginator";
 import Subscription, {
   styles as subscriptionStyles,
 } from "~/components/Subscription/Subscription";
-import { useState } from "react";
 import { Button } from "~/components/ui/button";
 import { Card } from "~/components/ui/custom/card";
+import { db } from "~/database/db.server";
+import { grabQueryParams } from "~/logic/grabQueryParams";
+import { getAuthSession } from "~/modules/auth/session.server";
+import allCommunitiesStyles from "~/styles/all-communities.css";
+import type { Pagination } from "~/types/posts";
 import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 
 export const links = linkFunctionFactory(
@@ -32,7 +34,7 @@ const defaultPagination: Pagination = {
   pageNum: 1,
 };
 
-export const loader = async ({ request, params }: LoaderArgs) => {
+export const loader = async ({ request }: LoaderArgs) => {
   const queryParams = grabQueryParams(request.url);
   // if ?pageNum= or ?perPage= is defined, use this.
   const pagination = Object.assign({}, defaultPagination, queryParams);
@@ -62,6 +64,8 @@ export const loader = async ({ request, params }: LoaderArgs) => {
     }),
     db.community.count(),
     db.community.findMany({
+      skip,
+      take: pagination.perPage,
       select: {
         _count: {
           select: {
@@ -128,7 +132,7 @@ export default function CommunityProfileRoute() {
       </div>
       <Paginator {...data.pagination} />
       <Card className="all-communities__community-list">
-        {data.communities.map((comm, idx: number) => (
+        {data.communities.map((comm) => (
           <Subscription
             communityRoute={comm.route}
             communityName={comm.name}

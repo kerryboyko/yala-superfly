@@ -1,20 +1,14 @@
-import type {
-  ActionArgs,
-  LinksFunction,
-  LoaderArgs,
-  LoaderFunction,
-  TypedResponse,
-} from "@remix-run/node";
+import type { ActionArgs, LoaderFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Form, useActionData } from "@remix-run/react";
-import { CreateCommunityForm } from "~/components/Community/CreateCommunity";
-import { formDataToObject } from "~/logic/formDataToObject";
-import { db } from "~/database/db.server";
 import { z } from "zod";
-import { COMMUNITY_NAME_CHAR_LIMITS } from "~/constants/communityNameLimits";
 
-import createCommunityStyles from "~/styles/createcommunity.css";
+import { CreateCommunityForm } from "~/components/Community/CreateCommunity";
+import { COMMUNITY_NAME_CHAR_LIMITS } from "~/constants/communityNameLimits";
+import { db } from "~/database/db.server";
+import { formDataToObject } from "~/logic/formDataToObject";
 import { getAuthSession, requireAuthSession } from "~/modules/auth";
+import createCommunityStyles from "~/styles/createcommunity.css";
 import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 
 export const links = linkFunctionFactory(createCommunityStyles);

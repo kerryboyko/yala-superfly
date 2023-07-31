@@ -2,7 +2,6 @@ import type { DragEventHandler } from "react";
 import { useCallback, useRef, useState } from "react";
 
 export const DragDropFile = ({
-  bucket,
   dragAndDropLabel = `Drag and drop your file here or`,
   uploadButtonLabel = `Upload a file`,
   handleFiles,

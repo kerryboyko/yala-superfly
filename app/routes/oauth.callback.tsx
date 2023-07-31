@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { json, redirect } from "@remix-run/node";
 import type { LoaderArgs, ActionArgs } from "@remix-run/node";
 import { useActionData, useFetcher, useLocation } from "@remix-run/react";
+import pick from "lodash/pick";
 import { parseFormAny } from "react-zorm";
 import { z } from "zod";
 
@@ -16,7 +17,6 @@ import {
   tryCreateUserWithoutUsername,
 } from "~/modules/user";
 import { assertIsPost } from "~/utils";
-import pick from "lodash/pick";
 
 export async function loader({ request }: LoaderArgs) {
   const authSession = await getAuthSession(request);
@@ -132,7 +132,7 @@ export default function LoginCallback() {
       formData.append("redirectToJoin", "true");
     }
     fetcher.submit(formData, { method: "post", replace: true });
-  }, [location]);
+  }, [location, fetcher]);
 
   return error ? <div>{error.message}</div> : null;
 }

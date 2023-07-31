@@ -1,6 +1,8 @@
-import { Link } from "@remix-run/react";
-import MarkdownDisplay from "../Markdown/MarkdownDisplay";
 import { useMemo } from "react";
+
+import { Link } from "@remix-run/react";
+
+import MarkdownDisplay from "../Markdown/MarkdownDisplay";
 
 export interface CommentSummaryData {
   index?: number;

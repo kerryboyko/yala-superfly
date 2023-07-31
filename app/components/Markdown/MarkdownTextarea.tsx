@@ -1,6 +1,8 @@
-import type { Value } from "@prisma/client/runtime";
 import type { ChangeEventHandler } from "react";
 import { useMemo, useState } from "react";
+
+import type { Value } from "@prisma/client/runtime";
+
 import { Textarea } from "~/components/ui/textarea";
 
 export interface MarkdownTextareaProps {

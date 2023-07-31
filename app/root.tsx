@@ -17,10 +17,10 @@ import { useTranslation } from "react-i18next";
 import { useChangeLanguage } from "remix-i18next";
 
 import { i18nextServer } from "~/integrations/i18n";
+import stylesheet from "~/styles/index.css";
 
 import tailwindStylesheetUrl from "./tailwind.css";
 import { getBrowserEnv } from "./utils/env";
-import stylesheet from "~/styles/index.css";
 
 export const links: LinksFunction = () =>
   [tailwindStylesheetUrl, stylesheet]

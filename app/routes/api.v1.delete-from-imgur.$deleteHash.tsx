@@ -1,7 +1,7 @@
 import type { ActionArgs } from "@remix-run/node";
 import { fetch } from "@remix-run/node";
 
-export const action = async ({ request, params }: ActionArgs) => {
+export const action = async ({ params }: ActionArgs) => {
   const { deleteHash } = params;
   if (process.env.IMGUR_ACCESS_UPLOAD_URL && deleteHash) {
     try {

@@ -1,28 +1,26 @@
-import type { LinksFunction, LoaderArgs } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
   isRouteErrorResponse,
   useLoaderData,
   useRouteError,
 } from "@remix-run/react";
-import { db } from "~/database/db.server";
-import pick from "lodash/pick";
 import { format } from "date-fns";
-import { getAuthSession, requireAuthSession } from "~/modules/auth";
+import pick from "lodash/pick";
 
-import { grabQueryParams } from "~/logic/grabQueryParams";
-import type { Pagination, PostSummaryData } from "~/types/posts";
-
+import { Paginator } from "~/components/Paginator/Paginator";
 import PostSummary, {
   styles as postSummaryStyles,
 } from "~/components/Post/PostSummary";
-import { Paginator } from "~/components/Paginator/Paginator";
-
-import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
+import { db } from "~/database/db.server";
+import { grabQueryParams } from "~/logic/grabQueryParams";
+import { getAuthSession } from "~/modules/auth";
 import {
   getMyVotesByUserIdOnPosts,
   getVotesByPostId,
 } from "~/modules/post/service.server";
+import type { Pagination, PostSummaryData } from "~/types/posts";
+import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 
 export const links = linkFunctionFactory(postSummaryStyles);
 
@@ -111,8 +109,6 @@ export const loader = async ({ params, request }: LoaderArgs) => {
         profile.posts.map((post) => post.id),
       )
     : [];
-
-  console.log(votes, myVotes);
 
   return json({
     ...profile,

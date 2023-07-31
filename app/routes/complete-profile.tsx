@@ -1,17 +1,14 @@
+import type { ChangeEventHandler } from "react";
+import { useState } from "react";
+
 import { redirect, json } from "@remix-run/node";
-import {
-  Form,
-  useActionData,
-  useLoaderData,
-  useTransition,
-} from "@remix-run/react";
+import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
+import { Form, useActionData, useTransition } from "@remix-run/react";
 import { useTranslation } from "react-i18next";
 import { createCustomIssues, useZorm } from "react-zorm";
 import { z } from "zod";
-import { i18nextServer } from "~/integrations/i18n";
-import { getAuthSession, requireAuthSession } from "~/modules/auth";
-import { getProfileByUsername } from "~/modules/user";
-import { assertIsPost, isFormProcessing } from "~/utils";
+
+import { Button } from "~/components/ui/button";
 import {
   Card,
   CardContent,
@@ -19,16 +16,17 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/custom/card";
-import { Label } from "~/components/ui/label";
 import { Input } from "~/components/ui/input";
-import { Button } from "~/components/ui/button";
-import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
-import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
+import { Label } from "~/components/ui/label";
 import { db } from "~/database";
-import { ChangeEventHandler, useState } from "react";
+import { i18nextServer } from "~/integrations/i18n";
+import { getAuthSession, requireAuthSession } from "~/modules/auth";
+import { getProfileByUsername } from "~/modules/user";
 import authStyles from "~/styles/auth.css";
+import { assertIsPost, isFormProcessing } from "~/utils";
+import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 
-const SPEC_CHAR_REGEX = /^[^`~!@#$%^&*()+={}\[\]|\\:;“’<,>.?๐฿\s]*$/; // negated special characters - underscore is allowed, dashes allowed, spaces are not.
+const SPEC_CHAR_REGEX = /^[^`~!@#$%^&*()+={}[]|\\:;“’<,>.?๐฿\s]*$/; // negated special characters - underscore is allowed, dashes allowed, spaces are not.
 const checkInvalidUsername = (u: string) => !SPEC_CHAR_REGEX.test(u);
 
 export const links = linkFunctionFactory(authStyles);
@@ -133,7 +131,6 @@ export const meta: V2_MetaFunction = ({ data }) => [
 ];
 
 export default function CompeteProfile() {
-  const { authSession } = useLoaderData();
   const formResponse = useActionData();
   const zo = useZorm("complete-profile-form", CompleteProfileSchema, {
     customIssues: formResponse?.serverIssues,

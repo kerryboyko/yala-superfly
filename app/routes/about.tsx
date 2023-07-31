@@ -1,7 +1,5 @@
-import type { LinksFunction } from "@remix-run/node";
-import AboutPage from "~/static/markdown/about.md";
 import FormatMarkdownFile from "~/components/Markdown/FormatMarkdownFile";
-
+import AboutPage from "~/static/markdown/about.md";
 import aboutStyles from "~/styles/about.css";
 import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 

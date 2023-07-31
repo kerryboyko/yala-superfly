@@ -1,7 +1,9 @@
 import { useFetcher } from "@remix-run/react";
 import { MinusCircle, PlusCircle } from "lucide-react";
-import { Button } from "../ui/button";
+
 import subscribeButtonStyles from "~/styles/subscribe-button.css";
+
+import { Button } from "../ui/button";
 
 export const styles = subscribeButtonStyles;
 

@@ -12,7 +12,7 @@
     "dev:css": "cross-env NODE_ENV=development npm run build:css && node-sass -rw ./styles -o ./app/styles",
     "dev:remix": "remix dev",
     "format": "prettier --write .",
-    "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
+    "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint . --fix",
     "setup": "run-s setup:db setup:seed",
     "setup:db": "prisma generate && prisma migrate deploy",
     "setup:seed": "prisma db seed",

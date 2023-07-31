@@ -1,6 +1,6 @@
 import { Link } from "@remix-run/react";
-import truncateWithoutWordBreak from "~/logic/truncateWithoutWordBreak";
 
+import truncateWithoutWordBreak from "~/logic/truncateWithoutWordBreak";
 import moderationStyles from "~/styles/subscriptions.css"; // this is correct - both use the same CSS.
 
 export const styles = moderationStyles;

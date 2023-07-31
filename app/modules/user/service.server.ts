@@ -1,5 +1,5 @@
-import { Profile, User } from "@prisma/client";
-import { redirect } from "@remix-run/node";
+import type { Profile, User } from "@prisma/client";
+
 import { db } from "~/database";
 import type { AuthSession } from "~/modules/auth";
 import {

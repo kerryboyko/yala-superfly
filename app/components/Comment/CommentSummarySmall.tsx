@@ -1,4 +1,5 @@
 import { Link } from "@remix-run/react";
+
 import truncateWithoutWordBreak from "~/logic/truncateWithoutWordBreak";
 
 export interface CommentSummary {

@@ -1,5 +1,6 @@
-import { useActionData } from "@remix-run/react";
 import { useState, useEffect } from "react";
+
+import { useActionData } from "@remix-run/react";
 
 export const usePersistentActionData = <T>(): { entry: T }[] => {
   const [dataLog, setDataLog] = useState<{ entry: T }[]>([]);

@@ -1,5 +1,6 @@
 import { json } from "@remix-run/node";
-import { ActionFunction } from "@remix-run/server-runtime";
+import type { ActionFunction } from "@remix-run/server-runtime";
+
 import { db } from "~/database";
 import { getAuthSession } from "~/modules/auth";
 
@@ -10,7 +11,6 @@ export const action: ActionFunction = async ({ request, params }) => {
   const formData = await request.formData();
   const value = parseInt(formData.get("value") as string, 10);
 
-  console.log({ userId, postId, value });
   if (!userId || isNaN(postId) || isNaN(value)) {
     // it's a bad request, but we don't want to throw an error;
     return null;

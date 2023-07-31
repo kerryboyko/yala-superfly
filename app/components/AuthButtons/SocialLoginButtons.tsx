@@ -1,4 +1,5 @@
 import { useCallback } from "react";
+
 import { supabaseClient } from "~/integrations/supabase";
 import socialLoginButtonStyles from "~/styles/social-login-buttons.css";
 

@@ -1,5 +1,7 @@
-import { Link, useNavigate } from "@remix-run/react";
-import { ChangeEventHandler, useMemo } from "react";
+import type { ChangeEventHandler } from "react";
+import { useMemo } from "react";
+
+import { useNavigate } from "@remix-run/react";
 
 const shouldShowPaginator = (totalCount: number, perPage: number) =>
   totalCount > perPage;
@@ -17,11 +19,13 @@ export const Paginator = ({ perPage, currentPage, totalCount }: any) => {
     () => howManyPages(totalCount, perPage),
     [totalCount, perPage],
   );
-  const pageSpread = useMemo(() => {
-    return Array(totalPages)
-      .fill(null)
-      .map((_, index) => index + 1);
-  }, [totalPages]);
+  const pageSpread = useMemo(
+    () =>
+      Array(totalPages)
+        .fill(null)
+        .map((_, index) => index + 1),
+    [totalPages],
+  );
 
   if (!shouldShowPaginator(totalCount, perPage)) {
     return null;
@@ -32,7 +36,11 @@ export const Paginator = ({ perPage, currentPage, totalCount }: any) => {
         Go to page #{" "}
         <select onChange={handleNewCurrentPage} name="pagination-per-page">
           {pageSpread.map((amt) => (
-            <option selected={currentPage === amt} value={amt}>
+            <option
+              key={amt.toString()}
+              selected={currentPage === amt}
+              value={amt}
+            >
               {amt}
             </option>
           ))}

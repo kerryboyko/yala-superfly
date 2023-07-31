@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import type { LinksFunction, LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
@@ -5,32 +7,18 @@ import {
   useLoaderData,
   useRouteError,
 } from "@remix-run/react";
-import { db } from "~/database/db.server";
-import { getAuthSession } from "~/modules/auth";
-
 import pick from "lodash/pick";
-import { Card, CardContent, CardHeader } from "~/components/ui/custom/card";
-import { Button } from "~/components/ui/button";
-import { useState } from "react";
+
 import ModerationEntry, {
   styles as moderationEntryStyles,
 } from "~/components/ModTools/ModerationEntry";
+import { Button } from "~/components/ui/button";
+import { Card, CardContent, CardHeader } from "~/components/ui/custom/card";
+import { db } from "~/database/db.server";
+import { getAuthSession } from "~/modules/auth";
 import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 
 export const links: LinksFunction = linkFunctionFactory(moderationEntryStyles);
-
-interface SubscriptionType {
-  communityRoute: string;
-  community: {
-    name: string;
-    route: string;
-    description: string | null;
-    _count: {
-      posts: number;
-      comments: number;
-    };
-  };
-}
 
 export const loader = async ({ params, request }: LoaderArgs) => {
   const profile = await db.profile.findUnique({
@@ -117,7 +105,7 @@ export function ErrorBoundary() {
   const error = useRouteError();
 
   if (isRouteErrorResponse(error) && error.status === 404) {
-    console.log(error);
+    console.error(error);
     return (
       <div className="error-container">
         We could not find the user in question.

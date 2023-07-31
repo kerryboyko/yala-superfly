@@ -1,8 +1,4 @@
-import type {
-  LinksFunction,
-  LoaderFunction,
-  TypedResponse,
-} from "@remix-run/node";
+import type { LoaderFunction, TypedResponse } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import {
   isRouteErrorResponse,
@@ -11,14 +7,12 @@ import {
   useParams,
   useRouteError,
 } from "@remix-run/react";
-import { Header } from "~/components/Header/Header";
 
+import { Header } from "~/components/Header/Header";
 import { db } from "~/database/db.server";
 import { getAuthSession } from "~/modules/auth";
-
 import headerStyles from "~/styles/header.css";
 import indexStyles from "~/styles/index.css";
-
 import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 
 export const links = linkFunctionFactory(headerStyles, indexStyles);

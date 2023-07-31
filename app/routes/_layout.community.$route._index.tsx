@@ -7,14 +7,15 @@ import {
   useRouteError,
 } from "@remix-run/react";
 import { formatRelative } from "date-fns";
+
 import PostSummary, {
   styles as postSummaryStyles,
 } from "~/components/Post/PostSummary";
 import { db } from "~/database/db.server";
-import type { PostSummaryData } from "~/types/posts";
 import { getAuthSession } from "~/modules/auth/session.server";
-import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 import { getVotesByPostId } from "~/modules/post";
+import type { PostSummaryData } from "~/types/posts";
+import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 
 export const links = linkFunctionFactory(postSummaryStyles);
 

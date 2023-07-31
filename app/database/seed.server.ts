@@ -71,7 +71,7 @@ async function seed() {
 
     console.log(`Database has been seeded. 🌱\n`);
     console.log(
-      `User added to your database 👇 \n🆔: ${user.id}\n📧: ${user.email}\n🔑: supabase`,
+      `User added to your database 👇 \n🆔: ${user.id}\n📧: ${user.email}\n😀: ${profile.username}\n🔑: supabase`,
     );
   } catch (cause) {
     console.error(cause);

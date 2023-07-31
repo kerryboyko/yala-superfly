@@ -1,6 +1,8 @@
-import { useNavigation } from "@remix-run/react";
 import type { ChangeEventHandler } from "react";
 import { useEffect, useState } from "react";
+
+import { useNavigation } from "@remix-run/react";
+
 import MarkdownTextarea from "~/components/Markdown/MarkdownTextarea";
 
 export interface CreateCommentProps {

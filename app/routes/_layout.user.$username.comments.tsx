@@ -5,18 +5,17 @@ import {
   useLoaderData,
   useRouteError,
 } from "@remix-run/react";
-import { db } from "~/database/db.server";
-import { getAuthSession } from "~/modules/auth";
-
-import pick from "lodash/pick";
 import { format } from "date-fns";
+import pick from "lodash/pick";
 
-import { grabQueryParams } from "~/logic/grabQueryParams";
-import type { Pagination } from "~/types/posts";
 import type { CommentSummaryData } from "~/components/Comment/CommentSummary";
 import CommentSummary from "~/components/Comment/CommentSummary";
 import Paginator from "~/components/Paginator/Paginator";
 import { Card } from "~/components/ui/custom/card";
+import { db } from "~/database/db.server";
+import { grabQueryParams } from "~/logic/grabQueryParams";
+import { getAuthSession } from "~/modules/auth";
+import type { Pagination } from "~/types/posts";
 
 const defaultPagination: Pagination = {
   perPage: 25,

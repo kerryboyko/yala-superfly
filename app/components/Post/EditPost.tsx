@@ -1,5 +1,9 @@
 import type { ChangeEventHandler } from "react";
 import { useState } from "react";
+
+import { Link } from "@remix-run/react";
+
+import { Button } from "~/components/ui/button";
 import {
   Card,
   CardContent,
@@ -7,13 +11,9 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/custom/card";
-import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
-import { DragDropFile } from "~/components/DragDropFile/DragDropFile";
-import { Loader2 } from "lucide-react";
+
 import MarkdownDisplay from "../Markdown/MarkdownDisplay";
 import MarkdownTextarea from "../Markdown/MarkdownTextarea";
-import { Link } from "@remix-run/react";
 
 export const EditPost = ({
   initialText,

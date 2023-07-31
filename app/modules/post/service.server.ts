@@ -1,6 +1,6 @@
-import { PrismaPromise } from "@prisma/client";
+import type { PrismaPromise } from "@prisma/client";
+
 import { db } from "~/database/db.server";
-import { PostSummaryData } from "~/types/posts";
 
 export const getVotesByPostId = (
   postId: number,

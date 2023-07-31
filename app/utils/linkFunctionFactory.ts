@@ -1,4 +1,4 @@
-import { LinksFunction } from "@remix-run/server-runtime";
+import type { LinksFunction } from "@remix-run/server-runtime";
 import flattenDeep from "lodash/flattenDeep";
 import uniq from "lodash/uniq";
 

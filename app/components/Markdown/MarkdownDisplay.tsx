@@ -1,7 +1,8 @@
-import { marked } from "marked";
-import { sanitize } from "isomorphic-dompurify";
 import type { ReactElement } from "react";
 import { useMemo } from "react";
+
+import { sanitize } from "isomorphic-dompurify";
+import { marked } from "marked";
 
 const mdToHTML = (markdownString: string): string =>
   sanitize(

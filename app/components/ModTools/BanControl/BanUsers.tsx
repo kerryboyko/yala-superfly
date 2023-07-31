@@ -1,16 +1,13 @@
-import { ChangeEventHandler, useState } from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "../../ui/custom/card";
-import { Textarea } from "../../ui/textarea";
+import type { ChangeEventHandler } from "react";
+import { useState } from "react";
+
 import { useFetcher } from "@remix-run/react";
-import { Button } from "../../ui/button";
-import { Input } from "../../ui/input";
+
 import DisplayBannedUsers from "./DisplayBannedUsers";
+import { Button } from "../../ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "../../ui/custom/card";
+import { Input } from "../../ui/input";
+import { Textarea } from "../../ui/textarea";
 
 export interface BannedUser {
   bannedUser: {
@@ -75,7 +72,7 @@ export const BanUsers = ({
                 <div>The following users could not be banned</div>
                 {fetcher.data.ineligibleUsers.map(
                   ([username, reason]: [string, string]) => (
-                    <div>
+                    <div key={JSON.stringify([username, reason])}>
                       {username}: {reason}
                     </div>
                   ),

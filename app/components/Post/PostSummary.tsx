@@ -1,14 +1,16 @@
 import { Link } from "@remix-run/react";
-import type { PostSummaryData } from "~/types/posts";
+import { Link as LinkIcon } from "lucide-react";
+
+import { Card, CardDescription, CardTitle } from "~/components/ui/custom/card";
 import {
   getAuthorRoute,
   getCommunityLink,
   getCommentLink,
 } from "~/logic/getPostLinks";
-import { Card, CardDescription, CardTitle } from "~/components/ui/custom/card";
-import { Link as LinkIcon } from "lucide-react";
-import PostTools, { styles as postToolsStyles } from "./PostTools";
 import postSummaryStyles from "~/styles/post-summary.css";
+import type { PostSummaryData } from "~/types/posts";
+
+import PostTools, { styles as postToolsStyles } from "./PostTools";
 import PostVotes, { styles as postVoteStyles } from "./PostVotes";
 import { CardHeader } from "../ui/card";
 
@@ -23,15 +25,7 @@ export const PostSummary: React.FC<
     userVoted?: null | number;
     voteCount?: null | number;
   }
-> = ({
-  index,
-  showCommunity,
-  userModerates,
-  userIsAuthor,
-  voteCount,
-  userVoted,
-  ...post
-}) => {
+> = ({ index, userModerates, userIsAuthor, voteCount, userVoted, ...post }) => {
   const firstEmbed = post.embeds?.split(";")[0];
   return (
     <Card

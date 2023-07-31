@@ -1,4 +1,4 @@
-import { VoteValue } from "~/types/posts";
+import type { VoteValue } from "~/types/posts";
 
 export const VOTE_VALUES: Record<VoteValue, number> = {
   U: 1, // upvote

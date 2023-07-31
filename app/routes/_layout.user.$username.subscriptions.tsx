@@ -1,22 +1,21 @@
-import type { LinksFunction, LoaderArgs } from "@remix-run/node";
+import { useState } from "react";
+
+import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
   isRouteErrorResponse,
   useLoaderData,
   useRouteError,
 } from "@remix-run/react";
-import { db } from "~/database/db.server";
-import { getAuthSession } from "~/modules/auth";
-
 import pick from "lodash/pick";
 
-import { Card, CardContent, CardHeader } from "~/components/ui/custom/card";
 import Subscription, {
   styles as subscriptionStyles,
 } from "~/components/Subscription/Subscription";
 import { Button } from "~/components/ui/button";
-import { useState } from "react";
-
+import { Card, CardContent, CardHeader } from "~/components/ui/custom/card";
+import { db } from "~/database/db.server";
+import { getAuthSession } from "~/modules/auth";
 import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 
 export const links = linkFunctionFactory(subscriptionStyles);
@@ -114,7 +113,7 @@ export function ErrorBoundary() {
   const error = useRouteError();
 
   if (isRouteErrorResponse(error) && error.status === 404) {
-    console.log(error);
+    console.error(error);
     return (
       <div className="error-container">
         We could not find the user in question.

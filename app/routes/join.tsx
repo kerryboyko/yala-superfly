@@ -1,4 +1,10 @@
 import { redirect, json } from "@remix-run/node";
+import type {
+  ActionArgs,
+  LinksFunction,
+  LoaderArgs,
+  V2_MetaFunction,
+} from "@remix-run/node";
 import {
   Form,
   Link,
@@ -11,6 +17,19 @@ import { useTranslation } from "react-i18next";
 import { createCustomIssues, parseFormAny, useZorm } from "react-zorm";
 import { z } from "zod";
 
+import {
+  SocialLoginButtons,
+  styles as socialLoginButtonStyles,
+} from "~/components/AuthButtons/SocialLoginButtons";
+import { Button } from "~/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "~/components/ui/custom/card";
+import { Input } from "~/components/ui/input";
+import { Label } from "~/components/ui/label";
 import { i18nextServer } from "~/integrations/i18n";
 import { createAuthSession, getAuthSession } from "~/modules/auth";
 import {
@@ -18,30 +37,8 @@ import {
   createUserAccount,
   getProfileByUsername,
 } from "~/modules/user";
-import { SERVER_URL, assertIsPost, isFormProcessing } from "~/utils";
-// import { ContinueWithEmailForm } from "~/components/AuthButtons/ContinueWithEmailForm";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "~/components/ui/custom/card";
-import { Label } from "~/components/ui/label";
-import { Input } from "~/components/ui/input";
-import { Button } from "~/components/ui/button";
-
 import authStyles from "~/styles/auth.css";
-
-import type {
-  ActionArgs,
-  LinksFunction,
-  LoaderArgs,
-  V2_MetaFunction,
-} from "@remix-run/node";
-import {
-  SocialLoginButtons,
-  styles as socialLoginButtonStyles,
-} from "~/components/AuthButtons/SocialLoginButtons";
+import { assertIsPost, isFormProcessing } from "~/utils";
 import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 
 export const links: LinksFunction = linkFunctionFactory(

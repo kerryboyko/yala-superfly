@@ -1,4 +1,4 @@
-import type { LinksFunction, LoaderArgs } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
   isRouteErrorResponse,
@@ -10,6 +10,7 @@ import {
 } from "@remix-run/react";
 import { formatRelative } from "date-fns";
 import omit from "lodash/omit";
+
 import MarkdownDisplay from "~/components/Markdown/MarkdownDisplay";
 import SubscribeButton, {
   styles as subscribeButtonStyles,
@@ -18,7 +19,6 @@ import { Button } from "~/components/ui/button";
 import { db } from "~/database/db.server";
 import { getAuthSession } from "~/modules/auth";
 import communityStyles from "~/styles/community.css";
-
 import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 
 export const links = linkFunctionFactory(

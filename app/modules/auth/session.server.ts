@@ -1,5 +1,6 @@
 import { createCookieSessionStorage, redirect } from "@remix-run/node";
 
+import { getSupabaseAdmin } from "~/integrations/supabase/client";
 import {
   getCurrentPath,
   isGet,
@@ -9,7 +10,7 @@ import {
   SESSION_SECRET,
 } from "~/utils";
 
-import { refreshAccessToken, verifyAuthSession } from "./service.server";
+import { refreshAccessToken } from "./service.server";
 import type { AuthSession } from "./types";
 
 const SESSION_KEY = "authenticated";
@@ -121,6 +122,14 @@ async function assertAuthSession(
   return authSession;
 }
 
+const verifyAuthSession = async (accessToken: string) => {
+  const { data, error } = await getSupabaseAdmin().auth.getUser(accessToken);
+
+  if (!data.user || error) return null;
+
+  return data.user;
+};
+
 /**
  * Assert auth session is present and verified from supabase auth api
  *
@@ -148,7 +157,9 @@ export async function requireAuthSession(
 
   // ok, let's challenge its access token.
   // by default, we don't verify the access token from supabase auth api to save some time
-  const isValidSession = verify ? await verifyAuthSession(authSession) : true;
+  const isValidSession = verify
+    ? await verifyAuthSession(authSession.accessToken)
+    : true;
 
   // damn, access token is not valid or expires soon
   // let's try to refresh, in case of 🧐

@@ -1,3 +1,6 @@
+import { useFetcher } from "@remix-run/react";
+import { Trash2 } from "lucide-react";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,13 +12,9 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "~/components/ui/alert-dialog";
-import { Button } from "~/components/ui/button";
-import { Trash2 } from "lucide-react";
-
 // TODO: This is a refactor target - we should have each component with it's own styles,
 // and then import them into the pages the component is used on, NOT use SCSS imports.
 import deletePostButtonStyles from "~/styles/delete-post-button.css";
-import { useFetcher } from "@remix-run/react";
 
 export const styles = deletePostButtonStyles;
 

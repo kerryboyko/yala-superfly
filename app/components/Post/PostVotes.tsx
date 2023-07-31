@@ -1,7 +1,9 @@
-import { ArrowBigUp, ArrowBigDown } from "lucide-react";
-import postVoteStyles from "~/styles/post-votes.css";
-import { useFetcher } from "@remix-run/react";
 import { useCallback } from "react";
+
+import { useFetcher } from "@remix-run/react";
+import { ArrowBigUp, ArrowBigDown } from "lucide-react";
+
+import postVoteStyles from "~/styles/post-votes.css";
 
 export const styles = postVoteStyles;
 
@@ -22,13 +24,15 @@ export const PostVotes = ({
   const voteFetcher = useFetcher();
   const postVotes = coerceVotes(votes);
 
-  const handleVote = (vote: number) =>
-    useCallback(() => {
+  const handleVote = useCallback(
+    (vote: number) => () => {
       voteFetcher.submit(
         { value: vote === userVoted ? 0 : vote },
         { method: "post", action: `/api/v1/vote/post/${postId}` },
       );
-    }, [postId, userVoted]);
+    },
+    [postId, userVoted, voteFetcher],
+  );
 
   return (
     <div className={`post-votes ${isSmall ? "small" : ""}`}>

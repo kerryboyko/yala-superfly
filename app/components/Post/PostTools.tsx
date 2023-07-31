@@ -1,9 +1,11 @@
 import { Link } from "@remix-run/react";
+import { FileEdit } from "lucide-react";
+
+import editPostButtonStyles from "~/styles/edit-post-button.css";
+
 import DeletePostButton, {
   styles as deletePostButtonStyles,
 } from "./DeletePostButton";
-import editPostButtonStyles from "~/styles/edit-post-button.css";
-import { FileEdit } from "lucide-react";
 
 export const styles = [editPostButtonStyles, deletePostButtonStyles];
 
@@ -19,33 +21,31 @@ export const PostTools = ({
   communityRoute: string;
   postId: string | number;
   postTitle?: string;
-}) => {
-  return (
-    <div className="post-tools">
-      {isAuthor ? (
-        <Link to={`/community/${communityRoute}/post/edit/${postId}`}>
-          <div className="edit-post-button">
-            <FileEdit className="edit-post-button--icon" />
-            Edit
-          </div>
-        </Link>
-      ) : null}
-      {isAuthor || isModerator ? (
-        <div className="post-tools__command">
-          <DeletePostButton
-            communityRoute={communityRoute}
-            postId={postId}
-            postTitle={postTitle}
-          />
+}) => (
+  <div className="post-tools">
+    {isAuthor ? (
+      <Link to={`/community/${communityRoute}/post/edit/${postId}`}>
+        <div className="edit-post-button">
+          <FileEdit className="edit-post-button--icon" />
+          Edit
         </div>
-      ) : null}
-      {/* {isModerator ? (
+      </Link>
+    ) : null}
+    {isAuthor || isModerator ? (
+      <div className="post-tools__command">
+        <DeletePostButton
+          communityRoute={communityRoute}
+          postId={postId}
+          postTitle={postTitle}
+        />
+      </div>
+    ) : null}
+    {/* {isModerator ? (
         <div className="post-tools__command">
           <s>Lock</s>
         </div>
       ) : null} */}
-    </div>
-  );
-};
+  </div>
+);
 
 export default PostTools;

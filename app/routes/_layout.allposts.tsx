@@ -1,4 +1,4 @@
-import type { LinksFunction, LoaderArgs } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
   isRouteErrorResponse,
@@ -6,20 +6,20 @@ import {
   useParams,
   useRouteError,
 } from "@remix-run/react";
-import { format, formatRelative } from "date-fns";
+import { format } from "date-fns";
+import pick from "lodash/pick";
+
+import Paginator from "~/components/Paginator/Paginator";
 import PostSummary, {
   styles as postSummaryStyles,
 } from "~/components/Post/PostSummary";
 import { db } from "~/database/db.server";
-import type { Pagination, PostSummaryData } from "~/types/posts";
-import allPostsStyles from "~/styles/all-posts.css";
-import { getAuthSession } from "~/modules/auth/session.server";
 import { grabQueryParams } from "~/logic/grabQueryParams";
-import pick from "lodash/pick";
-import Paginator from "~/components/Paginator/Paginator";
-import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
-import { values } from "lodash";
+import { getAuthSession } from "~/modules/auth/session.server";
 import { getVotesByPostId } from "~/modules/post";
+import allPostsStyles from "~/styles/all-posts.css";
+import type { Pagination, PostSummaryData } from "~/types/posts";
+import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 
 export const links = linkFunctionFactory(postSummaryStyles, allPostsStyles);
 
@@ -28,7 +28,7 @@ const defaultPagination: Pagination = {
   pageNum: 1,
 };
 
-export const loader = async ({ request, params }: LoaderArgs) => {
+export const loader = async ({ request }: LoaderArgs) => {
   const queryParams = grabQueryParams(request.url);
   // if ?pageNum= or ?perPage= is defined, use this.
   const pagination = Object.assign({}, defaultPagination, queryParams);

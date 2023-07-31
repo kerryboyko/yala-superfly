@@ -1,4 +1,8 @@
 import { Link } from "@remix-run/react";
+import { format } from "date-fns";
+import { Link as LinkIcon } from "lucide-react";
+
+import { MarkdownDisplay } from "~/components/Markdown/MarkdownDisplay";
 import {
   Card,
   CardContent,
@@ -7,11 +11,9 @@ import {
   CardTitle,
 } from "~/components/ui/custom/card";
 import { getAuthorRoute, getCommunityLink } from "~/logic/getPostLinks";
-import { format } from "date-fns";
-import { Link as LinkIcon } from "lucide-react";
-import { MarkdownDisplay } from "~/components/Markdown/MarkdownDisplay";
-import PostTools, { styles as postToolsStyles } from "./PostTools";
 import postDetailsStyles from "~/styles/post-details.css";
+
+import PostTools, { styles as postToolsStyles } from "./PostTools";
 import PostVotes, { styles as postVotesStyles } from "./PostVotes";
 
 export const styles = [postDetailsStyles, postVotesStyles].concat(
@@ -111,7 +113,7 @@ export const PostDetails = ({
       {text || embeds ? (
         <CardContent className="post-details__content">
           {embeds && Array.isArray(allEmbeds)
-            ? allEmbeds?.map((embed: string, idx: number) => (
+            ? allEmbeds?.map((embed: string) => (
                 <div key={embed} className="post-details__content__embed">
                   <img
                     alt=""

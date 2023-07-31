@@ -1,16 +1,18 @@
 import { Link } from "@remix-run/react";
-import type { PostSummaryData } from "~/types/posts";
-import { getCommunityLink, getCommentLink } from "~/logic/getPostLinks";
 import { Link as LinkIcon, Image as ImageIcon } from "lucide-react";
+
+import { getCommunityLink, getCommentLink } from "~/logic/getPostLinks";
 import truncateWithoutWordBreak from "~/logic/truncateWithoutWordBreak";
-import MarkdownDisplay from "../Markdown/MarkdownDisplay";
+import type { PostSummaryData } from "~/types/posts";
+
 import PostVotes, { styles as postVoteStyles } from "./PostVotes";
+import MarkdownDisplay from "../Markdown/MarkdownDisplay";
 
 export const styles = postVoteStyles;
 
 export const PostSummarySmall: React.FC<
-  PostSummaryData & { index: number; showCommunity?: boolean }
-> = ({ index, showCommunity, ...post }) => {
+  PostSummaryData & { index: number }
+> = ({ index, ...post }) => {
   const truncatedText = truncateWithoutWordBreak(post.text || "", 100);
   return (
     <div className={`post-summary-small ${index % 2 === 0 ? "even" : "odd"}`}>

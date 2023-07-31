@@ -6,26 +6,27 @@ import {
   useParams,
   useRouteError,
 } from "@remix-run/react";
-import { db } from "~/database/db.server";
 import { format, formatDistance } from "date-fns";
+import pick from "lodash/pick";
+
+import CommentSummarySmall from "~/components/Comment/CommentSummarySmall";
 import PostSummarySmall, {
   styles as postSummaryStyles,
 } from "~/components/Post/PostSummarySmall";
-import pick from "lodash/pick";
-import type { PostSummaryData } from "~/types/posts";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
 } from "~/components/ui/custom/card";
-import CommentSummarySmall from "~/components/Comment/CommentSummarySmall";
-import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
+import { db } from "~/database/db.server";
+import { getAuthSession } from "~/modules/auth/session.server";
 import {
   getMyVotesByUserIdOnPosts,
   getVotesForManyPosts,
 } from "~/modules/post";
-import { getAuthSession } from "~/modules/auth/session.server";
+import type { PostSummaryData } from "~/types/posts";
+import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 
 export const links = linkFunctionFactory(postSummaryStyles);
 

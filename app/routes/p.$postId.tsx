@@ -1,5 +1,6 @@
 import type { LoaderArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
+
 import { db } from "~/database/db.server";
 
 export const loader = async ({ params }: LoaderArgs) => {

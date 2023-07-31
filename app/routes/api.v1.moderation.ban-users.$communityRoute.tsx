@@ -1,6 +1,7 @@
-import { ActionFunction, json, redirect } from "@remix-run/node";
+import type { ActionFunction } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
+
 import { db } from "~/database";
-import { formDataToObject } from "~/logic/formDataToObject";
 import { requireAuthSession } from "~/modules/auth";
 
 const isUserNotEligibleForBan = async ({
@@ -32,7 +33,7 @@ const isUserNotEligibleForBan = async ({
       communityRoute,
     },
   });
-  if (!!bannedUserIsModerator) {
+  if (bannedUserIsModerator) {
     return {
       ok: false,
       message: "User moderates the community",

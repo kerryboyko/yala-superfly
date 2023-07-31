@@ -1,6 +1,4 @@
 import { NavLink } from "@remix-run/react";
-import MarkdownDisplay from "../Markdown/MarkdownDisplay";
-import { I } from "vitest/dist/types-198fd1d9";
 
 export interface UserTabsProps {
   username: string;

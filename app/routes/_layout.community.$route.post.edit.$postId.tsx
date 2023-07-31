@@ -1,8 +1,4 @@
-import type {
-  ActionFunction,
-  LinksFunction,
-  LoaderArgs,
-} from "@remix-run/node";
+import type { ActionFunction, LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import {
   Form,
@@ -11,14 +7,12 @@ import {
   useParams,
   useRouteError,
 } from "@remix-run/react";
-import { styles as postDetailsStyles } from "~/components/Post/PostDetails";
-import { db } from "~/database/db.server";
-import { getAuthSession, requireAuthSession } from "~/modules/auth";
-
-import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 
 import EditPost from "~/components/Post/EditPost";
-import { post } from "@supabase/storage-js/dist/module/lib/fetch";
+import { styles as postDetailsStyles } from "~/components/Post/PostDetails";
+import { db } from "~/database/db.server";
+import { requireAuthSession } from "~/modules/auth";
+import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 
 export const links = linkFunctionFactory(postDetailsStyles);
 
@@ -70,7 +64,7 @@ export const action: ActionFunction = async ({ request, params }) => {
   if (!exists) {
     throw redirect(`/community/${params.route}/post/${params.postId}`);
   }
-  const post = await db.post.update({
+  await db.post.update({
     where: wherePost,
     data: {
       text: postEditText,

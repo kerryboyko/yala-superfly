@@ -1,12 +1,10 @@
+import { db } from "~/database";
 import { getSupabaseAdmin } from "~/integrations/supabase";
 import { SERVER_URL } from "~/utils/env";
+import { stringIsEmail } from "~/utils/stringIsEmail";
 
 import { mapAuthSession } from "./mappers";
 import type { AuthSession } from "./types";
-import { LoaderArgs } from "@remix-run/node";
-import { getAuthSession } from "./session.server";
-import { stringIsEmail } from "~/utils/stringIsEmail";
-import { db } from "~/database";
 
 export async function createEmailAuthAccount(email: string, password: string) {
   const { data, error } = await getSupabaseAdmin().auth.admin.createUser({
@@ -108,29 +106,4 @@ export async function refreshAccessToken(
   if (!data.session || error) return null;
 
   return mapAuthSession(data.session);
-}
-
-export async function verifyAuthSession(authSession: AuthSession) {
-  const authAccount = await getAuthAccountByAccessToken(
-    authSession.accessToken,
-  );
-
-  return Boolean(authAccount);
-}
-
-export async function verifyAuthSessionByRequest(
-  request: LoaderArgs["request"],
-) {
-  const session = await getAuthSession(request);
-  if (session === null || session === undefined) {
-    return false;
-  }
-  return await verifyAuthSession(session);
-}
-
-export async function getAuthByRequest(request: LoaderArgs["request"]) {
-  const session = await getAuthSession(request);
-  if (session === null || session === undefined) {
-    return false;
-  }
 }

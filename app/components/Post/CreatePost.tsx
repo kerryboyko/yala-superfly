@@ -1,5 +1,7 @@
 import type { ChangeEventHandler } from "react";
 import { useState } from "react";
+
+import { Button } from "~/components/ui/button";
 import {
   Card,
   CardContent,
@@ -7,10 +9,8 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/custom/card";
-import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
-import { DragDropFile } from "~/components/DragDropFile/DragDropFile";
-import { Loader2 } from "lucide-react";
+
 import MarkdownDisplay from "../Markdown/MarkdownDisplay";
 import MarkdownTextarea from "../Markdown/MarkdownTextarea";
 
@@ -19,8 +19,6 @@ export const CreatePost = () => {
   const [postTitle, setPostTitle] = useState<string>("");
   const [postLink, setPostLink] = useState<string>("");
   const [postBody, setPostBody] = useState<string>("");
-  const [isUploading, setIsUploading] = useState<boolean>(false);
-  const [deleteHashCode, setDeleteHashCode] = useState<string>("");
 
   const togglePreview = () => setShowPreview((state) => !state);
 

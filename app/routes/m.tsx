@@ -1,5 +1,3 @@
 import { redirect } from "@remix-run/node";
 
-export const loader = () => {
-  return redirect("/main");
-};
+export const loader = () => redirect("/main");

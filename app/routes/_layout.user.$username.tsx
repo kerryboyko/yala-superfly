@@ -1,4 +1,4 @@
-import type { LinksFunction, LoaderArgs } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
   Link,
@@ -8,14 +8,13 @@ import {
   useParams,
   useRouteError,
 } from "@remix-run/react";
+import { format, formatDistance } from "date-fns";
+
 import { UserTabs } from "~/components/User/UserTabs";
 import { db } from "~/database/db.server";
 import { getAuthSession } from "~/modules/auth";
-
-import userStyles from "~/styles/user.css";
 import postSummaryStyles from "~/styles/post-summary.css";
-import { format, formatDistance } from "date-fns";
-
+import userStyles from "~/styles/user.css";
 import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 
 export const links = linkFunctionFactory(postSummaryStyles, userStyles);
