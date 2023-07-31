@@ -46,23 +46,43 @@ export const loader = async ({ request, params }: LoaderArgs) => {
               userId: true,
             },
           },
+          postVotes: {
+            where: {
+              voterId: authUser?.userId,
+            },
+          },
         },
       },
     },
   });
+
   if (!communityPosts) {
     throw new Response("Not found.", {
       status: 404,
     });
   }
-  const posts: PostSummaryData[] = communityPosts.posts.map((p) => ({
-    ...p,
-    createdAt: formatRelative(new Date(p.createdAt), new Date()),
-    author: p.author.username,
-    commentCount: p._count.comments,
+  const votes = await db.$transaction(
+    communityPosts.posts.map((post) =>
+      db.postVote.aggregate({
+        where: {
+          postId: post.id,
+        },
+        _sum: {
+          value: true,
+        },
+      }),
+    ),
+  );
+  const posts: PostSummaryData[] = communityPosts.posts.map((post, idx) => ({
+    ...post,
+    createdAt: formatRelative(new Date(post.createdAt), new Date()),
+    author: post.author.username,
+    commentCount: post._count.comments,
     communityRoute: communityPosts.route,
     communityName: communityPosts.name,
-    isAuthor: p.author.userId === authUser?.userId,
+    isAuthor: post.author.userId === authUser?.userId,
+    userVoted: post.postVotes[0]?.value || null,
+    voteCount: votes[idx]._sum.value,
   }));
   return json({ posts, userModerates: communityPosts.moderators.length > 0 });
 };

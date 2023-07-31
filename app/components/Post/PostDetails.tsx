@@ -12,6 +12,7 @@ import { Link as LinkIcon } from "lucide-react";
 import { MarkdownDisplay } from "~/components/Markdown/MarkdownDisplay";
 import PostTools, { styles as postToolsStyles } from "./PostTools";
 import postDetailsStyles from "~/styles/post-details.css";
+import PostVotes from "./PostVotes";
 
 export const styles = [postDetailsStyles].concat(postToolsStyles);
 
@@ -32,6 +33,8 @@ interface PostDetails {
   authorIsThisUser: boolean;
   userModeratesThisCommunity: boolean;
   postId: number | string;
+  voteCount?: number | null;
+  userVoted?: number | null;
 }
 
 export const PostDetails = ({
@@ -46,12 +49,19 @@ export const PostDetails = ({
   authorIsThisUser,
   userModeratesThisCommunity,
   postId,
+  voteCount,
+  userVoted,
 }: PostDetails) => {
   const allEmbeds = embeds?.split(";");
 
   return (
     <Card className="post-details">
       <CardHeader className="post-details__header">
+        <PostVotes
+          votes={voteCount}
+          userVoted={userVoted}
+          postId={Number(postId)}
+        />
         <CardTitle className="post-details__title">
           {link ? (
             <div className="post-details__title-link">
