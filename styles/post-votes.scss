@@ -1,0 +1,34 @@
+@import "palette";
+@import "mixins/map-deep-get";
+
+.post-votes {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  &__up {
+    cursor: pointer;
+    color: map-deep-get($palettes, "green", "shamrock");
+    &.selected {
+      & svg {
+        fill: map-deep-get($palettes, "green", "shamrock");
+      }
+    }
+  }
+  &__count {
+    font-family: "Ubuntu";
+    font-weight: 700;
+    &.deficit {
+      color: map-deep-get($palettes, "red", "crimson-red");
+    }
+  }
+  &__down {
+    cursor: pointer;
+    color: map-deep-get($palettes, "red", "crimson-red");
+    &.selected {
+      & svg {
+        fill: map-deep-get($palettes, "red", "crimson-red");
+      }
+    }
+  }
+}

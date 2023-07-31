@@ -12,7 +12,14 @@ export interface PostSummaryData {
   isAuthor?: boolean;
 }
 
+export interface PostVoteData {
+  aggregate: number;
+  userVote: string;
+}
+
 export interface Pagination {
   perPage: number;
   pageNum: 1;
 }
+
+export type VoteValue = string & ("U" | "N" | "D");

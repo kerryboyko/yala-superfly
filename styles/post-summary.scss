@@ -7,7 +7,7 @@
 
   display: grid;
   grid-template-areas:
-    "title title"
+    "header header"
     "embed embed"
     "community community"
     "link link"
@@ -16,7 +16,7 @@
   grid-template-columns: auto;
   &.no-embed {
     grid-template-areas:
-      "title title"
+      "header header"
       "community community"
       "link link"
       "info info"
@@ -24,7 +24,7 @@
   }
   @media (min-width: $breakpoint-mobile) {
     grid-template-areas:
-      "embed title title"
+      "embed header header"
       "embed community community"
       "embed link link"
       "embed info info"
@@ -34,7 +34,7 @@
 
     &.no-embed {
       grid-template-areas:
-        "title title"
+        "header header"
         "community community"
         "link link"
         "info info"
@@ -69,12 +69,19 @@
       }
     }
   }
+  &__header {
+    grid-area: header;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0;
+    margin: 0 0 1rem 0;
+  }
   &__title {
-    grid-area: title;
     font-family: "Ubuntu";
     font-weight: 700;
     font-size: 1.5rem;
-    padding: 0 0 1rem 0;
+    padding-left: 1rem;
     > a {
       text-decoration: none;
       color: map-deep-get($palettes, "blue", "ucla");

@@ -18,6 +18,7 @@ import { grabQueryParams } from "~/logic/grabQueryParams";
 import pick from "lodash/pick";
 import Paginator from "~/components/Paginator/Paginator";
 import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
+import { values } from "lodash";
 
 export const links = linkFunctionFactory(postSummaryStyles, allPostsStyles);
 
@@ -61,7 +62,11 @@ export const loader = async ({ request, params }: LoaderArgs) => {
             name: true,
           },
         },
-
+        postVotes: {
+          where: {
+            voterId: authUser?.userId,
+          },
+        },
         author: {
           select: {
             userId: true,
@@ -82,9 +87,24 @@ export const loader = async ({ request, params }: LoaderArgs) => {
     }),
   ]);
 
+  // this won't return the post id but it will correlate the same order.
+  const votes = await db.$transaction(
+    posts.map((post) =>
+      db.postVote.aggregate({
+        where: {
+          postId: post.id,
+        },
+        _sum: {
+          value: true,
+        },
+      }),
+    ),
+  );
+
   return json({
     postCount,
-    posts: posts.map((post) => ({
+    posts: posts.map((post, idx) => ({
+      // the votes array doesn't contain IDs but the indexes should be identical.
       ...pick(post, "id", [
         "title",
         "text",
@@ -92,11 +112,13 @@ export const loader = async ({ request, params }: LoaderArgs) => {
         "communityRoute",
         "embeds",
       ]),
+      userVoted: post.postVotes[0]?.value || null,
       userIsAuthor: post.authorId === authUser?.userId,
       commentCount: post._count.comments,
       createdAt: format(new Date(post.createdAt), "d MMMM, u - h:mm a"),
       communityName: post.community.name,
       author: post.author.username,
+      voteCount: votes[idx]._sum.value,
     })),
     pagination: {
       perPage: pagination.perPage,
@@ -127,6 +149,8 @@ export default function CommunityProfileRoute() {
           index={idx}
           key={post.id}
           userIsAuthor={post.isAuthor}
+          userVoted={post.userVoted}
+          voteCount={post.voteCount}
           {...post}
         />
       ))}

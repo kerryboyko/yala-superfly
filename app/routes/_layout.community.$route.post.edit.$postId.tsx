@@ -90,7 +90,6 @@ export default function EditPostRoute() {
         postTitle={data.title}
         postLink={data.link}
       />
-      <pre>{JSON.stringify(data, null, 2)}</pre>
     </Form>
   );
 }

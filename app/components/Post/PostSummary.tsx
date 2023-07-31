@@ -9,8 +9,10 @@ import { Card, CardDescription, CardTitle } from "~/components/ui/custom/card";
 import { Link as LinkIcon } from "lucide-react";
 import PostTools, { styles as postToolsStyles } from "./PostTools";
 import postSummaryStyles from "~/styles/post-summary.css";
+import PostVotes, { styles as postVoteStyles } from "./PostVotes";
+import { CardHeader } from "../ui/card";
 
-export const styles = [postSummaryStyles].concat(postToolsStyles);
+export const styles = [postVoteStyles, postToolsStyles, postSummaryStyles];
 
 export const PostSummary: React.FC<
   PostSummaryData & {
@@ -18,8 +20,18 @@ export const PostSummary: React.FC<
     showCommunity?: boolean;
     userModerates?: boolean;
     userIsAuthor?: boolean;
+    userVoted?: null | number;
+    voteCount?: null | number;
   }
-> = ({ index, showCommunity, userModerates, userIsAuthor, ...post }) => {
+> = ({
+  index,
+  showCommunity,
+  userModerates,
+  userIsAuthor,
+  voteCount,
+  userVoted,
+  ...post
+}) => {
   const firstEmbed = post.embeds?.split(";")[0];
   return (
     <Card
@@ -28,9 +40,13 @@ export const PostSummary: React.FC<
       }`}
       key={post.id}
     >
-      <CardTitle className="post-summary__title">
-        <Link to={getCommentLink(post)}>{post.title}</Link>
-      </CardTitle>
+      <CardHeader className="post-summary__header">
+        <PostVotes votes={voteCount} userVoted={userVoted} postId={post.id} />
+        <CardTitle className="post-summary__title">
+          <Link to={getCommentLink(post)}>{post.title}</Link>
+        </CardTitle>
+      </CardHeader>
+
       <CardDescription>
         <div className="post-summary__community-link">
           Posted {post.createdAt} to{" "}

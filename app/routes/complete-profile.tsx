@@ -160,7 +160,6 @@ export default function CompeteProfile() {
 
   return (
     <div className="complete-profile">
-      <div>{JSON.stringify(authSession.userId, null, 2)}</div>
       <Card className="complete-profile__card">
         <CardHeader>
           <CardTitle>{t("register.addUsername")}</CardTitle>
