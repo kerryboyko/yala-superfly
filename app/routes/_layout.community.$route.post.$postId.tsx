@@ -30,6 +30,7 @@ import { getAuthSession, requireAuthSession } from "~/modules/auth";
 
 import { useEffect } from "react";
 import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
+import { getMyVoteOnThisPost, getVotesByPostId } from "~/modules/post";
 
 export const links = linkFunctionFactory(postDetailsStyles);
 
@@ -85,9 +86,19 @@ export const loader = async ({ request, params }: LoaderArgs) => {
       status: 404,
     });
   }
+
+  const votes = await getVotesByPostId(post.id);
+  const myVote = authSession?.userId
+    ? await getMyVoteOnThisPost(authSession?.userId, post.id)
+    : null;
+
   const commentTree = createCommentTree(post?.comments);
   return json({
-    post: omit(post, ["comments"]),
+    post: {
+      ...omit(post, ["comments"]),
+      voteCount: votes._sum.value,
+      userVoted: myVote?.value || null,
+    },
     comments: commentTree,
     communityRoute: params.route,
     postId: params.postid,

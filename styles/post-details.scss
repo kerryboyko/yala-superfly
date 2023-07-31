@@ -10,7 +10,17 @@
   margin: 1rem;
   @media (min-width: $breakpoint-mobile) {
   }
-
+  &__header-box {
+    display: flex;
+    align-items: center;
+  }
+  &__header {
+    display: flex;
+  }
+  &__title-box {
+    width: 100%;
+    margin-left: 1rem;
+  }
   &__title {
     font-size: 1.25rem;
     font-weight: 700;

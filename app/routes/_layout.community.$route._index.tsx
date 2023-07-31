@@ -14,6 +14,7 @@ import { db } from "~/database/db.server";
 import type { PostSummaryData } from "~/types/posts";
 import { getAuthSession } from "~/modules/auth/session.server";
 import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
+import { getVotesByPostId } from "~/modules/post";
 
 export const links = linkFunctionFactory(postSummaryStyles);
 
@@ -62,17 +63,9 @@ export const loader = async ({ request, params }: LoaderArgs) => {
     });
   }
   const votes = await db.$transaction(
-    communityPosts.posts.map((post) =>
-      db.postVote.aggregate({
-        where: {
-          postId: post.id,
-        },
-        _sum: {
-          value: true,
-        },
-      }),
-    ),
+    communityPosts.posts.map((post) => getVotesByPostId(post.id)),
   );
+
   const posts: PostSummaryData[] = communityPosts.posts.map((post, idx) => ({
     ...post,
     createdAt: formatRelative(new Date(post.createdAt), new Date()),

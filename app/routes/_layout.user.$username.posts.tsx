@@ -19,6 +19,10 @@ import PostSummary, {
 import { Paginator } from "~/components/Paginator/Paginator";
 
 import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
+import {
+  getMyVotesByUserIdOnPosts,
+  getVotesByPostId,
+} from "~/modules/post/service.server";
 
 export const links = linkFunctionFactory(postSummaryStyles);
 
@@ -28,6 +32,7 @@ const defaultPagination: Pagination = {
 };
 
 export const loader = async ({ params, request }: LoaderArgs) => {
+  const authUser = await getAuthSession(request);
   const queryParams = grabQueryParams(request.url);
   // if ?pageNum= or ?perPage= is defined, use this.
   const pagination = Object.assign({}, defaultPagination, queryParams);
@@ -93,14 +98,27 @@ export const loader = async ({ params, request }: LoaderArgs) => {
       status: 406,
     });
   }
-  const authUser = await getAuthSession(request);
+
   let isThisUser = authUser?.userId === profile.userId;
+
+  const votes = await db.$transaction(
+    profile.posts.map((post) => getVotesByPostId(post.id)),
+  );
+
+  const myVotes = authUser?.userId
+    ? await getMyVotesByUserIdOnPosts(
+        authUser?.userId,
+        profile.posts.map((post) => post.id),
+      )
+    : [];
+
+  console.log(votes, myVotes);
 
   return json({
     ...profile,
     numberPosts: profile._count.posts,
     posts: profile.posts.map(
-      (post): PostSummaryData => ({
+      (post, idx): PostSummaryData => ({
         ...pick(post, ["createdAt", "title", "embeds", "id", "text", "link"]),
         createdAt: format(new Date(post.createdAt), "do MMM, yyyy h:mm aaaa"),
         author: profile.username,
@@ -108,6 +126,8 @@ export const loader = async ({ params, request }: LoaderArgs) => {
         communityName: post.community.name,
         commentCount: post._count.comments,
         isAuthor: true,
+        userVoted: myVotes[idx]?.value || null,
+        voteCount: votes[idx]._sum.value,
       }),
     ),
     isThisUser: isThisUser,
@@ -125,6 +145,8 @@ export default function UserProfilePosts() {
           showCommunity={true}
           index={idx}
           key={post.id}
+          userVoted={post.userVoted}
+          voteCount={post.voteCount}
           {...post}
         />
       ))}

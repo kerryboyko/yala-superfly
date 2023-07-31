@@ -1,8 +1,7 @@
 import { ArrowBigUp, ArrowBigDown } from "lucide-react";
 import postVoteStyles from "~/styles/post-votes.css";
 import { useFetcher } from "@remix-run/react";
-import debounce from "lodash/debounce";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 
 export const styles = postVoteStyles;
 
@@ -13,10 +12,12 @@ export const PostVotes = ({
   votes,
   userVoted,
   postId,
+  isSmall,
 }: {
   votes?: number | null;
   userVoted?: number | null;
   postId: number;
+  isSmall?: boolean;
 }) => {
   const voteFetcher = useFetcher();
   const postVotes = coerceVotes(votes);
@@ -30,19 +31,27 @@ export const PostVotes = ({
     }, [postId, userVoted]);
 
   return (
-    <div className="post-votes">
+    <div className={`post-votes ${isSmall ? "small" : ""}`}>
       <button
         onClick={handleVote(1)}
-        className={`post-votes__up ${userVoted === 1 ? "selected" : ""}`}
+        className={`post-votes__up ${userVoted === 1 ? "selected" : ""} ${
+          isSmall ? "small" : ""
+        }`}
       >
         <ArrowBigUp />
       </button>
-      <div className={`post-votes__count ${postVotes < 0 ? "deficit" : ""}`}>
+      <div
+        className={`post-votes__count ${postVotes < 0 ? "deficit" : ""} ${
+          isSmall ? "small" : ""
+        }`}
+      >
         {postVotes}
       </div>
       <button
         onClick={handleVote(-1)}
-        className={`post-votes__down ${userVoted === -1 ? "selected" : ""}`}
+        className={`post-votes__down ${userVoted === -1 ? "selected" : ""} ${
+          isSmall ? "small" : ""
+        }`}
       >
         <ArrowBigDown />
       </button>

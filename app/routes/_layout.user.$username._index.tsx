@@ -8,7 +8,9 @@ import {
 } from "@remix-run/react";
 import { db } from "~/database/db.server";
 import { format, formatDistance } from "date-fns";
-import PostSummarySmall from "~/components/Post/PostSummarySmall";
+import PostSummarySmall, {
+  styles as postSummaryStyles,
+} from "~/components/Post/PostSummarySmall";
 import pick from "lodash/pick";
 import type { PostSummaryData } from "~/types/posts";
 import {
@@ -18,8 +20,17 @@ import {
   CardTitle,
 } from "~/components/ui/custom/card";
 import CommentSummarySmall from "~/components/Comment/CommentSummarySmall";
+import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
+import {
+  getMyVotesByUserIdOnPosts,
+  getVotesForManyPosts,
+} from "~/modules/post";
+import { getAuthSession } from "~/modules/auth/session.server";
+
+export const links = linkFunctionFactory(postSummaryStyles);
 
 export const loader = async ({ params, request }: LoaderArgs) => {
+  const authUser = await getAuthSession(request);
   const profile = await db.profile.findUnique({
     where: { username: params.username },
     select: {
@@ -66,6 +77,12 @@ export const loader = async ({ params, request }: LoaderArgs) => {
     });
   }
 
+  const votes = await getVotesForManyPosts(profile.posts);
+  const userVotes = await getMyVotesByUserIdOnPosts(
+    authUser?.userId || "",
+    profile.posts.map(({ id }) => id),
+  );
+
   return json({
     profile: {
       ...pick(profile, ["username"]),
@@ -78,7 +95,7 @@ export const loader = async ({ params, request }: LoaderArgs) => {
     numberPosts: profile._count.posts,
     overview: {
       posts: profile.posts.map(
-        (post): PostSummaryData => ({
+        (post, idx): PostSummaryData => ({
           ...pick(post, ["title", "embeds", "id", "text", "link"]),
           createdAt: format(
             new Date(post.createdAt),
@@ -88,6 +105,8 @@ export const loader = async ({ params, request }: LoaderArgs) => {
           communityRoute: post.community.route,
           communityName: post.community.name,
           commentCount: post._count.comments,
+          voteCount: votes[idx]._sum.value || null,
+          userVoted: userVotes[idx]?.value || null,
         }),
       ),
       comments: profile.comments.map((comment) => ({

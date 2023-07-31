@@ -10,6 +10,8 @@ export interface PostSummaryData {
   commentCount: number;
   text: string | null;
   isAuthor?: boolean;
+  userVoted?: number | null;
+  voteCount?: number | null;
 }
 
 export interface PostVoteData {

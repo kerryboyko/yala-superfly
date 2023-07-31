@@ -19,6 +19,7 @@ import pick from "lodash/pick";
 import Paginator from "~/components/Paginator/Paginator";
 import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 import { values } from "lodash";
+import { getVotesByPostId } from "~/modules/post";
 
 export const links = linkFunctionFactory(postSummaryStyles, allPostsStyles);
 
@@ -89,16 +90,7 @@ export const loader = async ({ request, params }: LoaderArgs) => {
 
   // this won't return the post id but it will correlate the same order.
   const votes = await db.$transaction(
-    posts.map((post) =>
-      db.postVote.aggregate({
-        where: {
-          postId: post.id,
-        },
-        _sum: {
-          value: true,
-        },
-      }),
-    ),
+    posts.map((post) => getVotesByPostId(post.id)),
   );
 
   return json({

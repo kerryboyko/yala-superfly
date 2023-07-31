@@ -4,6 +4,9 @@ import { getCommunityLink, getCommentLink } from "~/logic/getPostLinks";
 import { Link as LinkIcon, Image as ImageIcon } from "lucide-react";
 import truncateWithoutWordBreak from "~/logic/truncateWithoutWordBreak";
 import MarkdownDisplay from "../Markdown/MarkdownDisplay";
+import PostVotes, { styles as postVoteStyles } from "./PostVotes";
+
+export const styles = postVoteStyles;
 
 export const PostSummarySmall: React.FC<
   PostSummaryData & { index: number; showCommunity?: boolean }
@@ -38,6 +41,12 @@ export const PostSummarySmall: React.FC<
             /community/{post.communityName}
           </Link>
         </div>
+        <PostVotes
+          votes={post.voteCount}
+          userVoted={post.userVoted}
+          postId={post.id}
+          isSmall={true}
+        />
         <div className="post-summary-small__comments-link">
           <Link to={getCommentLink(post)}>Comments: {post.commentCount}</Link>
         </div>

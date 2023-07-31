@@ -12,9 +12,11 @@ import { Link as LinkIcon } from "lucide-react";
 import { MarkdownDisplay } from "~/components/Markdown/MarkdownDisplay";
 import PostTools, { styles as postToolsStyles } from "./PostTools";
 import postDetailsStyles from "~/styles/post-details.css";
-import PostVotes from "./PostVotes";
+import PostVotes, { styles as postVotesStyles } from "./PostVotes";
 
-export const styles = [postDetailsStyles].concat(postToolsStyles);
+export const styles = [postDetailsStyles, postVotesStyles].concat(
+  postToolsStyles,
+);
 
 interface PostDetails {
   createdAt: string;
@@ -57,48 +59,54 @@ export const PostDetails = ({
   return (
     <Card className="post-details">
       <CardHeader className="post-details__header">
-        <PostVotes
-          votes={voteCount}
-          userVoted={userVoted}
-          postId={Number(postId)}
-        />
-        <CardTitle className="post-details__title">
-          {link ? (
-            <div className="post-details__title-link">
-              <Link className="post-details__title-link--literal" to={link}>
-                {title}
-              </Link>
-            </div>
-          ) : (
-            <div className="post-details__title-text">{title}</div>
-          )}
-        </CardTitle>
-        <CardDescription>
-          <div className="post-details__description">
-            Posted {format(new Date(createdAt), "d MMMM, u - h:mm a")} to{" "}
-            <Link to={getCommunityLink({ communityRoute: community.route })}>
-              /community/{community.name}
-            </Link>{" "}
-            by{" "}
-            <Link to={getAuthorRoute({ author: author.username })}>
-              {author.username}
-            </Link>
-            {updatedAt && createdAt !== updatedAt ? (
-              <div>
-                Last updated:{" "}
-                {format(new Date(updatedAt), "d MMMM, u - h:mm a")}
+        <div className="post-details__header-box">
+          <PostVotes
+            votes={voteCount}
+            userVoted={userVoted}
+            postId={Number(postId)}
+          />
+          <div className="post-details__title-box">
+            <CardTitle className="post-details__title">
+              {link ? (
+                <div className="post-details__title-link">
+                  <Link className="post-details__title-link--literal" to={link}>
+                    {title}
+                  </Link>
+                </div>
+              ) : (
+                <div className="post-details__title-text">{title}</div>
+              )}
+            </CardTitle>
+            <CardDescription>
+              <div className="post-details__description">
+                Posted {format(new Date(createdAt), "d MMMM, u - h:mm a")} to{" "}
+                <Link
+                  to={getCommunityLink({ communityRoute: community.route })}
+                >
+                  /community/{community.name}
+                </Link>{" "}
+                by{" "}
+                <Link to={getAuthorRoute({ author: author.username })}>
+                  {author.username}
+                </Link>
+                {updatedAt && createdAt !== updatedAt ? (
+                  <div>
+                    Last updated:{" "}
+                    {format(new Date(updatedAt), "d MMMM, u - h:mm a")}
+                  </div>
+                ) : null}
               </div>
-            ) : null}
+              {link ? (
+                <Link className="post-details__link--literal" to={link}>
+                  <div className="post-details__link">
+                    <LinkIcon className="link-icon" size="1rem" />
+                    {link}
+                  </div>
+                </Link>
+              ) : null}
+            </CardDescription>
           </div>
-          {link ? (
-            <Link className="post-details__link--literal" to={link}>
-              <div className="post-details__link">
-                <LinkIcon className="link-icon" size="1rem" />
-                {link}
-              </div>
-            </Link>
-          ) : null}
-        </CardDescription>
+        </div>
       </CardHeader>
       {text || embeds ? (
         <CardContent className="post-details__content">
