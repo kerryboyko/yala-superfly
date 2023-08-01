@@ -19,6 +19,12 @@ export const action: ActionFunction = async ({ request }) => {
   const comment = await db.comment.findFirstOrThrow({
     where: commentWhere,
     select: {
+      _count: {
+        select: {
+          childComments: true,
+        },
+      },
+
       authorId: true,
       community: {
         select: {
@@ -31,16 +37,36 @@ export const action: ActionFunction = async ({ request }) => {
       },
     },
   });
-  if (
-    ![
-      comment.authorId,
-      ...comment.community.moderators.map((m) => m.moderatorId),
-    ].includes(authUser.userId)
-  ) {
+  const userIsAuthor = comment.authorId === authUser.userId;
+  const userIsModerator = comment.community.moderators
+    .map((m) => m.moderatorId)
+    .includes(authUser.userId);
+  const commentHasChildren = comment._count.childComments > 0;
+
+  // if the author is not a user or moderator, they cannot delete this post.
+  if (!userIsAuthor && !userIsModerator) {
     throw redirect("/");
   }
-  const deletion = await db.comment.delete({
+  if (!commentHasChildren) {
+    const deletion = await db.comment.delete({
+      where: commentWhere,
+    });
+    return json(
+      { message: "Comment has no children and has been deleted", ...deletion },
+      { status: 200 },
+    );
+  }
+  const softDeletion = await db.comment.update({
     where: commentWhere,
+    data: {
+      text: `[Deleted by ${userIsAuthor ? "author" : "moderator"}]`,
+    },
   });
-  return json({ ...deletion });
+  return json(
+    {
+      ...softDeletion,
+      message: "Comment has children. We've removed the text from this comment",
+    },
+    { status: 200 },
+  );
 };
