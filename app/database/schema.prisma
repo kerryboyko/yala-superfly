@@ -9,12 +9,17 @@ datasource db {
   extensions = [citext(schema: "public")]
 }
 
+// Each of these tables has a 'meta' field added to it, which takes an optional JSON data object. 
+// This is basically to ease development moving forward. Migrating the development database is a snap,
+// migrating the staging/demo database is a pain and a half, so if a feature needs a schema change,
+// we can use 'meta' to store the data (inefficiently) for now, and refactor during the next big schema update. 
 model User {
   id        String   @id @default(cuid())
   email     String   @unique @db.Citext
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   profile   Profile? @relation("UserProfile")
+  meta      Json?
 
   @@index([email, id])
 }
@@ -45,8 +50,9 @@ model Profile {
   posts                     Post[]                 @relation("PostAuthor")
   reactedPosts              PostReaction[]         @relation("ReactedToPost")
   taggedPosts               PostTag[]              @relation("TaggedPost")
-  Voter                 PostVote[]             @relation("PostVoter")
+  Voter                     PostVote[]             @relation("PostVoter")
   user                      User                   @relation("UserProfile", fields: [userId], references: [id], onDelete: Cascade)
+  meta                      Json?
 
   @@index([username])
 }
@@ -69,6 +75,7 @@ model Comment {
   reactions      CommentReaction[] @relation("CommentHasReaction")
   tags           CommentTag[]      @relation("CommentHasTag")
   votes          CommentVote[]     @relation("CommentVote")
+  meta           Json?
 }
 
 model CommentVote {
@@ -77,6 +84,7 @@ model CommentVote {
   comment   Comment @relation("CommentVote", fields: [commentId], references: [id], onDelete: Cascade)
   voterId   String
   voter     Profile @relation("CommentVoter", fields: [voterId], references: [userId], onDelete: Cascade)
+  meta      Json?
 
   @@id([commentId, voterId])
 }
@@ -87,6 +95,7 @@ model PostVote {
   postId  Int
   voter   Profile @relation("PostVoter", fields: [voterId], references: [userId], onDelete: Cascade)
   voterId String
+  meta    Json?
 
   @@id([postId, voterId])
 }
@@ -107,7 +116,8 @@ model Post {
   community      Community      @relation("PostedIn", fields: [communityRoute], references: [route], onDelete: Cascade)
   reactions      PostReaction[] @relation("PostHasReaction")
   tags           PostTag[]      @relation("PostHasTag")
-  Voter      PostVote[]     @relation("PostVote")
+  Voter          PostVote[]     @relation("PostVote")
+  meta           Json?
 }
 
 model Community {
@@ -125,6 +135,7 @@ model Community {
   moderators           CommunityModerators[]  @relation("ModeratedCommunity")
   communitySubscribers CommunitySubscribers[] @relation("SubscribedCommunity")
   posts                Post[]                 @relation("PostedIn")
+  meta                 Json?
 
   @@index([name])
 }
@@ -138,6 +149,7 @@ model CommunityBan {
   bannedBy       Profile   @relation("BanningUser", fields: [bannedById], references: [userId], onDelete: Cascade)
   bannedUser     Profile   @relation("CommunityBan", fields: [bannedUserId], references: [userId], onDelete: Cascade)
   community      Community @relation("BannedFrom", fields: [communityRoute], references: [route], onDelete: Cascade)
+  meta           Json?
 }
 
 model CommunityModerators {
@@ -146,6 +158,7 @@ model CommunityModerators {
   moderatorId    String
   community      Community @relation("ModeratedCommunity", fields: [communityRoute], references: [route], onDelete: Cascade)
   moderator      Profile   @relation("ModeratesCommunity", fields: [moderatorId], references: [userId], onDelete: Cascade)
+  meta           Json?
 }
 
 model CommunitySubscribers {
@@ -154,6 +167,7 @@ model CommunitySubscribers {
   subscriberId   String
   community      Community @relation("SubscribedCommunity", fields: [communityRoute], references: [route], onDelete: Cascade)
   subscriber     Profile   @relation("CommunitySubscriber", fields: [subscriberId], references: [userId], onDelete: Cascade)
+  meta           Json?
 }
 
 model Message {
@@ -168,18 +182,21 @@ model Message {
   parent        Message?  @relation("ParentMessage", fields: [parentId], references: [id], onDelete: Cascade)
   childMessages Message[] @relation("ParentMessage")
   to            Profile   @relation("ReceivedMessage", fields: [toId], references: [userId], onDelete: Cascade)
+  meta          Json?
 }
 
 model Reaction {
   name     String            @id @unique
   comments CommentReaction[] @relation("CommentReactionType")
   posts    PostReaction[]    @relation("PostReactionType")
+  meta     Json?
 }
 
 model Tag {
   name       String       @id @unique
   CommentTag CommentTag[] @relation("CommentTagIdentity")
   PostTag    PostTag[]    @relation("PostTagIdentity")
+  meta       Json?
 }
 
 model PostTag {
@@ -190,6 +207,7 @@ model PostTag {
   post     Post    @relation("PostHasTag", fields: [postId], references: [id], onDelete: Cascade)
   tag      Tag     @relation("PostTagIdentity", fields: [tagName], references: [name], onDelete: Cascade)
   tagger   Profile @relation("TaggedPost", fields: [taggerId], references: [userId], onDelete: Cascade)
+  meta     Json?
 }
 
 model CommentTag {
@@ -200,6 +218,7 @@ model CommentTag {
   taggerId  String
   tag       Tag     @relation("CommentTagIdentity", fields: [tagName], references: [name], onDelete: Cascade)
   tagger    Profile @relation("TaggedComment", fields: [taggerId], references: [userId], onDelete: Cascade)
+  meta      Json?
 }
 
 model PostReaction {
@@ -210,6 +229,7 @@ model PostReaction {
   post         Post     @relation("PostHasReaction", fields: [postId], references: [id], onDelete: Cascade)
   reaction     Reaction @relation("PostReactionType", fields: [reactionName], references: [name], onDelete: Cascade)
   reactor      Profile  @relation("ReactedToPost", fields: [reactorId], references: [userId], onDelete: Cascade)
+  meta         Json?
 }
 
 model CommentReaction {
@@ -220,4 +240,5 @@ model CommentReaction {
   comment      Comment  @relation("CommentHasReaction", fields: [commentId], references: [id], onDelete: Cascade)
   reaction     Reaction @relation("CommentReactionType", fields: [reactionName], references: [name], onDelete: Cascade)
   reactor      Profile  @relation("ReactedToComment", fields: [reactorId], references: [userId], onDelete: Cascade)
+  meta         Json?
 }
