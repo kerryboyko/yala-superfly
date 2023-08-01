@@ -1,0 +1,145 @@
+@import "palette";
+@import "mixins/map-deep-get";
+@import "component/button";
+
+.show-comment {
+  &.child {
+    padding-left: 1rem;
+    border-left: 3px solid
+      rgba(map-deep-get($palettes, "black", "charcoal"), 0.5);
+  }
+  &__header {
+    font-family: "Ubuntu";
+    font-size: 0.75rem;
+    margin-bottom: 0.25rem;
+  }
+  &__display {
+    font-family: "Noto Sans";
+    font-size: 0.825rem;
+    line-height: 1rem;
+    margin: 0;
+    & p {
+      margin-bottom: 1rem;
+    }
+  }
+  &__footer {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row;
+    &__reply {
+      width: 100%;
+      position: relative;
+      & .create-comment {
+        width: 100%;
+        margin-bottom: 3rem;
+      }
+      &--submit {
+        position: absolute;
+        right: 0;
+        bottom: -2.5rem;
+        & svg {
+          margin-right: 0.5rem;
+        }
+        &:disabled {
+          background-color: map-deep-get($palettes, "grey", "light-grey");
+          color: map-deep-get($palettes, "black", "charcoal");
+          border-color: map-deep-get($palettes, "black", "charcoal");
+        }
+      }
+    }
+    &__reply-button {
+      @include button-primary();
+      margin-left: 1rem;
+      &--text {
+        margin-left: 0.5rem;
+      }
+    }
+    & .comment-tools {
+      display: flex;
+      flex-direction: row;
+      &__reply-button {
+        background-color: transparent;
+        color: map-deep-get($palettes, "blue", "ucla");
+        box-shadow: none;
+        height: auto;
+        padding: 0 0.5rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        &--icon {
+          height: 1rem;
+          width: 1rem;
+          margin-right: 0.25rem;
+        }
+        &:hover {
+          background-color: transparent;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
+
+.delete-comment-button {
+  background-color: transparent;
+  color: map-deep-get($palettes, "red", "warning-red");
+  box-shadow: none;
+  height: auto;
+  padding: 0 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  &--icon {
+    height: 1rem;
+    width: 1rem;
+    margin-right: 0.25rem;
+  }
+  &:hover {
+    background-color: transparent;
+    text-decoration: underline;
+  }
+}
+
+.delete-comment-dialog {
+  &__title {
+    &__link-title {
+      color: map-deep-get($palettes, "blue", "ucla");
+      font-family: "Ubuntu";
+      font-weight: 700;
+    }
+  }
+  &__description {
+  }
+  &__cancel-button {
+  }
+  &__continue-button {
+    background-color: white;
+    color: map-deep-get($palettes, "red", "warning-red");
+    border: 1px solid map-deep-get($palettes, "red", "warning-red");
+    &:hover {
+      background-color: map-deep-get($palettes, "red", "warning-red");
+      color: white;
+    }
+  }
+}
+
+.edit-comment-button {
+  background-color: transparent;
+  color: map-deep-get($palettes, "blue", "ucla");
+  box-shadow: none;
+  height: auto;
+  padding: 0 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  &--icon {
+    height: 1rem;
+    width: 1rem;
+    margin-right: 0.25rem;
+  }
+  &:hover {
+    background-color: transparent;
+    text-decoration: underline;
+  }
+}

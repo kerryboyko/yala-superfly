@@ -31,7 +31,7 @@
       cursor: pointer;
       &:hover {
         text-decoration: underline;
-        color: map-deep-get($palettes, "blue", "honolulu");
+        color: map-deep-get($palettes, "blue", ucla);
       }
     }
     &__route {
@@ -43,7 +43,7 @@
       cursor: pointer;
       &:hover {
         text-decoration: underline;
-        color: map-deep-get($palettes, "blue", "honolulu");
+        color: map-deep-get($palettes, "blue", ucla);
       }
     }
     &__created-by {
@@ -74,5 +74,20 @@
   }
   &__outlet {
     grid-area: outlet;
+  }
+}
+
+.moderate-community {
+  & .ban-control {
+    &__list-users {
+      margin-bottom: 1rem;
+    }
+    &__reason-for-ban {
+      margin-bottom: 1rem;
+      &--warning {
+        color: map-deep-get($palettes, "red", "warning-red");
+        font-size: 0.75rem;
+      }
+    }
   }
 }

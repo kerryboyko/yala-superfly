@@ -5,8 +5,8 @@ import { getCommunityLink, getCommentLink } from "~/logic/getPostLinks";
 import truncateWithoutWordBreak from "~/logic/truncateWithoutWordBreak";
 import type { PostSummaryData } from "~/types/posts";
 
-import Voter, { styles as Votertyles } from "../Votes/Voter";
 import MarkdownDisplay from "../Markdown/MarkdownDisplay";
+import Voter, { styles as Votertyles } from "../Votes/Voter";
 
 export const styles = Votertyles;
 

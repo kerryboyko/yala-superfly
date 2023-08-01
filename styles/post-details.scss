@@ -68,52 +68,6 @@
 .all-comments {
   padding: 1rem;
 }
-.show-comment {
-  &.child {
-    padding-left: 1rem;
-    border-left: 3px solid
-      rgba(map-deep-get($palettes, "black", "charcoal"), 0.5);
-  }
-  &__header {
-    font-family: "Ubuntu";
-    font-size: 0.75rem;
-    margin-bottom: 0.25rem;
-  }
-  &__display {
-    font-family: "Noto Sans";
-    font-size: 0.825rem;
-    line-height: 1rem;
-    margin: 0;
-    & p {
-      margin-bottom: 1rem;
-    }
-  }
-  &__footer {
-    margin-bottom: 1rem;
-    display: flex;
-    justify-content: flex-end;
-    &__reply {
-      width: 100%;
-      position: relative;
-      & .create-comment {
-        width: 100%;
-        margin-bottom: 2rem;
-      }
-      &--submit {
-        position: absolute;
-        right: 0;
-        bottom: 0;
-      }
-    }
-    &__reply-button {
-      @include button-primary();
-      margin-left: 1rem;
-      &--text {
-        margin-left: 0.5rem;
-      }
-    }
-  }
-}
 
 .create-comment {
   margin: 0.5rem;

@@ -2,7 +2,7 @@
 @import "mixins/map-deep-get";
 @import "breakpoints";
 
-$honolulu: map-deep-get($palettes, "blue", "honolulu");
+$honolulu: map-deep-get($palettes, "blue", ucla);
 $ucla: map-deep-get($palettes, "blue", "ucla");
 $golden-gate: map-deep-get($palettes, "red", "golden-gate");
 

@@ -1,17 +1,21 @@
-import { format } from "date-fns";
-
-import { Form, Link, useFetcher, useNavigation } from "@remix-run/react";
-import { MarkdownDisplay } from "~/components/Markdown/MarkdownDisplay";
-import type { RecursiveCommentTreeNode } from "~/types/comments";
-import { Badge } from "~/components/ui/badge";
-import { MessageSquarePlus } from "lucide-react";
 import type { ChangeEventHandler, MouseEventHandler } from "react";
 import { useEffect, useState } from "react";
-import CreateComment from "./CreateComment";
-import Voter from "../Votes/Voter";
+
+import { Form, Link, useFetcher, useNavigation } from "@remix-run/react";
+import { format } from "date-fns";
+import { MessageSquarePlus } from "lucide-react";
+
+import { MarkdownDisplay } from "~/components/Markdown/MarkdownDisplay";
+import showCommentStyles from "~/styles/show-comment.css";
+import type { RecursiveCommentTreeNode } from "~/types/comments";
+
 import { CommentEditField } from "./CommentEditField";
 import CommentTools from "./CommentTools";
+import CreateComment from "./CreateComment";
 import { Button } from "../ui/button";
+import Voter from "../Votes/Voter";
+
+export const styles = showCommentStyles;
 
 export const ShowComment = ({
   comment: {
@@ -30,9 +34,11 @@ export const ShowComment = ({
   childComments = [],
   loggedInUser,
   userIsModerator,
+  isUserBanned,
 }: RecursiveCommentTreeNode & {
   loggedInUser?: string;
   userIsModerator?: boolean;
+  isUserBanned?: string;
 }) => {
   let navigation = useNavigation();
   const fetcher = useFetcher();
@@ -44,7 +50,7 @@ export const ShowComment = ({
   const humanCreatedAt = format(new Date(createdAt), "d MMMM, u - h:mm a");
   const humanUpdatedAt = format(new Date(updatedAt), "d MMMM, u - h:mm a");
   const handleShowReply: MouseEventHandler<HTMLButtonElement> = () => {
-    setShowReplyField(true);
+    setShowReplyField((state) => !state);
   };
 
   const toggleShowEdit = () => setShowEditField((state) => !state);
@@ -89,7 +95,7 @@ export const ShowComment = ({
         </Link>
       </div>
 
-      {showEditField ? (
+      {showEditField && !isUserBanned ? (
         <CommentEditField
           onChange={handleEditFieldText}
           handleSaveEdit={handleSaveEdit}
@@ -101,6 +107,31 @@ export const ShowComment = ({
           <MarkdownDisplay markdown={text} />
         </div>
       )}
+      {showReplyField && !isUserBanned ? (
+        <Form method="POST">
+          {/* This post method hits the action of it's parent - i.e., /community/$route/post/$postId */}
+          <div className="show-comment__footer__reply">
+            <CreateComment
+              placeholder="Write your reply..."
+              postId={postId}
+              parentId={id}
+              route={route}
+            />
+            <button
+              type="submit"
+              className="show-comment__footer__reply--submit"
+            >
+              <Button
+                type="submit"
+                className="show-comment__footer__reply-button"
+              >
+                <MessageSquarePlus size="1rem" />
+                Send Reply
+              </Button>
+            </button>
+          </div>
+        </Form>
+      ) : null}
       <div className="show-comment__footer">
         <Voter
           isComment={true}
@@ -109,35 +140,17 @@ export const ShowComment = ({
           votes={voteCount}
           userVoted={userVoted}
         />
-        {showReplyField ? (
-          <Form method="POST">
-            <div className="show-comment__footer__reply">
-              <CreateComment
-                placeholder="Write your reply..."
-                postId={postId}
-                parentId={id}
-                route={route}
-              />
-              <button
-                type="submit"
-                className="show-comment__footer__reply--submit"
-              >
-                <Button className="show-comment__footer__reply-button">
-                  <MessageSquarePlus size="1rem" />
-                  Send Reply
-                </Button>
-              </button>
-            </div>
-          </Form>
-        ) : (
+
+        {!isUserBanned ? (
           <CommentTools
             userIsAuthor={userIsAuthor}
             userIsModerator={userIsModerator}
             handleShowReply={handleShowReply}
+            showReplyField={showReplyField}
             toggleShowEdit={toggleShowEdit}
             commentId={id}
           />
-        )}
+        ) : null}
       </div>
       {childComments && Array.isArray(childComments) && childComments.length > 0
         ? childComments.map((chiCom) => (
@@ -146,6 +159,7 @@ export const ShowComment = ({
               {...chiCom}
               loggedInUser={loggedInUser}
               userIsModerator={userIsModerator}
+              isUserBanned={isUserBanned}
             />
           ))
         : null}

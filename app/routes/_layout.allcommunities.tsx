@@ -2,15 +2,11 @@ import { useState } from "react";
 
 import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import {
-  isRouteErrorResponse,
-  useLoaderData,
-  useParams,
-  useRouteError,
-} from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import { format } from "date-fns";
 import pick from "lodash/pick";
 
+import { GenericErrorBoundary } from "~/components/Error/GenericErrorBoundary";
 import Paginator from "~/components/Paginator/Paginator";
 import Subscription, {
   styles as subscriptionStyles,
@@ -150,19 +146,6 @@ export default function CommunityProfileRoute() {
   );
 }
 
-export function ErrorBoundary() {
-  const { username } = useParams();
-  const error = useRouteError();
-
-  if (isRouteErrorResponse(error) && error.status === 404) {
-    return (
-      <div className="error-container">Huh? Who the heck is "{username}"?</div>
-    );
-  }
-
-  return (
-    <div className="error-container">
-      There was an error loading the profile for "${username}". Sorry.
-    </div>
-  );
-}
+export const ErrorBoundary = (props: any) => (
+  <GenericErrorBoundary {...props} />
+);

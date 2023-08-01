@@ -1,27 +1,3 @@
-# YALA: Yet Another Link Aggregator
-
-Not sure what to do first?
-
-1. Create your account (or login).
-2. Click on the Create New Community button (or [this link](/create-community))
-3. Click on the Create New Post button, and add a post.
-
-That's it! You just created a community and posted on YALA!
-
-## Ready for Users!
-
-Howdy. YALA is in super-early alpha stage. You'll find items marked as "FIXME" or hit with a strikethrough. These are placeholders to indicate that the functionality is not yet developed, but it will be soon.
-
-In the meantime, feel free to go around and kick the tires! Try:
-
-- [/c/yaladev - Yala Development Community](/c/yaladev)
-- [/allposts - a list of all the posts (so far)](/allposts)
-- [/allcommunities - a list of all the communities (so far)](/allcommunities)
-
-### Check out the Github!
-
-[This is the github link for the sourcecode - if you find an issue, feel free to report it!](https://github.com/kerryboyko/yala-superfly)
-
 ## Current Roadmap
 
 ### Completed:
@@ -34,9 +10,17 @@ In the meantime, feel free to go around and kick the tires! Try:
 - [x] Authors (but not moderators) can now edit posts.
 - [x] Authors and moderators can now delete posts.
 - [x] Login via username and password
+- [x] Login via Google Auth
 - [x] Created separate Supabase projects for production and development - a "Kick the tires" methodology. The sooner I can get real people to look at the bugs on the site, the sooner I can continue working on them, so I'm creating two DBs, one for production and one for development.
 - [x] Reconnect previously written functionality using new Auth provider. (Long story short: this was originally written using FusionAuth as the auth provider but Supabase was just a better solution. Rather than try to add Supabase to the existing repo, it was just quicker to create a new Remix Supa-Fly project.)
 - [x] A moderation tool to ban/unban users from communities
+- [x] Users can vote on posts, and posts display how the user voted, as well as the total of all votes
+- [x] Users can vote on comments, and comments display how the user voted, as well as the total of all votes
+- [x] Banned users cannot create new posts, cannot create new comments, in communities where they are banned
+- [x] Users can reset their password via 'forgot-password'
+- [x] Authors can edit or delete comments
+- [x] Moderators can delete, but not edit comments.
+- [x] If a comment with children is deleted, the comment is marked as deleted, but not removed in the comment hierarchy.
 
 ### What are the items you're stuck on, or postponing at this point, but which are important.
 
@@ -46,24 +30,20 @@ In the meantime, feel free to go around and kick the tires! Try:
 - [ ] If login is done via a social network, it requires a second landing page for users to enter their usernames.
 - [ ] I want to provide header images for communities, but it might make sense to create the community first before the header image is added. Thus, any moderator may change the community header, community headers will have filenames based on the community, etc.
 - [ ] I forgot to add 'locking' posts in the database schema so adding that functionality will have to wait until the next big schema migration change; I'm likely to figure out a ton of these little things so that I can just add a 'meta' JSONB field to my Posts or Community tables that can handle these unexpected needs. Oops!
+- [ ] Error boundaries need to be configured and prettified.
 
 ### What are the immediate issues you're working on?
 
 - [ ] Add confirmation to email signups
-- [ ] Login via email (magic-link)
-- [ ] Forgot Password functionality
 
 ### What's on the roadmap?
 
 On the roadmap as of 7/18/2023
 
-- [ ] As a user, I would like to edit my comments.
 - [ ] As a moderator, I would like to delete comments (but leave any replies), and make sure the comment cannot be rewritten.
-- [ ] As a user, I would like to have upvotes and downvotes for posts and comments.
 - [ ] As a user, I would like to place "Reactions" (like Slashdot moderation) for posts and comments
 - [ ] As a user, I would like to be able to tag posts and comments with arbitrary hashes.
 - [ ] As a visitor, I'd like to see a list of most popular communities by page loads, subscribers, posts, comments, etc.
 - [ ] As a visitor, I'd like to see a list of most posts (by votes, by visits, by 'hotness', most recent, etc.)
-- [ ] As a user, I'd like to sign in with 3rd Party Auth Services (such as Google.)
 - [ ] As a developer, I'd like Unit & Integration testing. (Normally I do TDD first, but I needed to get used to the Remix environment and see what features are feasible.)
 - [ ] As a user, I'd like to be able to get a share menu for posts (a popover) which allows me to copy a link to the clipboard or to have a downloadable HTML code that I can embed in a webpage.

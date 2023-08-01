@@ -26,9 +26,11 @@ export const Voter = ({
   const voteFetcher = useFetcher();
   const Voter = coerceVotes(votes);
 
+  const submitter = voteFetcher.submit;
+
   const handleVote = useCallback(
     (vote: number) => () => {
-      voteFetcher.submit(
+      submitter(
         { value: vote === userVoted ? 0 : vote },
         {
           method: "post",
@@ -36,7 +38,7 @@ export const Voter = ({
         },
       );
     },
-    [id, userVoted, voteFetcher],
+    [id, userVoted, submitter, isComment],
   );
 
   return (

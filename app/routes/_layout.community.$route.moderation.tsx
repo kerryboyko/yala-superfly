@@ -1,12 +1,8 @@
 import type { LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import {
-  isRouteErrorResponse,
-  useLoaderData,
-  useParams,
-  useRouteError,
-} from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 
+import { GenericErrorBoundary } from "~/components/Error/GenericErrorBoundary";
 import BanUsers from "~/components/ModTools/BanControl/BanUsers";
 import { db } from "~/database/db.server";
 import { requireAuthSession } from "~/modules/auth";
@@ -98,19 +94,6 @@ export default function CommunityModerationRoute() {
   );
 }
 
-export function ErrorBoundary() {
-  const { username } = useParams();
-  const error = useRouteError();
-
-  if (isRouteErrorResponse(error) && error.status === 404) {
-    return (
-      <div className="error-container">Huh? Who the heck is "{username}"?</div>
-    );
-  }
-
-  return (
-    <div className="error-container">
-      There was an error loading the profile for "${username}". Sorry.
-    </div>
-  );
-}
+export const ErrorBoundary = (props: any) => (
+  <GenericErrorBoundary {...props} />
+);

@@ -59,7 +59,9 @@ export const action: ActionFunction = async ({ request }) => {
   const softDeletion = await db.comment.update({
     where: commentWhere,
     data: {
-      text: `[Deleted by ${userIsAuthor ? "author" : "moderator"}]`,
+      text: `<span class="deleted-by">[Deleted by ${
+        userIsAuthor ? "author" : "moderator"
+      }]</span>`,
     },
   });
   return json(

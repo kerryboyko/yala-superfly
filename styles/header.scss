@@ -83,7 +83,7 @@
       cursor: pointer;
       &:hover {
         text-decoration: underline;
-        color: map-deep-get($palettes, "blue", "honolulu");
+        color: map-deep-get($palettes, "blue", ucla);
       }
     }
   }
@@ -105,7 +105,7 @@
 
 .command-icon {
   &__badge {
-    background-color: map-deep-get($palettes, "blue", "honolulu");
+    background-color: map-deep-get($palettes, "blue", ucla);
     &:hover {
       background-color: map-deep-get($palettes, "red", "golden-gate");
     }

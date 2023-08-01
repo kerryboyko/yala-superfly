@@ -14,7 +14,11 @@ import omit from "lodash/omit";
 import { z } from "zod";
 
 import { CreateComment } from "~/components/Comment/CreateComment";
-import ShowComment from "~/components/Comment/ShowComment";
+import {
+  ShowComment,
+  styles as showCommentStyles,
+} from "~/components/Comment/ShowComment";
+import { checkIfUserBanned } from "~/components/ModTools/logic/checkIfUserBanned";
 import {
   PostDetails,
   styles as postDetailsStyles,
@@ -24,25 +28,33 @@ import { db } from "~/database/db.server";
 import createCommentTree from "~/logic/createCommentTree";
 import { formDataToObject } from "~/logic/formDataToObject";
 import { getAuthSession, requireAuthSession } from "~/modules/auth";
-import { getMyVoteOnThisPost, getVotesByPostId } from "~/modules/post";
-import type { RecursiveCommentTreeNode } from "~/types/comments";
-import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 import {
   getMyVotesByUserIdOnComments,
   getVotesForManyComments,
 } from "~/modules/comments";
+import { getMyVoteOnThisPost, getVotesByPostId } from "~/modules/post";
+import type { RecursiveCommentTreeNode } from "~/types/comments";
+import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 
-export const links = linkFunctionFactory(postDetailsStyles);
+export const links = linkFunctionFactory(postDetailsStyles, showCommentStyles);
 
 export const loader = async ({ request, params }: LoaderArgs) => {
   const authSession = await getAuthSession(request);
-  const commData = await db.communityModerators.findFirst({
+
+  const isUserBanned = authSession
+    ? await checkIfUserBanned(authSession.userId, params.route || "")
+    : false;
+
+  const moderatorData = await db.communityModerators.findFirst({
     where: {
       moderatorId: authSession?.userId,
       communityRoute: params.route,
     },
+    select: {
+      id: true,
+    },
   });
-  const userModeratesCommunity = Array.isArray(commData) && commData.length > 0;
+  const userIsModerator = !!moderatorData?.id;
   const post = await db.post.findUnique({
     where: {
       id: parseInt(params.postId as string, 10),
@@ -116,12 +128,13 @@ export const loader = async ({ request, params }: LoaderArgs) => {
     communityRoute: params.route,
     postId: post.id,
     loggedInUser: authSession?.userId,
-    userModeratesCommunity,
+    userIsModerator,
+    isUserBanned,
   });
 };
 
 const commentSchema = z.object({
-  text: z.string(),
+  text: z.string().min(1, { message: `You can't post an empty comment` }),
   parentId: z.number().nullable().optional(),
   postId: z.number(),
   communityRoute: z.string(),
@@ -152,8 +165,7 @@ export const action: ActionFunction = async ({ request }) => {
     const reply = await db.comment.create({ data: payload });
     return redirect(`#comment-${reply.id}`);
   } catch (err: any) {
-    console.error(err);
-    return json({ status: 500, message: err?.message });
+    return json({ status: 500, ...err });
   }
 };
 
@@ -172,32 +184,37 @@ export default function PostRoute() {
         <PostDetails
           {...data.post}
           postId={data.post.id || ""}
-          userModeratesThisCommunity={data.userModeratesCommunity}
+          userIsModerator={data.userIsModerator}
           authorIsThisUser={data.post.authorId === data.loggedInUser}
         />
       ) : null}
-      <Form className="create-comment" method="post">
-        <CreateComment
-          placeholder="Write your comment here..."
-          route={data.communityRoute ?? ""}
-          postId={data.postId ?? ""}
-        />
-        <div className="create-comment__footer">
-          <Button
-            className="create-comment__footer--submit-button"
-            type="submit"
-          >
-            Submit New Comment
-          </Button>
-        </div>
-      </Form>
+      {data.isUserBanned ? (
+        <div>{data.isUserBanned}</div>
+      ) : (
+        <Form className="create-comment" method="post">
+          <CreateComment
+            placeholder="Write your comment here..."
+            route={data.communityRoute ?? ""}
+            postId={data.postId ?? ""}
+          />
+          <div className="create-comment__footer">
+            <Button
+              className="create-comment__footer--submit-button"
+              type="submit"
+            >
+              Submit New Comment
+            </Button>
+          </div>
+        </Form>
+      )}
       <div className="all-comments">
         {data.comments.map((comment: RecursiveCommentTreeNode) => (
           <ShowComment
             key={comment.comment?.id}
             {...comment}
             loggedInUser={data.loggedInUser}
-            userIsModerator={data.userModeratesCommunity}
+            userIsModerator={data.userIsModerator}
+            isUserBanned={data.isUserBanned}
           />
         ))}
       </div>

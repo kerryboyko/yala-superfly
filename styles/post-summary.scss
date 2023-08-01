@@ -88,7 +88,7 @@
       cursor: pointer;
       &:hover {
         text-decoration: underline;
-        color: map-deep-get($palettes, "blue", "honolulu");
+        color: map-deep-get($palettes, "blue", ucla);
       }
     }
   }

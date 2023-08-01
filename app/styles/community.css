@@ -1,1 +1,99 @@
-:root{--breakpoint-mobile:480px;--breakpoint-tablet:768px;--breakpoint-desktop:1200px}@use "sass:map";@use "sass:map";.community{display:grid;grid-template-areas:"sidebar" "outlet"}@media (min-width: 768px){.community{grid-template-areas:"sidebar outlet";grid-template-columns:16rem auto}}@media (min-width: 1200px){.community{grid-template-columns:24rem auto}}.community__sidebar{margin:1rem 1rem 0 1rem;grid-area:sidebar;font-family:"Noto Sans";width:calc(100% - 2rem);text-align:center}.community__sidebar__heading{margin:0.5rem 0 1rem 0;font-family:"Ubuntu";font-size:1.5rem;font-weight:700;color:#427aa1;cursor:pointer}.community__sidebar__heading:hover{text-decoration:underline;color:#057ac8}.community__sidebar__route{margin:0.5rem 0 1rem 0;font-size:1rem;font-weight:400;text-align:center;color:#427aa1;cursor:pointer}.community__sidebar__route:hover{text-decoration:underline;color:#057ac8}.community__sidebar__created-by{margin:0.5rem 0 1rem 0;font-size:1rem;font-weight:400;text-align:center}.community__sidebar__header-image{width:100%}.community__sidebar__header-image img{width:100%;object-fit:contain}.community__sidebar__description{font-weight:400;font-size:0.75rem;text-align:start}.community__sidebar__create-new-post{margin-top:1rem;margin-bottom:1rem}.community__sidebar__create-new-post button{text-transform:uppercase;font-family:"Ubuntu";text-transform:uppercase;font-weight:700;background-color:#427aa1;cursor:pointer}.community__sidebar__create-new-post button:hover{background-color:#ee400b}.community__outlet{grid-area:outlet}
+:root {
+  --breakpoint-mobile: 480px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 1200px;
+}
+@use "sass:map";
+@use "sass:map";
+.community {
+  display: grid;
+  grid-template-areas: "sidebar" "outlet";
+}
+@media (min-width: 768px) {
+  .community {
+    grid-template-areas: "sidebar outlet";
+    grid-template-columns: 16rem auto;
+  }
+}
+@media (min-width: 1200px) {
+  .community {
+    grid-template-columns: 24rem auto;
+  }
+}
+.community__sidebar {
+  margin: 1rem 1rem 0 1rem;
+  grid-area: sidebar;
+  font-family: "Noto Sans";
+  width: calc(100% - 2rem);
+  text-align: center;
+}
+.community__sidebar__heading {
+  margin: 0.5rem 0 1rem 0;
+  font-family: "Ubuntu";
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #427aa1;
+  cursor: pointer;
+}
+.community__sidebar__heading:hover {
+  text-decoration: underline;
+  color: #427aa1;
+}
+.community__sidebar__route {
+  margin: 0.5rem 0 1rem 0;
+  font-size: 1rem;
+  font-weight: 400;
+  text-align: center;
+  color: #427aa1;
+  cursor: pointer;
+}
+.community__sidebar__route:hover {
+  text-decoration: underline;
+  color: #427aa1;
+}
+.community__sidebar__created-by {
+  margin: 0.5rem 0 1rem 0;
+  font-size: 1rem;
+  font-weight: 400;
+  text-align: center;
+}
+.community__sidebar__header-image {
+  width: 100%;
+}
+.community__sidebar__header-image img {
+  width: 100%;
+  object-fit: contain;
+}
+.community__sidebar__description {
+  font-weight: 400;
+  font-size: 0.75rem;
+  text-align: start;
+}
+.community__sidebar__create-new-post {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.community__sidebar__create-new-post button {
+  text-transform: uppercase;
+  font-family: "Ubuntu";
+  text-transform: uppercase;
+  font-weight: 700;
+  background-color: #427aa1;
+  cursor: pointer;
+}
+.community__sidebar__create-new-post button:hover {
+  background-color: #ee400b;
+}
+.community__outlet {
+  grid-area: outlet;
+}
+.moderate-community .ban-control__list-users {
+  margin-bottom: 1rem;
+}
+.moderate-community .ban-control__reason-for-ban {
+  margin-bottom: 1rem;
+}
+.moderate-community .ban-control__reason-for-ban--warning {
+  color: #cd212e;
+  font-size: 0.75rem;
+}

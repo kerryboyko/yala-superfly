@@ -23,7 +23,7 @@ a {
   cursor: pointer;
   &:hover {
     text-decoration: underline;
-    color: map-deep-get($palettes, "blue", "honolulu");
+    color: map-deep-get($palettes, "blue", ucla);
   }
 }
 
@@ -163,4 +163,13 @@ a {
       border-radius: 0.25rem;
     }
   }
+}
+
+.error-display {
+  color: map-deep-get($palettes, "red", "warning-red");
+  font-size: 0.75rem;
+}
+
+.deleted-by {
+  color: map-deep-get($palettes, "grey", "dark-silver");
 }

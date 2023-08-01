@@ -122,6 +122,8 @@ export default function LoginCallback() {
   const fetcher = useFetcher();
   const location = useLocation();
 
+  const submitter = fetcher.submit;
+
   useEffect(() => {
     const parsedHash = new URLSearchParams(location.hash.substring(1));
     const refreshToken = parsedHash.get("refresh_token");
@@ -131,8 +133,8 @@ export default function LoginCallback() {
     } else {
       formData.append("redirectToJoin", "true");
     }
-    fetcher.submit(formData, { method: "post", replace: true });
-  }, [location, fetcher.submit]);
+    submitter(formData, { method: "post", replace: true });
+  }, [location, submitter]);
 
   return error ? <div>{error.message}</div> : null;
 }

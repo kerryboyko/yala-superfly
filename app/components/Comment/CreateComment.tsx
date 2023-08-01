@@ -1,7 +1,7 @@
 import type { ChangeEventHandler } from "react";
 import { useEffect, useState } from "react";
 
-import { useNavigation } from "@remix-run/react";
+import { useActionData, useNavigation } from "@remix-run/react";
 
 import MarkdownTextarea from "~/components/Markdown/MarkdownTextarea";
 
@@ -20,6 +20,7 @@ export const CreateComment = ({
 }: CreateCommentProps) => {
   const [commentText, setCommentText] = useState<string>("");
   let navigation = useNavigation();
+  const actionData = useActionData();
 
   const handleTextareaChange: ChangeEventHandler<HTMLTextAreaElement> = (
     event,
@@ -48,6 +49,13 @@ export const CreateComment = ({
           onChange={handleTextareaChange}
         />
       </div>
+      {actionData?.issues
+        ? actionData.issues.map((issue: { message: string }) => (
+            <div key={issue.message} className={`error-display warning`}>
+              {issue.message}
+            </div>
+          ))
+        : null}
       <input
         type="hidden"
         name="comment-parentId"

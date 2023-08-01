@@ -1,1 +1,47 @@
-@use "sass:map";@use "sass:map";.editor{margin:1rem}.editor__header__margin{margin-bottom:1rem}.editor__content{display:flex;flex-direction:column;flex:1}.editor__content__editor>.ql-container{min-height:8rem}.editor__footer{display:flex;justify-content:flex-end}.editor__footer__button-preview{text-transform:uppercase;font-family:"Ubuntu";text-transform:uppercase;font-weight:700;background-color:#427aa1;cursor:pointer}.editor__footer__button-preview:hover{background-color:#ee400b}.editor__footer__button-submit{margin-left:1rem;text-transform:uppercase;font-family:"Ubuntu";text-transform:uppercase;font-weight:700;background-color:#427aa1;cursor:pointer}.editor__footer__button-submit:hover{background-color:#ee400b}.editor__preview{padding:1rem 2rem;background-color:rgba(209,209,213,0.5)}
+@use "sass:map";
+@use "sass:map";
+.editor {
+  margin: 1rem;
+}
+.editor__header__margin {
+  margin-bottom: 1rem;
+}
+.editor__content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.editor__content__editor > .ql-container {
+  min-height: 8rem;
+}
+.editor__footer {
+  display: flex;
+  justify-content: flex-end;
+}
+.editor__footer__button-preview {
+  text-transform: uppercase;
+  font-family: "Ubuntu";
+  text-transform: uppercase;
+  font-weight: 700;
+  background-color: #427aa1;
+  cursor: pointer;
+}
+.editor__footer__button-preview:hover {
+  background-color: #ee400b;
+}
+.editor__footer__button-submit {
+  margin-left: 1rem;
+  text-transform: uppercase;
+  font-family: "Ubuntu";
+  text-transform: uppercase;
+  font-weight: 700;
+  background-color: #427aa1;
+  cursor: pointer;
+}
+.editor__footer__button-submit:hover {
+  background-color: #ee400b;
+}
+.editor__preview {
+  padding: 1rem 2rem;
+  background-color: rgba(209, 209, 213, 0.5);
+}

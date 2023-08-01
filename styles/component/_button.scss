@@ -20,7 +20,7 @@
 @mixin button-secondary() {
   @include button();
   &:hover {
-    background-color: map-deep-get($palettes, "red", "honolulu");
+    background-color: map-deep-get($palettes, "red", ucla);
   }
 }
 

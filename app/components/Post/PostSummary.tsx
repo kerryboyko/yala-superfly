@@ -11,8 +11,8 @@ import postSummaryStyles from "~/styles/post-summary.css";
 import type { PostSummaryData } from "~/types/posts";
 
 import PostTools, { styles as postToolsStyles } from "./PostTools";
-import Voter, { styles as Votertyles } from "../Votes/Voter";
 import { CardHeader } from "../ui/card";
+import Voter, { styles as Votertyles } from "../Votes/Voter";
 
 export const styles = [Votertyles, postToolsStyles, postSummaryStyles];
 

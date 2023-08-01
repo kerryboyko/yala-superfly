@@ -1,13 +1,10 @@
 import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import {
-  isRouteErrorResponse,
-  useLoaderData,
-  useParams,
-  useRouteError,
-} from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import { formatRelative } from "date-fns";
+import get from "lodash/get";
 
+import { GenericErrorBoundary } from "~/components/Error/GenericErrorBoundary";
 import PostSummary, {
   styles as postSummaryStyles,
 } from "~/components/Post/PostSummary";
@@ -75,7 +72,7 @@ export const loader = async ({ request, params }: LoaderArgs) => {
     communityRoute: communityPosts.route,
     communityName: communityPosts.name,
     isAuthor: post.author.userId === authUser?.userId,
-    userVoted: post.Voter[0]?.value || null,
+    userVoted: get(post, ["postVotes", 0, "value"], null),
     voteCount: votes[idx]._sum.value,
   }));
   return json({ posts, userModerates: communityPosts.moderators.length > 0 });
@@ -96,19 +93,6 @@ export default function CommunityProfileRoute() {
   ));
 }
 
-export function ErrorBoundary() {
-  const { username } = useParams();
-  const error = useRouteError();
-
-  if (isRouteErrorResponse(error) && error.status === 404) {
-    return (
-      <div className="error-container">Huh? Who the heck is "{username}"?</div>
-    );
-  }
-
-  return (
-    <div className="error-container">
-      There was an error loading the profile for "${username}". Sorry.
-    </div>
-  );
-}
+export const ErrorBoundary = (props: any) => (
+  <GenericErrorBoundary {...props} />
+);

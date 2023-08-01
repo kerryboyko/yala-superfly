@@ -33,7 +33,7 @@ interface PostDetails {
     username: string;
   };
   authorIsThisUser: boolean;
-  userModeratesThisCommunity: boolean;
+  userIsModerator: boolean;
   postId: number | string;
   voteCount?: number | null;
   userVoted?: number | null;
@@ -49,7 +49,7 @@ export const PostDetails = ({
   community,
   author,
   authorIsThisUser,
-  userModeratesThisCommunity,
+  userIsModerator,
   postId,
   voteCount,
   userVoted,
@@ -130,7 +130,7 @@ export const PostDetails = ({
           ) : null}
           <PostTools
             postTitle={title}
-            isModerator={userModeratesThisCommunity}
+            isModerator={userIsModerator}
             isAuthor={authorIsThisUser}
             communityRoute={community.route}
             postId={postId}

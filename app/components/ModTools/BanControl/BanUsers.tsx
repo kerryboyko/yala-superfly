@@ -2,6 +2,7 @@ import type { ChangeEventHandler } from "react";
 import { useState } from "react";
 
 import { useFetcher } from "@remix-run/react";
+import get from "lodash/get";
 
 import DisplayBannedUsers from "./DisplayBannedUsers";
 import { Button } from "../../ui/button";
@@ -35,7 +36,7 @@ export const BanUsers = ({
   };
 
   return (
-    <Card>
+    <Card className="ban-control">
       <CardHeader>
         <CardTitle>Ban Control: {communityRoute}</CardTitle>
       </CardHeader>
@@ -46,20 +47,27 @@ export const BanUsers = ({
             action={`/api/v1/moderation/ban-users/${communityRoute}`}
           >
             <Textarea
+              className="ban-control__list-users"
               name="listOfBannedUsers"
               value={bannedUserNames}
               onChange={handleBannedUserName}
               placeholder="You can seperate multiple users with a comma"
             />
+            <div className="ban-control__reason-for-ban--warning">
+              The user who is banned will be able to see the reason they are
+              banned, so this may be left entirely optional.
+            </div>
             <Input
+              className="ban-control__reason-for-ban"
               type="text"
               name="reason"
               placeholder="Reason for Ban? (Optional)"
             />
+
             <Button type="submit">Ban Users</Button>
           </fetcher.Form>
         </div>
-        {fetcher.data ? (
+        {get(fetcher, "data.result", false) ? (
           <div className="data-display">
             {fetcher.data.result.count !== 0 ? (
               <div>
@@ -67,7 +75,7 @@ export const BanUsers = ({
                 <div>Users banned: {fetcher.data.bannedUsers.join(", ")}</div>
               </div>
             ) : null}
-            {fetcher.data.ineligibleUsers.length ? (
+            {get(fetcher, "data.ineligibleUsers", []).length ? (
               <div className="data-display__ineligible">
                 <div>The following users could not be banned</div>
                 {fetcher.data.ineligibleUsers.map(
@@ -81,10 +89,12 @@ export const BanUsers = ({
             ) : null}
           </div>
         ) : null}
-        <DisplayBannedUsers
-          bannedUsers={bannedUsers}
-          communityRoute={communityRoute}
-        />
+        {bannedUsers.length ? (
+          <DisplayBannedUsers
+            bannedUsers={bannedUsers}
+            communityRoute={communityRoute}
+          />
+        ) : null}
       </CardContent>
     </Card>
   );

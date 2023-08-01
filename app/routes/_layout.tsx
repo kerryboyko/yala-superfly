@@ -1,13 +1,8 @@
 import type { LoaderFunction, TypedResponse } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import {
-  isRouteErrorResponse,
-  Outlet,
-  useLoaderData,
-  useParams,
-  useRouteError,
-} from "@remix-run/react";
+import { Outlet, useLoaderData } from "@remix-run/react";
 
+import { GenericErrorBoundary } from "~/components/Error/GenericErrorBoundary";
 import { Header } from "~/components/Header/Header";
 import { db } from "~/database/db.server";
 import { getAuthSession } from "~/modules/auth";
@@ -73,19 +68,6 @@ export default function Dashboard() {
   );
 }
 
-export function ErrorBoundary() {
-  const { username } = useParams();
-  const error = useRouteError();
-
-  if (isRouteErrorResponse(error) && error.status === 404) {
-    return (
-      <div className="error-container">Huh? Who the heck is "{username}"?</div>
-    );
-  }
-
-  return (
-    <div className="error-container">
-      There was an error loading the profile for "${username}". Sorry.
-    </div>
-  );
-}
+export const ErrorBoundary = (props: any) => (
+  <GenericErrorBoundary {...props} />
+);

@@ -1,1 +1,98 @@
-@use "sass:map";#form-file-upload{height:16rem;width:28rem;max-width:100%;text-align:center;position:relative}#form-file-upload.size--small{height:auto;width:auto;display:flex}#input-file-upload{display:none}#label-file-upload{height:100%;display:flex;align-items:center;justify-content:center;border-width:2px;border-radius:1rem;border-style:dashed;border-color:#cbd5e1;background-color:#f8fafc}#label-file-upload.size--small{padding:2rem}.upload-button{cursor:pointer;padding:0.25rem;font-size:1rem;border:none;font-family:"Oswald", sans-serif;background-color:transparent}.upload-button:hover{text-decoration-line:underline}#label-file-upload.drag-active{background-color:#ffffff}#drag-file-element{position:absolute;width:100%;height:100%;border-radius:1rem;top:0px;right:0px;bottom:0px;left:0px}.warning-red{color:#cd212e}.safety-orange{color:#ff7900}.create-community .input-container{position:relative}.create-community .input{border-radius:0.5rem}.create-community .char-count{position:absolute;font-family:"Ubuntu";font-size:0.75rem;bottom:-1rem;right:0}.create-community__route{padding:0 1rem}.create-community__footer{justify-content:flex-end}.create-community__content__header-image__display--image{border-radius:0.5rem;border:1px solid #d1d1d5;margin:1rem 0}.create-community__content__header-image__loading{display:flex}.create-community__content__header-image__loading.icon{margin-right:1rem;animation:spin 4s linear infinite;color:#427aa1}@keyframes spin{100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}
+@use "sass:map";
+#form-file-upload {
+  height: 16rem;
+  width: 28rem;
+  max-width: 100%;
+  text-align: center;
+  position: relative;
+}
+#form-file-upload.size--small {
+  height: auto;
+  width: auto;
+  display: flex;
+}
+#input-file-upload {
+  display: none;
+}
+#label-file-upload {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-width: 2px;
+  border-radius: 1rem;
+  border-style: dashed;
+  border-color: #cbd5e1;
+  background-color: #f8fafc;
+}
+#label-file-upload.size--small {
+  padding: 2rem;
+}
+.upload-button {
+  cursor: pointer;
+  padding: 0.25rem;
+  font-size: 1rem;
+  border: none;
+  font-family: "Oswald", sans-serif;
+  background-color: transparent;
+}
+.upload-button:hover {
+  text-decoration-line: underline;
+}
+#label-file-upload.drag-active {
+  background-color: #ffffff;
+}
+#drag-file-element {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+}
+.warning-red {
+  color: #cd212e;
+}
+.safety-orange {
+  color: #ff7900;
+}
+.create-community .input-container {
+  position: relative;
+}
+.create-community .input {
+  border-radius: 0.5rem;
+}
+.create-community .char-count {
+  position: absolute;
+  font-family: "Ubuntu";
+  font-size: 0.75rem;
+  bottom: -1rem;
+  right: 0;
+}
+.create-community__route {
+  padding: 0 1rem;
+}
+.create-community__footer {
+  justify-content: flex-end;
+}
+.create-community__content__header-image__display--image {
+  border-radius: 0.5rem;
+  border: 1px solid #d1d1d5;
+  margin: 1rem 0;
+}
+.create-community__content__header-image__loading {
+  display: flex;
+}
+.create-community__content__header-image__loading.icon {
+  margin-right: 1rem;
+  animation: spin 4s linear infinite;
+  color: #427aa1;
+}
+@keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
