@@ -116,7 +116,7 @@ model Post {
   community      Community      @relation("PostedIn", fields: [communityRoute], references: [route], onDelete: Cascade)
   reactions      PostReaction[] @relation("PostHasReaction")
   tags           PostTag[]      @relation("PostHasTag")
-  Voter          PostVote[]     @relation("PostVote")
+  postVotes      PostVote[]     @relation("PostVote")
   meta           Json?
 }
 

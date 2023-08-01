@@ -49,6 +49,9 @@ export const loader = async ({ request, params }: LoaderArgs) => {
             where: {
               voterId: authUser?.userId,
             },
+            select: {
+              value: true,
+            },
           },
         },
       },

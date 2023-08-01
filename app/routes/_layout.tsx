@@ -38,7 +38,7 @@ export const loader: LoaderFunction = async ({
     },
   });
   if (!user) {
-    throw new Error(`Unknown User`);
+    return json({ isLoggedIn: false });
   }
 
   const profile = await db.profile.findUnique({
