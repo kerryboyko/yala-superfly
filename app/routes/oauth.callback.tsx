@@ -132,7 +132,7 @@ export default function LoginCallback() {
       formData.append("redirectToJoin", "true");
     }
     fetcher.submit(formData, { method: "post", replace: true });
-  }, [location, fetcher]);
+  }, [location, fetcher.submit]);
 
   return error ? <div>{error.message}</div> : null;
 }

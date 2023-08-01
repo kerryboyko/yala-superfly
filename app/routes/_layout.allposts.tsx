@@ -8,7 +8,7 @@ import {
 } from "@remix-run/react";
 import { format } from "date-fns";
 import pick from "lodash/pick";
-
+import get from "lodash/get";
 import Paginator from "~/components/Paginator/Paginator";
 import PostSummary, {
   styles as postSummaryStyles,
@@ -104,7 +104,7 @@ export const loader = async ({ request }: LoaderArgs) => {
         "communityRoute",
         "embeds",
       ]),
-      userVoted: post.postVotes[0]?.value || null,
+      userVoted: get(post, ["postVotes", 0, "value"], null),
       userIsAuthor: post.authorId === authUser?.userId,
       commentCount: post._count.comments,
       createdAt: format(new Date(post.createdAt), "d MMMM, u - h:mm a"),

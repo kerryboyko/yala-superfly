@@ -75,7 +75,7 @@ export const loader = async ({ request, params }: LoaderArgs) => {
     communityRoute: communityPosts.route,
     communityName: communityPosts.name,
     isAuthor: post.author.userId === authUser?.userId,
-    userVoted: post.postVotes[0]?.value || null,
+    userVoted: post.Voter[0]?.value || null,
     voteCount: votes[idx]._sum.value,
   }));
   return json({ posts, userModerates: communityPosts.moderators.length > 0 });

@@ -45,7 +45,7 @@ model Profile {
   posts                     Post[]                 @relation("PostAuthor")
   reactedPosts              PostReaction[]         @relation("ReactedToPost")
   taggedPosts               PostTag[]              @relation("TaggedPost")
-  postVotes                 PostVote[]             @relation("PostVoter")
+  Voter                 PostVote[]             @relation("PostVoter")
   user                      User                   @relation("UserProfile", fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([username])
@@ -107,7 +107,7 @@ model Post {
   community      Community      @relation("PostedIn", fields: [communityRoute], references: [route], onDelete: Cascade)
   reactions      PostReaction[] @relation("PostHasReaction")
   tags           PostTag[]      @relation("PostHasTag")
-  postVotes      PostVote[]     @relation("PostVote")
+  Voter      PostVote[]     @relation("PostVote")
 }
 
 model Community {

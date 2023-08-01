@@ -1,0 +1,39 @@
+@import "mixins/map-deep-get";
+@import "palette";
+
+.delete-comment-button {
+  background-color: transparent;
+  color: map-deep-get($palettes, "red", "warning-red");
+  box-shadow: none;
+  height: auto;
+  padding: 0 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  &--icon {
+    height: 1rem;
+    width: 1rem;
+    margin-right: 0.25rem;
+  }
+  &:hover {
+    background-color: transparent;
+    text-decoration: underline;
+  }
+}
+
+.delete-comment-dialog {
+  &__title {
+    &__link-title {
+      color: map-deep-get($palettes, "blue", "ucla");
+      font-family: "Ubuntu";
+      font-weight: 700;
+    }
+  }
+  &__description {
+  }
+  &__cancel-button {
+  }
+  &__continue-button {
+    background-color: map-deep-get($palettes, "red", "warning-red");
+  }
+}

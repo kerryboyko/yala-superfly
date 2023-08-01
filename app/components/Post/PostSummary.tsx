@@ -11,10 +11,10 @@ import postSummaryStyles from "~/styles/post-summary.css";
 import type { PostSummaryData } from "~/types/posts";
 
 import PostTools, { styles as postToolsStyles } from "./PostTools";
-import PostVotes, { styles as postVoteStyles } from "./PostVotes";
+import Voter, { styles as Votertyles } from "../Votes/Voter";
 import { CardHeader } from "../ui/card";
 
-export const styles = [postVoteStyles, postToolsStyles, postSummaryStyles];
+export const styles = [Votertyles, postToolsStyles, postSummaryStyles];
 
 export const PostSummary: React.FC<
   PostSummaryData & {
@@ -35,7 +35,12 @@ export const PostSummary: React.FC<
       key={post.id}
     >
       <CardHeader className="post-summary__header">
-        <PostVotes votes={voteCount} userVoted={userVoted} postId={post.id} />
+        <Voter
+          votes={voteCount}
+          userVoted={userVoted}
+          id={post.id}
+          isComment={false}
+        />
         <CardTitle className="post-summary__title">
           <Link to={getCommentLink(post)}>{post.title}</Link>
         </CardTitle>

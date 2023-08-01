@@ -1,15 +1,17 @@
-import type { MouseEventHandler } from "react";
-import { useEffect, useState } from "react";
-
-import { Form, Link, useNavigation } from "@remix-run/react";
 import { format } from "date-fns";
-import { MessageSquarePlus } from "lucide-react";
 
+import { Form, Link, useFetcher, useNavigation } from "@remix-run/react";
 import { MarkdownDisplay } from "~/components/Markdown/MarkdownDisplay";
-import { Badge } from "~/components/ui/badge";
 import type { RecursiveCommentTreeNode } from "~/types/comments";
-
+import { Badge } from "~/components/ui/badge";
+import { MessageSquarePlus } from "lucide-react";
+import type { ChangeEventHandler, MouseEventHandler } from "react";
+import { useEffect, useState } from "react";
 import CreateComment from "./CreateComment";
+import Voter from "../Votes/Voter";
+import { CommentEditField } from "./CommentEditField";
+import CommentTools from "./CommentTools";
+import { Button } from "../ui/button";
 
 export const ShowComment = ({
   comment: {
@@ -22,20 +24,46 @@ export const ShowComment = ({
     postId,
     community: { route },
     text,
+    voteCount,
+    userVoted,
   },
   childComments = [],
   loggedInUser,
-}: RecursiveCommentTreeNode & { loggedInUser?: string }) => {
+  userIsModerator,
+}: RecursiveCommentTreeNode & {
+  loggedInUser?: string;
+  userIsModerator?: boolean;
+}) => {
   let navigation = useNavigation();
+  const fetcher = useFetcher();
 
   const [showReplyField, setShowReplyField] = useState<boolean>(false);
+  const [showEditField, setShowEditField] = useState<boolean>(false);
+  const [editFieldText, setEditFieldText] = useState<string>(text);
 
   const humanCreatedAt = format(new Date(createdAt), "d MMMM, u - h:mm a");
   const humanUpdatedAt = format(new Date(updatedAt), "d MMMM, u - h:mm a");
-  const handleShowReply: MouseEventHandler<HTMLDivElement> = () => {
+  const handleShowReply: MouseEventHandler<HTMLButtonElement> = () => {
     setShowReplyField(true);
   };
-  const authorIsLoggedInUser = loggedInUser === authorId;
+
+  const toggleShowEdit = () => setShowEditField((state) => !state);
+  const handleEditFieldText: ChangeEventHandler<HTMLTextAreaElement> = (
+    event,
+  ) => {
+    setEditFieldText(event.target.value);
+  };
+  const userIsAuthor = loggedInUser === authorId;
+
+  const handleSaveEdit: MouseEventHandler<HTMLButtonElement> = () => {
+    if (userIsAuthor) {
+      fetcher.submit(
+        { commentText: editFieldText, commentId: id },
+        { method: "post", action: "/api/v1/edit-comment" },
+      );
+      toggleShowEdit();
+    }
+  };
 
   useEffect(
     function resetFormOnSuccess() {
@@ -50,7 +78,7 @@ export const ShowComment = ({
     <div
       id={`comment-${id}`}
       className={`show-comment ${parentId === null ? "top-level" : "child"} ${
-        authorIsLoggedInUser ? "author-is-logged-in-user" : ""
+        userIsAuthor ? "author-is-logged-in-user" : ""
       }`}
     >
       <div className="show-comment__header">
@@ -60,18 +88,29 @@ export const ShowComment = ({
           {updatedAt !== createdAt ? "Updated: " + humanUpdatedAt : null}
         </Link>
       </div>
-      <div className="show-comment__display">
-        <MarkdownDisplay markdown={text} />
-      </div>
-      {authorIsLoggedInUser ? (
-        <div className="debug debug__message">
-          FIXME: The logged in user is the author of this post, and should have
-          tools to edit or delete this post here.
+
+      {showEditField ? (
+        <CommentEditField
+          onChange={handleEditFieldText}
+          handleSaveEdit={handleSaveEdit}
+          value={editFieldText}
+          toggleShowEdit={toggleShowEdit}
+        />
+      ) : (
+        <div className="show-comment__display">
+          <MarkdownDisplay markdown={text} />
         </div>
-      ) : null}
-      {showReplyField ? (
-        <Form method="POST">
-          <div className="show-comment__footer">
+      )}
+      <div className="show-comment__footer">
+        <Voter
+          isComment={true}
+          isSmall={true}
+          id={id}
+          votes={voteCount}
+          userVoted={userVoted}
+        />
+        {showReplyField ? (
+          <Form method="POST">
             <div className="show-comment__footer__reply">
               <CreateComment
                 placeholder="Write your reply..."
@@ -83,31 +122,30 @@ export const ShowComment = ({
                 type="submit"
                 className="show-comment__footer__reply--submit"
               >
-                <Badge className="show-comment__footer__reply-button">
+                <Button className="show-comment__footer__reply-button">
                   <MessageSquarePlus size="1rem" />
                   Send Reply
-                </Badge>
+                </Button>
               </button>
             </div>
-          </div>
-        </Form>
-      ) : (
-        <div className="show-comment__footer">
-          <Badge
-            onClick={handleShowReply}
-            className="show-comment__footer__reply-button"
-          >
-            <MessageSquarePlus size="1rem" />
-            Reply
-          </Badge>
-        </div>
-      )}
+          </Form>
+        ) : (
+          <CommentTools
+            userIsAuthor={userIsAuthor}
+            userIsModerator={userIsModerator}
+            handleShowReply={handleShowReply}
+            toggleShowEdit={toggleShowEdit}
+            commentId={id}
+          />
+        )}
+      </div>
       {childComments && Array.isArray(childComments) && childComments.length > 0
         ? childComments.map((chiCom) => (
             <ShowComment
               key={chiCom.comment.id}
               {...chiCom}
               loggedInUser={loggedInUser}
+              userIsModerator={userIsModerator}
             />
           ))
         : null}

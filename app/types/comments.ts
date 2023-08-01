@@ -12,6 +12,8 @@ export interface Comment {
     route: string;
   };
   text: string;
+  voteCount?: number | null;
+  userVoted?: number | null;
 }
 
 export interface RecursiveCommentTreeNode {

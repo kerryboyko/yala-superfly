@@ -107,6 +107,7 @@
     }
     &__reply-button {
       @include button-primary();
+      margin-left: 1rem;
       &--text {
         margin-left: 0.5rem;
       }

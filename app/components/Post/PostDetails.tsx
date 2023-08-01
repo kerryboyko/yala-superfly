@@ -14,11 +14,9 @@ import { getAuthorRoute, getCommunityLink } from "~/logic/getPostLinks";
 import postDetailsStyles from "~/styles/post-details.css";
 
 import PostTools, { styles as postToolsStyles } from "./PostTools";
-import PostVotes, { styles as postVotesStyles } from "./PostVotes";
+import Voter, { styles as voterStyles } from "../Votes/Voter";
 
-export const styles = [postDetailsStyles, postVotesStyles].concat(
-  postToolsStyles,
-);
+export const styles = [postDetailsStyles, voterStyles].concat(postToolsStyles);
 
 interface PostDetails {
   createdAt: string;
@@ -62,10 +60,11 @@ export const PostDetails = ({
     <Card className="post-details">
       <CardHeader className="post-details__header">
         <div className="post-details__header-box">
-          <PostVotes
+          <Voter
             votes={voteCount}
             userVoted={userVoted}
-            postId={Number(postId)}
+            id={Number(postId)}
+            isComment={false}
           />
           <div className="post-details__title-box">
             <CardTitle className="post-details__title">

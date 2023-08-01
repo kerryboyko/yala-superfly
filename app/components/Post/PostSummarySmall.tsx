@@ -5,10 +5,10 @@ import { getCommunityLink, getCommentLink } from "~/logic/getPostLinks";
 import truncateWithoutWordBreak from "~/logic/truncateWithoutWordBreak";
 import type { PostSummaryData } from "~/types/posts";
 
-import PostVotes, { styles as postVoteStyles } from "./PostVotes";
+import Voter, { styles as Votertyles } from "../Votes/Voter";
 import MarkdownDisplay from "../Markdown/MarkdownDisplay";
 
-export const styles = postVoteStyles;
+export const styles = Votertyles;
 
 export const PostSummarySmall: React.FC<
   PostSummaryData & { index: number }
@@ -43,10 +43,11 @@ export const PostSummarySmall: React.FC<
             /community/{post.communityName}
           </Link>
         </div>
-        <PostVotes
+        <Voter
           votes={post.voteCount}
           userVoted={post.userVoted}
-          postId={post.id}
+          id={post.id}
+          isComment={false}
           isSmall={true}
         />
         <div className="post-summary-small__comments-link">

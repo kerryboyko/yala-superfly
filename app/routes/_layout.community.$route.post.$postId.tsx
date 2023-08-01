@@ -27,6 +27,10 @@ import { getAuthSession, requireAuthSession } from "~/modules/auth";
 import { getMyVoteOnThisPost, getVotesByPostId } from "~/modules/post";
 import type { RecursiveCommentTreeNode } from "~/types/comments";
 import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
+import {
+  getMyVotesByUserIdOnComments,
+  getVotesForManyComments,
+} from "~/modules/comments";
 
 export const links = linkFunctionFactory(postDetailsStyles);
 
@@ -88,7 +92,20 @@ export const loader = async ({ request, params }: LoaderArgs) => {
     ? await getMyVoteOnThisPost(authSession?.userId, post.id)
     : null;
 
-  const commentTree = createCommentTree(post?.comments);
+  // count the votes before organizing the comment tree. It's just easier.
+  const commentVotes = await getVotesForManyComments(post.comments);
+  const myCommentVote = await getMyVotesByUserIdOnComments(
+    authSession?.userId || "",
+    post.comments.map((comment) => comment.id),
+  );
+
+  const commentTree = createCommentTree(
+    post?.comments.map((comment, idx) => ({
+      ...comment,
+      voteCount: commentVotes[idx]._sum.value,
+      userVoted: myCommentVote[idx]?.value || null,
+    })),
+  );
   return json({
     post: {
       ...omit(post, ["comments"]),
@@ -97,7 +114,7 @@ export const loader = async ({ request, params }: LoaderArgs) => {
     },
     comments: commentTree,
     communityRoute: params.route,
-    postId: params.postid,
+    postId: post.id,
     loggedInUser: authSession?.userId,
     userModeratesCommunity,
   });
@@ -180,6 +197,7 @@ export default function PostRoute() {
             key={comment.comment?.id}
             {...comment}
             loggedInUser={data.loggedInUser}
+            userIsModerator={data.userModeratesCommunity}
           />
         ))}
       </div>

@@ -3,35 +3,40 @@ import { useCallback } from "react";
 import { useFetcher } from "@remix-run/react";
 import { ArrowBigUp, ArrowBigDown } from "lucide-react";
 
-import postVoteStyles from "~/styles/post-votes.css";
+import Votertyles from "~/styles/post-votes.css";
 
-export const styles = postVoteStyles;
+export const styles = Votertyles;
 
 const coerceVotes = (votes: number | null | undefined): number =>
   typeof votes !== "number" ? 0 : votes;
 
-export const PostVotes = ({
+export const Voter = ({
   votes,
   userVoted,
-  postId,
+  id,
   isSmall,
+  isComment,
 }: {
   votes?: number | null;
   userVoted?: number | null;
-  postId: number;
+  id: number;
   isSmall?: boolean;
+  isComment?: boolean;
 }) => {
   const voteFetcher = useFetcher();
-  const postVotes = coerceVotes(votes);
+  const Voter = coerceVotes(votes);
 
   const handleVote = useCallback(
     (vote: number) => () => {
       voteFetcher.submit(
         { value: vote === userVoted ? 0 : vote },
-        { method: "post", action: `/api/v1/vote/post/${postId}` },
+        {
+          method: "post",
+          action: `/api/v1/vote/${isComment ? "comment" : "post"}/${id}`,
+        },
       );
     },
-    [postId, userVoted, voteFetcher],
+    [id, userVoted, voteFetcher],
   );
 
   return (
@@ -45,11 +50,11 @@ export const PostVotes = ({
         <ArrowBigUp />
       </button>
       <div
-        className={`post-votes__count ${postVotes < 0 ? "deficit" : ""} ${
+        className={`post-votes__count ${Voter < 0 ? "deficit" : ""} ${
           isSmall ? "small" : ""
         }`}
       >
-        {postVotes}
+        {Voter}
       </div>
       <button
         onClick={handleVote(-1)}
@@ -63,4 +68,4 @@ export const PostVotes = ({
   );
 };
 
-export default PostVotes;
+export default Voter;
