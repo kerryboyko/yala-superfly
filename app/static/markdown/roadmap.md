@@ -15,8 +15,7 @@ Last update: August 1, 2023
 - 🔲 When a token expires, it doesn't notify the user. It should automatically refresh instead of kicking the user back to the /login route. 
 
 ### Bugs Quashed
-- ✅ Anonymous Users (who cannot vote) have shown that they *have* voted - visual bug. 
-
+- ✅ Anonymous Users (who cannot vote) have shown that they *have* voted - visual bug. fly
 
 ### Completed:
 

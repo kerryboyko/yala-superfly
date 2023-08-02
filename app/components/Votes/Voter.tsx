@@ -61,9 +61,9 @@ export const Voter = ({
         </div>
       ) : (
         <div
-          className={`post-votes__count ${
-            isSmall ? "loading-spinner--xs small" : "loading-spinner--sm small"
-          }`}
+          className={`${
+            isSmall ? "loading-spinner--xs small" : "loading-spinner--sm"
+          } post-votes__count`}
         />
       )}
       <button
