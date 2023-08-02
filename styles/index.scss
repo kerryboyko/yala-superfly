@@ -4,6 +4,7 @@
 
 @import "palette";
 @import "mixins/map-deep-get";
+@import "component/loading-spinner";
 
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Mono&family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Serif:ital,wght@0,300;0,600;1,300;1,600&family=Ubuntu:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 :root {
@@ -172,4 +173,23 @@ a {
 
 .deleted-by {
   color: map-deep-get($palettes, "grey", "dark-silver");
+}
+
+.loading-spinner {
+  @include loading-spinner(1.5rem, 0.375rem);
+  &--xs {
+    @include loading-spinner(0.5rem, 0.125rem);
+  }
+  &--sm {
+    @include loading-spinner(1rem, 0.25rem);
+  }
+  &--md {
+    @include loading-spinner(1.5rem, 0.375rem);
+  }
+  &--lg {
+    @include loading-spinner(2rem, 0.5rem);
+  }
+  &--xl {
+    @include loading-spinner(5rem, 0.8rem);
+  }
 }

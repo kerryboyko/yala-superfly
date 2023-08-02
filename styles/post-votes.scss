@@ -32,6 +32,12 @@
     &.deficit {
       color: map-deep-get($palettes, "red", "crimson-red");
     }
+    height: 1rem;
+    line-height: 1rem;
+    &.small {
+      height: 0.5rem;
+      line-height: 0.5rem;
+    }
   }
   &__down {
     cursor: pointer;

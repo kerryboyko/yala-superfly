@@ -17,7 +17,8 @@ export const links = linkFunctionFactory(createPostStyles);
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   const authSession = await getAuthSession(request);
-  if (authSession === null) {
+  console.log({ authSession });
+  if (!authSession) {
     return redirect(`/community/${params.route}`);
   }
   const isUserBanned = await checkIfUserBanned(

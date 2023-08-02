@@ -13,6 +13,8 @@ import type { PostSummaryData } from "~/types/posts";
 import PostTools, { styles as postToolsStyles } from "./PostTools";
 import { CardHeader } from "../ui/card";
 import Voter, { styles as Votertyles } from "../Votes/Voter";
+import MarkdownDisplay from "../Markdown/MarkdownDisplay";
+import truncateWithoutWordBreak from "~/logic/truncateWithoutWordBreak";
 
 export const styles = [Votertyles, postToolsStyles, postSummaryStyles];
 
@@ -27,6 +29,9 @@ export const PostSummary: React.FC<
   }
 > = ({ index, userModerates, userIsAuthor, voteCount, userVoted, ...post }) => {
   const firstEmbed = post.embeds?.split(";")[0];
+  const truncatedText: string | null = post.text
+    ? truncateWithoutWordBreak(post.text, 250)
+    : null;
   return (
     <Card
       className={`post-summary ${index % 2 === 0 ? "even" : "odd"} ${
@@ -45,7 +50,6 @@ export const PostSummary: React.FC<
           <Link to={getCommentLink(post)}>{post.title}</Link>
         </CardTitle>
       </CardHeader>
-
       <CardDescription>
         <div className="post-summary__community-link">
           Posted {post.createdAt} to{" "}
@@ -77,7 +81,6 @@ export const PostSummary: React.FC<
           <Link to={getCommentLink(post)}>Comments: {post.commentCount}</Link>
         </div>
       </div>
-
       {firstEmbed ? (
         <div className="post-summary__embed">
           <Link to={post?.link || firstEmbed || getCommentLink(post)}>
@@ -89,7 +92,18 @@ export const PostSummary: React.FC<
           </Link>
         </div>
       ) : null}
-      {post.text ? <div className="post-summary__text">{post.text}</div> : null}
+
+      {truncatedText ? (
+        <MarkdownDisplay
+          className="post-summary__text"
+          markdown={truncatedText}
+        />
+      ) : null}
+      {truncatedText && truncatedText !== post.text ? (
+        <div className="post-summary__footer">
+          <Link to={getCommentLink(post)}>Read More...</Link>
+        </div>
+      ) : null}
     </Card>
   );
 };

@@ -54,11 +54,12 @@ export const loader = async ({ params, request }: LoaderArgs) => {
       userIsSubscribed:
         community.communitySubscribers[0]?.subscriberId === userId,
     },
+    userIsLoggedIn: !!authUser,
   });
 };
 
 export default function CommunityProfileRoute() {
-  const { community } = useLoaderData<typeof loader>();
+  const { community, userIsLoggedIn } = useLoaderData<typeof loader>();
   return (
     <div className="community">
       <div className="community__sidebar">
@@ -83,17 +84,21 @@ export default function CommunityProfileRoute() {
           by{" "}
           <Link to={`/user/${community.createdBy}`}>{community.createdBy}</Link>
         </div>
-        <div className="community__subscribe-button-container">
-          <SubscribeButton
-            communityRoute={community.route}
-            isSubscribed={community.userIsSubscribed}
-          />
-        </div>
-        <div className="community__sidebar__create-new-post">
-          <Link to={`/community/${community.route}/create-new-post`}>
-            <Button type="button">Create New Post</Button>
-          </Link>
-        </div>
+        {userIsLoggedIn ? (
+          <>
+            <div className="community__subscribe-button-container">
+              <SubscribeButton
+                communityRoute={community.route}
+                isSubscribed={community.userIsSubscribed}
+              />
+            </div>
+            <div className="community__sidebar__create-new-post">
+              <Link to={`/community/${community.route}/create-new-post`}>
+                <Button type="button">Create New Post</Button>
+              </Link>
+            </div>
+          </>
+        ) : null}
         <div className="community__sidebar__description">
           <MarkdownDisplay markdown={community.description || ""} />
         </div>

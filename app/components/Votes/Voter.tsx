@@ -1,11 +1,11 @@
 import { useCallback } from "react";
 
 import { useFetcher } from "@remix-run/react";
-import { ArrowBigUp, ArrowBigDown } from "lucide-react";
+import { ArrowBigUp, ArrowBigDown, Loader2 } from "lucide-react";
 
-import Votertyles from "~/styles/post-votes.css";
+import postVotetyles from "~/styles/post-votes.css";
 
-export const styles = Votertyles;
+export const styles = postVotetyles;
 
 const coerceVotes = (votes: number | null | undefined): number =>
   typeof votes !== "number" ? 0 : votes;
@@ -24,7 +24,7 @@ export const Voter = ({
   isComment?: boolean;
 }) => {
   const voteFetcher = useFetcher();
-  const Voter = coerceVotes(votes);
+  const allVotes = coerceVotes(votes);
 
   const submitter = voteFetcher.submit;
 
@@ -51,13 +51,21 @@ export const Voter = ({
       >
         <ArrowBigUp />
       </button>
-      <div
-        className={`post-votes__count ${Voter < 0 ? "deficit" : ""} ${
-          isSmall ? "small" : ""
-        }`}
-      >
-        {Voter}
-      </div>
+      {voteFetcher.state === "idle" ? (
+        <div
+          className={`post-votes__count ${allVotes < 0 ? "deficit" : ""} ${
+            isSmall ? "small" : ""
+          }`}
+        >
+          {allVotes}
+        </div>
+      ) : (
+        <div
+          className={`post-votes__count ${
+            isSmall ? "loading-spinner--xs small" : "loading-spinner--sm small"
+          }`}
+        />
+      )}
       <button
         onClick={handleVote(-1)}
         className={`post-votes__down ${userVoted === -1 ? "selected" : ""} ${

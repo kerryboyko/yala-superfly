@@ -2,9 +2,14 @@
 
 Last update: August 1, 2023
 
-### Known Bugs
+### Bugs Found
 
+- 🔲 Markdown does not render properly in Post Summary View. 
 - 🔲 Sometimes, elements do not update right away, requiring a reload. This likely will be addressed when the "loading" spinners are added. 
+
+### Bugs Quashed
+- ✅ Anonymous Users (who cannot vote) have shown that they *have* voted - visual bug. 
+
 
 ### Completed:
 

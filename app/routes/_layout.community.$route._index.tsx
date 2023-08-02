@@ -45,14 +45,6 @@ export const loader = async ({ request, params }: LoaderArgs) => {
               userId: true,
             },
           },
-          postVotes: {
-            where: {
-              voterId: authUser?.userId,
-            },
-            select: {
-              value: true,
-            },
-          },
         },
       },
     },
@@ -63,8 +55,19 @@ export const loader = async ({ request, params }: LoaderArgs) => {
       status: 404,
     });
   }
+
   const votes = await db.$transaction(
     communityPosts.posts.map((post) => getVotesByPostId(post.id)),
+  );
+  const userVotes = await db.$transaction(
+    communityPosts.posts.map(({ id }) =>
+      db.postVote.findUnique({
+        where: {
+          postId_voterId: { postId: id, voterId: authUser?.userId ?? "" },
+        },
+        select: { value: true },
+      }),
+    ),
   );
 
   const posts: PostSummaryData[] = communityPosts.posts.map((post, idx) => ({
@@ -75,7 +78,7 @@ export const loader = async ({ request, params }: LoaderArgs) => {
     communityRoute: communityPosts.route,
     communityName: communityPosts.name,
     isAuthor: post.author.userId === authUser?.userId,
-    userVoted: get(post, ["postVotes", 0, "value"], null),
+    userVoted: get(userVotes, [idx, "value"], null),
     voteCount: votes[idx]._sum.value,
   }));
   return json({ posts, userModerates: communityPosts.moderators.length > 0 });

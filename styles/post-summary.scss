@@ -12,7 +12,9 @@
     "community community"
     "link link"
     "info info"
-    "text text";
+    "text text"
+    "footer footer";
+
   grid-template-columns: auto;
   &.no-embed {
     grid-template-areas:
@@ -20,7 +22,8 @@
       "community community"
       "link link"
       "info info"
-      "text text";
+      "text text"
+      "footer footer";
   }
   @media (min-width: $breakpoint-mobile) {
     grid-template-areas:
@@ -28,7 +31,8 @@
       "embed community community"
       "embed link link"
       "embed info info"
-      "text text text";
+      "text text text"
+      "footer footer footer";
 
     grid-template-columns: 10rem 1fr 1fr;
 
@@ -38,7 +42,8 @@
         "community community"
         "link link"
         "info info"
-        "text text";
+        "text text"
+        "footer footer";
       grid-template-columns: 1fr 1fr;
     }
   }
@@ -176,6 +181,7 @@
     margin-left: 5rem;
     font-size: 0.75rem;
   }
+
   &__info {
     font-family: "Ubuntu";
     width: calc(100% - 5rem);
@@ -183,6 +189,14 @@
     margin-left: 5rem;
     display: flex;
     justify-content: space-between;
+  }
+  &__footer {
+    grid-area: footer;
+    & a {
+      font-family: "Ubuntu";
+      font-size: 1rem;
+      font-weight: 700;
+    }
   }
 }
 
