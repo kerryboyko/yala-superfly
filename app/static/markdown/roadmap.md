@@ -6,6 +6,13 @@ Last update: August 1, 2023
 
 - 🔲 Markdown does not render properly in Post Summary View. 
 - 🔲 Sometimes, elements do not update right away, requiring a reload. This likely will be addressed when the "loading" spinners are added. 
+  - ✅ Voting now has a loading spinner
+  - 🔲 Creating communities does not have a loading spinner 
+  - 🔲 Creating posts does not have a loading spinner 
+  - 🔲 Creating comments does not have a loading spinner 
+  - 🔲 Creating replies does not have a loading spinner 
+  - 🔲 Subscribing does not have a loading spinner 
+- 🔲 When a token expires, it doesn't notify the user. It should automatically refresh instead of kicking the user back to the /login route. 
 
 ### Bugs Quashed
 - ✅ Anonymous Users (who cannot vote) have shown that they *have* voted - visual bug. 
