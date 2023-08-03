@@ -21,12 +21,9 @@ function getSupabaseClient(supabaseKey: string, accessToken?: string) {
     : {};
 
   return createClient(SUPABASE_URL, supabaseKey, {
-    /* the following values are default in the remix stack I'm using (remix-superfly) but 
-       I think they are incorrect. 
-        auth: {
-          autoRefreshToken: true,
-          persistSession: false,
-        }, */
+    auth: {
+      persistSession: false, // SSR apps do not have access to localStorage needed to persist the session.
+    },
     ...global,
   });
 }

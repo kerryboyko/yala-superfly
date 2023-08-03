@@ -4,7 +4,6 @@ Last update: August 1, 2023
 
 ### Bugs Found
 
-- 🔲 Markdown does not render properly in Post Summary View. 
 - 🔲 Sometimes, elements do not update right away, requiring a reload. This likely will be addressed when the "loading" spinners are added. 
   - ✅ Voting now has a loading spinner
   - 🔲 Creating communities does not have a loading spinner 
@@ -12,10 +11,12 @@ Last update: August 1, 2023
   - 🔲 Creating comments does not have a loading spinner 
   - 🔲 Creating replies does not have a loading spinner 
   - 🔲 Subscribing does not have a loading spinner 
-- 🔲 When a token expires, it doesn't notify the user. It should automatically refresh instead of kicking the user back to the /login route. 
-
 ### Bugs Quashed
-- ✅ Anonymous Users (who cannot vote) have shown that they *have* voted - visual bug. fly
+- ✅ Anonymous Users (who cannot vote) have shown that they *have* voted - visual bug. -> Anonymous users now cannot vote and are not shown otherwise. Voting has a loading spinner to indicate processing time. 
+- ✅ Markdown does not render properly in Post Summary View. -> Markdown now renders properly in post-summary view. 
+- ✅ When a token expires, it doesn't notify the user. It should automatically refresh instead of kicking the user back to the /login route. 
+    - *This bug was caused because "remix-superfly", set the auto refresh and persist values manually to 'false', overriding the default of 'true'. (Cue the Simpsons meme: "Here's your problem, someone set this thing to evil.")*
+
 
 ### Completed:
 
@@ -45,6 +46,9 @@ Last update: August 1, 2023
 - 🔲 As a site owner, I would like to require email confirmation for signups before a user can post. 
 - 🔲 As a user, I would like to place "Reactions" (like Slashdot moderation) for posts and comments
 - 🔲 As a user, I would like to be able to tag posts and comments with arbitrary hashes.
+- 🔲 As a user *making a post* (but not a comment), I would like to be able to embed images and youtube videos. 
+  - 🔲 This will take the form of URLs, rather than an upload service. I.e., users can upload to Imgur or another host and link the image to be shown. 
+- 🔲 As a user *creating a community*, I would like to be able to *upload* a header image to be stored on our servers. 
 - 🔲 As a visitor, I'd like to see a list of most popular communities by page loads, subscribers, posts, comments, etc.
 - 🔲 As a visitor, I'd like to see a list of most posts (by votes, by visits, by 'hotness', most recent, etc.)
 - 🔲 As a developer, I'd like Unit & Integration testing. (Normally I do TDD first, but I needed to get used to the Remix environment and see what features are feasible.)
@@ -57,6 +61,7 @@ Last update: August 1, 2023
 
 - 🔲 Add "loading" to various buttons (subscribe/unsubscribe/delete) to let the user know it's working.
 - 🔲 I want to provide header images for communities, but it might make sense to create the community first before the header image is added. Thus, any moderator may change the community header, community headers will have filenames based on the community, etc.
+  - 🔲 I may be setting up Supabase storage for this information, though I'm worried about bandwidth, especially as we pre-scale, and may limit header images to 540x540 pixels and 100kb (even perhaps using server-side code to resize and recompress images.  )
 - 🔲 Error boundaries need to be configured and prettified.
 
 
