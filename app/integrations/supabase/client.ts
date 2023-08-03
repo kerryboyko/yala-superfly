@@ -21,10 +21,12 @@ function getSupabaseClient(supabaseKey: string, accessToken?: string) {
     : {};
 
   return createClient(SUPABASE_URL, supabaseKey, {
-    auth: {
-      autoRefreshToken: false,
-      persistSession: false,
-    },
+    /* the following values are default in the remix stack I'm using (remix-superfly) but 
+       I think they are incorrect. 
+        auth: {
+          autoRefreshToken: true,
+          persistSession: false,
+        }, */
     ...global,
   });
 }
