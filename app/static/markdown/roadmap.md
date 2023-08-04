@@ -1,6 +1,6 @@
 ## Current Roadmap
 
-Last update: August 1, 2023
+Last update: August 4, 2023
 
 ### Bugs Found
 
@@ -13,6 +13,7 @@ Last update: August 1, 2023
   - ✅ Creating replies does noW have a loading spinner 
   - 🔲 Subscribing does not have a loading spinner 
 ### Bugs Quashed
+
 - ✅ Anonymous Users (who cannot vote) have shown that they *have* voted - visual bug. -> Anonymous users now cannot vote and are not shown otherwise. Voting has a loading spinner to indicate processing time. 
 - ✅ Markdown does not render properly in Post Summary View. -> Markdown now renders properly in post-summary view. 
 - ✅ When a token expires, it doesn't notify the user. It should automatically refresh instead of kicking the user back to the /login route. 
@@ -58,6 +59,7 @@ Last update: August 1, 2023
 - 🔲 As a moderator, I would like to 'lock' posts so that no more edits or comments can be made. 
 - 🔲 As a moderator, I would like to 'sticky' posts so that they always show up at the top of the page. 
 - 🔲 As a user, I would like to add a direct message system. 
+- 🔲 As a myself, I would like to have a blog system that uses markdown so that I can have a development blog.  
 ### What is being postponed?
 
 - 🔲 Add "loading" to various buttons (subscribe/unsubscribe/delete) to let the user know it's working.
