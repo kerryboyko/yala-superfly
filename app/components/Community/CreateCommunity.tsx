@@ -14,6 +14,8 @@ import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { COMMUNITY_NAME_CHAR_LIMITS } from "~/constants/communityNameLimits";
 import { formatCommunityName } from "~/logic/formatCommunityName";
+import { Loader2 } from "lucide-react";
+import { PlusSquare } from "lucide-react";
 
 const safetyCountClass = (
   text: string,
@@ -42,8 +44,10 @@ const inputHandler =
   };
 
 export const CreateCommunityForm = ({
+  loadingState,
   errors,
 }: {
+  loadingState: "idle" | "submitting" | "loading";
   errors?: Record<string, string>;
 }) => {
   const [communityName, setCommunityName] = useState<string>("");
@@ -157,7 +161,14 @@ export const CreateCommunityForm = ({
         </div>
       </CardContent>
       <CardFooter className="create-community__footer">
-        <Button type="submit">Create Community</Button>
+        <Button className="create-community__footer__button" type="submit">
+          {loadingState === "idle" ? (
+            <PlusSquare className="create-community__footer__button__icon" />
+          ) : (
+            <Loader2 className="create-community__footer__button__icon loading" />
+          )}
+          Create Community
+        </Button>
       </CardFooter>
       <input
         type="hidden"

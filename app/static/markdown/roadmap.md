@@ -6,10 +6,10 @@ Last update: August 1, 2023
 
 - 🔲 Sometimes, elements do not update right away, requiring a reload. This likely will be addressed when the "loading" spinners are added. 
   - ✅ Voting now has a loading spinner
-  - 🔲 Creating communities does not have a loading spinner 
-  - 🔲 Creating posts does not have a loading spinner 
-  - 🔲 Creating comments does not have a loading spinner 
-  - 🔲 Creating replies does not have a loading spinner 
+  - ✅ Creating communities does now has a loading spinner
+  - ✅ Creating posts does now have a loading spinner 
+  - ✅ Creating comments does now have a loading spinner 
+  - ✅ Creating replies does noW have a loading spinner 
   - 🔲 Subscribing does not have a loading spinner 
 ### Bugs Quashed
 - ✅ Anonymous Users (who cannot vote) have shown that they *have* voted - visual bug. -> Anonymous users now cannot vote and are not shown otherwise. Voting has a loading spinner to indicate processing time. 

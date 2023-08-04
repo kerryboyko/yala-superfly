@@ -13,8 +13,13 @@ import { Input } from "~/components/ui/input";
 
 import MarkdownDisplay from "../Markdown/MarkdownDisplay";
 import MarkdownTextarea from "../Markdown/MarkdownTextarea";
+import { Loader2, PenSquare, Eye, EyeOff } from "lucide-react";
 
-export const CreatePost = () => {
+export const CreatePost = ({
+  loadingState,
+}: {
+  loadingState: "idle" | "submitting" | "loading";
+}) => {
   const [showPreview, setShowPreview] = useState<boolean>(false);
   const [postTitle, setPostTitle] = useState<string>("");
   const [postLink, setPostLink] = useState<string>("");
@@ -58,37 +63,7 @@ export const CreatePost = () => {
           value={postLink}
         />
       </CardContent>
-      {/* <div className="create-post__content__image">
-         <CardHeader className="header__condensed-padding bottom top">
-          <CardTitle>Image Upload (optional)</CardTitle>
-        </CardHeader> 
-        <CardContent className="content__condensed-padding">
-          {postEmbed ? (
-            <div className="create-post__content__embed-image__display">
-              <img
-                className="create-post__content__embed-image__display--image"
-                alt=""
-                width={"250px"}
-                src={postEmbed}
-              />
-              <Button type="button" onClick={handleDeleteImage}>
-                Remove
-              </Button>
-              <input type="hidden" name="image-embed" value={postEmbed} />
-            </div>
-          ) : isUploading ? (
-            <div className="create-post__content__embed-image__loading">
-              <Loader2
-                size={"1.5rem"}
-                className="create-post__content__embed-image__loading icon"
-              />
-              Uploading, please wait...
-            </div>
-          ) : (
-            <DragDropFile size="small" handleFiles={handleImageFile} />
-          )}
-        </CardContent> 
-      </div> */}
+      {/* TODO: Add upload image HTML links & youtube links here*/}
       <CardHeader className="editor__header header__condensed-padding bottom top">
         <CardTitle className="editor__header__title">Text (optional)</CardTitle>
       </CardHeader>
@@ -103,13 +78,25 @@ export const CreatePost = () => {
       </CardContent>
       <CardFooter className="editor__footer">
         <Button
-          className="editor__footer__button-preview"
+          className={`editor__footer__button preview${
+            showPreview ? "--active" : ""
+          }`}
           type="button"
           onClick={togglePreview}
         >
+          {showPreview ? <EyeOff className="icon" /> : <Eye className="icon" />}
           {showPreview ? "Hide" : "Show"} Preview
         </Button>
-        <Button className="editor__footer__button-submit" type="submit">
+        <Button
+          className="editor__footer__button submit"
+          type="submit"
+          disabled={loadingState !== "idle"}
+        >
+          {loadingState === "idle" ? (
+            <PenSquare className="icon" />
+          ) : (
+            <Loader2 className="icon loading" />
+          )}
           Submit
         </Button>
       </CardFooter>
@@ -133,9 +120,6 @@ export const CreatePost = () => {
                 )}
               </div>
             ) : null}
-            {/* {postEmbed ? (
-              <img alt="" className="post-preview__embed" src={postEmbed} />
-            ) : null} */}
             <MarkdownDisplay markdown={postBody} />
           </CardContent>
           <hr />

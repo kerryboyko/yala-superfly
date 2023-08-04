@@ -27,6 +27,7 @@
     }
   }
   &__count {
+    text-align: center;
     font-family: "Ubuntu";
     font-weight: 700;
     &.deficit {
@@ -35,6 +36,7 @@
     height: 1rem;
     line-height: 1rem;
     &.small {
+      min-width: 1.5rem;
       height: 0.5rem;
       line-height: 0.5rem;
     }

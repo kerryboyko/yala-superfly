@@ -48,6 +48,30 @@
   }
 }
 
+.editor {
+  &__footer {
+    display: flex;
+    justify-content: flex-end;
+    &__button {
+      margin-left: 0.5rem;
+      background-color: map-deep-get($palettes, "blue", "ucla");
+      &:hover {
+        background-color: map-deep-get($palettes, "red", "golden-gate");
+      }
+      &.preview {
+        &--active {
+          font-style: italic;
+        }
+      }
+      &.submit {
+      }
+      & .icon {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+}
+
 .post-preview {
   background-color: map-deep-get($palettes, "grey", "french-grey");
   padding-top: 1rem;

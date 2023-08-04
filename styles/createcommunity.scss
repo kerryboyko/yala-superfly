@@ -29,6 +29,18 @@
   }
   &__footer {
     justify-content: flex-end;
+    &__button {
+      background-color: map-deep-get($palettes, "blue", "ucla");
+      &:hover {
+        background-color: map-deep-get($palettes, "red", "golden-gate");
+      }
+      &__icon {
+        margin-right: 0.5rem;
+        &.loading {
+          animation: spin 4s linear infinite;
+        }
+      }
+    }
   }
   &__content {
     &__header-image {
@@ -42,9 +54,7 @@
       &__loading {
         display: flex;
         &.icon {
-          margin-right: 1rem;
-          animation: spin 4s linear infinite;
-          color: map-deep-get($palettes, "blue", "ucla");
+          margin-left: 0rem;
         }
       }
     }

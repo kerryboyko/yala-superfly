@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 import { Form, Link, useFetcher, useNavigation } from "@remix-run/react";
 import { format } from "date-fns";
-import { MessageSquarePlus } from "lucide-react";
+import { Loader2, MessageSquarePlus } from "lucide-react";
 
 import { MarkdownDisplay } from "~/components/Markdown/MarkdownDisplay";
 import showCommentStyles from "~/styles/show-comment.css";
@@ -14,6 +14,7 @@ import CommentTools from "./CommentTools";
 import CreateComment from "./CreateComment";
 import { Button } from "../ui/button";
 import Voter from "../Votes/Voter";
+import { MessagesSquare } from "lucide-react";
 
 export const styles = showCommentStyles;
 
@@ -38,7 +39,7 @@ export const ShowComment = ({
 }: RecursiveCommentTreeNode & {
   loggedInUser?: string;
   userIsModerator?: boolean;
-  isUserBanned?: string;
+  isUserBanned?: string | boolean | null;
 }) => {
   let navigation = useNavigation();
   const fetcher = useFetcher();
@@ -125,7 +126,11 @@ export const ShowComment = ({
                 type="submit"
                 className="show-comment__footer__reply-button"
               >
-                <MessageSquarePlus size="1rem" />
+                {navigation.state === "idle" ? (
+                  <MessagesSquare className="icon" />
+                ) : (
+                  <Loader2 className="icon loading" />
+                )}
                 Send Reply
               </Button>
             </button>

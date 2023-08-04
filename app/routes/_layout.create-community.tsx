@@ -1,6 +1,6 @@
 import type { ActionArgs, LoaderFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { Form, useActionData } from "@remix-run/react";
+import { Form, useActionData, useNavigation } from "@remix-run/react";
 import { z } from "zod";
 
 import { CreateCommunityForm } from "~/components/Community/CreateCommunity";
@@ -106,11 +106,13 @@ export const action = async ({ request }: ActionArgs) => {
 
 export default function CreateCommunityRoute() {
   const actionData: any = useActionData<typeof action>();
+  const navigation = useNavigation();
 
   return (
     <div className="create-community__route">
       <Form method="post">
         <CreateCommunityForm
+          loadingState={navigation.state}
           errors={
             actionData?.status === "error"
               ? (actionData?.errors as Record<string, string>)

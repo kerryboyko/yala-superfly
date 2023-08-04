@@ -1,6 +1,6 @@
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
-import { Form } from "@remix-run/react";
+import { Form, useNavigation } from "@remix-run/react";
 import { json } from "@remix-run/router";
 import { sanitize } from "isomorphic-dompurify";
 import { z } from "zod";
@@ -75,10 +75,11 @@ export const action: ActionFunction = async ({ request, params }) => {
 };
 
 export default function CreateNewPostRoute() {
+  const navigation = useNavigation();
   return (
     <div className="create-post__container">
       <Form method="post">
-        <CreatePost />
+        <CreatePost loadingState={navigation.state} />
       </Form>
     </div>
   );

@@ -35,6 +35,7 @@ import {
 import { getMyVoteOnThisPost, getVotesByPostId } from "~/modules/post";
 import type { RecursiveCommentTreeNode } from "~/types/comments";
 import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
+import { Loader2, MessageSquarePlus } from "lucide-react";
 
 export const links = linkFunctionFactory(postDetailsStyles, showCommentStyles);
 
@@ -201,7 +202,13 @@ export default function PostRoute() {
             <Button
               className="create-comment__footer--submit-button"
               type="submit"
+              disabled={navigation.state !== "idle"}
             >
+              {navigation.state === "idle" ? (
+                <MessageSquarePlus className="icon" />
+              ) : (
+                <Loader2 className="icon loading" />
+              )}
               Submit New Comment
             </Button>
           </div>
