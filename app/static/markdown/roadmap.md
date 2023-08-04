@@ -4,6 +4,7 @@ Last update: August 1, 2023
 
 ### Bugs Found
 
+- 🔲 If the user is writing a reply and the token expires behind the scenes, the application, instead of trying to renew the token, will spit them out to the /login page to get that token refreshed. This means the user loses data.  
 - 🔲 Sometimes, elements do not update right away, requiring a reload. This likely will be addressed when the "loading" spinners are added. 
   - ✅ Voting now has a loading spinner
   - ✅ Creating communities does now has a loading spinner
