@@ -1,6 +1,6 @@
 ## Current Roadmap
 
-Last update: August 4, 2023
+Last update: August 5, 2023
 
 ### Bugs Found
 
@@ -43,14 +43,19 @@ Last update: August 4, 2023
 - ✅ Authors can edit or delete comments
 - ✅ Moderators can delete, but not edit comments.
 - ✅ If a comment with children is deleted, the comment is marked as deleted, but not removed in the comment hierarchy.
+- ✅ Users can now add images to their posts via URLs. (but not yet edit them.)
+
+### What's *immediately* next;
+
+- 🔲 As a post author, I would like to be able to edit my images as well as my text.
 
 ### What's next? 
 
 - 🔲 As a site owner, I would like to require email confirmation for signups before a user can post. 
 - 🔲 As a user, I would like to place "Reactions" (like Slashdot moderation) for posts and comments
 - 🔲 As a user, I would like to be able to tag posts and comments with arbitrary hashes.
-- 🔲 As a user *making a post* (but not a comment), I would like to be able to embed images and youtube videos. 
-  - 🔲 This will take the form of URLs, rather than an upload service. I.e., users can upload to Imgur or another host and link the image to be shown. 
+- 🔲 As a user *making a post* (but not a comment), I would like to be able to embed youtube videos. 
+  - This will take the form of URLs, rather than an upload service. I.e., users can upload to Imgur or another host and link the image to be shown. 
 - 🔲 As a user *creating a community*, I would like to be able to *upload* a header image to be stored on our servers. 
 - 🔲 As a visitor, I'd like to see a list of most popular communities by page loads, subscribers, posts, comments, etc.
 - 🔲 As a visitor, I'd like to see a list of most posts (by votes, by visits, by 'hotness', most recent, etc.)
