@@ -4,20 +4,21 @@ Last update: August 4, 2023
 
 ### Bugs Found
 
-- 🔲 If the user is writing a reply and the token expires behind the scenes, the application, instead of trying to renew the token, will spit them out to the /login page to get that token refreshed. This means the user loses data.  
-- 🔲 Sometimes, elements do not update right away, requiring a reload. This likely will be addressed when the "loading" spinners are added. 
-  - ✅ Voting now has a loading spinner
-  - ✅ Creating communities does now has a loading spinner
-  - ✅ Creating posts does now have a loading spinner 
-  - ✅ Creating comments does now have a loading spinner 
-  - ✅ Creating replies does noW have a loading spinner 
-  - 🔲 Subscribing does not have a loading spinner 
+- 🔲 If the user is writing a reply and the token expires behind the scenes, the application, instead of trying to renew the token, will spit them out to the /login page to get that token refreshed. This means the user loses data they have entered. Annoying.   
+
 ### Bugs Quashed
 
 - ✅ Anonymous Users (who cannot vote) have shown that they *have* voted - visual bug. -> Anonymous users now cannot vote and are not shown otherwise. Voting has a loading spinner to indicate processing time. 
 - ✅ Markdown does not render properly in Post Summary View. -> Markdown now renders properly in post-summary view. 
 - ✅ When a token expires, it doesn't notify the user. It should automatically refresh instead of kicking the user back to the /login route. 
-    - *This bug was caused because "remix-superfly", set the auto refresh and persist values manually to 'false', overriding the default of 'true'. (Cue the Simpsons meme: "Here's your problem, someone set this thing to evil.")*
+  - *This bug was caused because "remix-superfly", set the auto refresh and persist values manually to 'false', overriding the default of 'true'. (Cue the Simpsons meme: "Here's your problem, someone set this thing to evil.")*
+- ✅ Elements now have loading spinners to indicate status (and prevent confusion as to whether the user needs to reload the page or click again.)
+  - ✅ Voting now has a loading spinner
+  - ✅ Creating communities now has a loading spinner
+  - ✅ Creating posts now has a loading spinner 
+  - ✅ Creating comments now has a loading spinner 
+  - ✅ Creating replies now has a loading spinner 
+  - ✅ Subscribing now has a loading spinner 
 
 
 ### Completed:

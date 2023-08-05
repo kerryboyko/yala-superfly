@@ -1,9 +1,10 @@
 import { useFetcher } from "@remix-run/react";
-import { MinusCircle, PlusCircle } from "lucide-react";
+import { Loader2, MinusCircle, PlusCircle } from "lucide-react";
 
 import subscribeButtonStyles from "~/styles/subscribe-button.css";
 
 import { Button } from "../ui/button";
+import { useMemo } from "react";
 
 export const styles = subscribeButtonStyles;
 
@@ -15,7 +16,15 @@ export const SubscribeButton = ({
   isSubscribed?: boolean;
 }) => {
   const fetcher = useFetcher();
-  const Icon = isSubscribed ? MinusCircle : PlusCircle;
+
+  const Icon = useMemo(() => {
+    if (fetcher.state === "idle") {
+      return isSubscribed ? MinusCircle : PlusCircle;
+    }
+    return ({ ...props }) => (
+      <Loader2 {...props} className={`${props.className ?? ""} loading`} />
+    );
+  }, [fetcher.state, isSubscribed]);
 
   return (
     <fetcher.Form
