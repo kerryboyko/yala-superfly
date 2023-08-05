@@ -1,5 +1,5 @@
 import type { ChangeEventHandler, FormEventHandler } from "react";
-import { useState } from "react";
+import { useReducer, useState } from "react";
 
 import { Button } from "~/components/ui/button";
 import {
@@ -16,6 +16,41 @@ import MarkdownTextarea from "../Markdown/MarkdownTextarea";
 import { Loader2, PenSquare, Eye, EyeOff } from "lucide-react";
 import { Label } from "../ui/label";
 import { Switch } from "../ui/custom/switch";
+import { PostImageField } from "./PostImageField";
+
+const imageFieldReducer = (
+  state: Array<string> = [],
+  action: { type: string; image?: string; idx?: number },
+) => {
+  if (action.type === "new-field") {
+    return state.concat("");
+  }
+  if (
+    action.type === "edit-field" &&
+    action.image &&
+    action.idx !== undefined
+  ) {
+    return state
+      .slice(0, action.idx)
+      .concat(action.image)
+      .concat(state.slice(action.idx + 1));
+  }
+  if (action.type === "delete-field" && action.idx !== undefined) {
+    return state.slice(0, action.idx).concat(state.slice(action.idx + 1));
+  }
+
+  return state;
+};
+
+const useImageFields = () => {
+  const [imageFields, dispatch] = useReducer(imageFieldReducer, []);
+  const addField = () => dispatch({ type: "new-field" });
+  const editField = (idx: number) => (value: string) =>
+    dispatch({ type: "edit-field", image: value, idx });
+  const removeField = (idx: number) => () =>
+    dispatch({ type: "delete-field", idx });
+  return { imageFields, addField, editField, removeField };
+};
 
 export const CreatePost = ({
   loadingState,
@@ -26,6 +61,7 @@ export const CreatePost = ({
   const [postTitle, setPostTitle] = useState<string>("");
   const [postLink, setPostLink] = useState<string>("");
   const [postBody, setPostBody] = useState<string>("");
+  const { imageFields, addField, editField, removeField } = useImageFields();
 
   const handlePreviewSwitch: FormEventHandler<HTMLButtonElement> = (_event) =>
     setShowPreview((state) => !state);
@@ -49,7 +85,7 @@ export const CreatePost = ({
       </CardHeader>
       <CardContent className="content__condensed-padding bottom">
         <Input
-          name="post-title"
+          name="title"
           type="text"
           onChange={handlePostTitle}
           value={postTitle}
@@ -60,13 +96,13 @@ export const CreatePost = ({
       </CardHeader>
       <CardContent className="content__condensed-padding">
         <Input
-          name="post-link"
+          name="link"
           type="text"
           onChange={handlePostLink}
           value={postLink}
         />
       </CardContent>
-      {/* TODO: Add upload image HTML links & youtube links here*/}
+
       <CardHeader className="editor__header header__condensed-padding bottom top">
         <CardTitle className="editor__header__title">Text (optional)</CardTitle>
       </CardHeader>
@@ -76,14 +112,37 @@ export const CreatePost = ({
           placeholder={"Type your post here"}
           onChange={handlePostChange}
           value={postBody}
-          name="post-text"
+          name="text"
         />
+      </CardContent>
+      <CardHeader className="editor__header header__condensed-padding bottom top">
+        <CardTitle className="editor__header__images">Images</CardTitle>
+      </CardHeader>
+      <CardContent className="editor__content__images">
+        {<pre>{JSON.stringify(imageFields, null, 2)}</pre>}
+        {imageFields && imageFields.length
+          ? imageFields.map((imgFld, idx) => (
+              <PostImageField
+                value={imgFld}
+                editField={editField(idx)}
+                removeField={removeField(idx)}
+              />
+            ))
+          : null}
+        <Button
+          type="button"
+          className="editor__content__images__add-image"
+          onClick={addField}
+          disabled={imageFields.some((field) => field === "")}
+        >
+          Add Image
+        </Button>
       </CardContent>
       <CardFooter className="editor__footer">
         <div className="editor__footer__show-preview">
           <Switch
             className="editor__footer__show-preview--switch"
-            id="airplane-mode"
+            id="preview"
             checked={showPreview}
             onClick={handlePreviewSwitch}
           />

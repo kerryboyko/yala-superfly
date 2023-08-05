@@ -97,3 +97,34 @@
     padding: 0 0.25rem;
   }
 }
+
+.post-image {
+  &__display {
+    padding: 0;
+    margin: 0;
+    max-width: 90%;
+    max-height: 90%;
+    & .dialog-close-button {
+      background-color: map-deep-get($palettes, "blue", "ucla");
+      color: white;
+      &:hover {
+        background-color: map-deep-get($palettes, "red", "golden-gate");
+      }
+      height: 1.5rem;
+      width: 1.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      right: 0.5rem;
+      top: 0.5rem;
+      & svg {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+    }
+  }
+  &__full {
+    display: inline-block;
+    width: 100%;
+  }
+}

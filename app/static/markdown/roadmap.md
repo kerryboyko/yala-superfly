@@ -63,7 +63,6 @@ Last update: August 4, 2023
 - 🔲 As a myself, I would like to have a blog system that uses markdown so that I can have a development blog.  
 ### What is being postponed?
 
-- 🔲 Add "loading" to various buttons (subscribe/unsubscribe/delete) to let the user know it's working.
 - 🔲 I want to provide header images for communities, but it might make sense to create the community first before the header image is added. Thus, any moderator may change the community header, community headers will have filenames based on the community, etc.
   - 🔲 I may be setting up Supabase storage for this information, though I'm worried about bandwidth, especially as we pre-scale, and may limit header images to 540x540 pixels and 100kb (even perhaps using server-side code to resize and recompress images.  )
 - 🔲 Error boundaries need to be configured and prettified.
