@@ -13,10 +13,14 @@ import { Input } from "~/components/ui/input";
 
 import MarkdownDisplay from "../Markdown/MarkdownDisplay";
 import MarkdownTextarea from "../Markdown/MarkdownTextarea";
-import { Loader2, PenSquare, Eye, EyeOff } from "lucide-react";
+import { Loader2, PenSquare } from "lucide-react";
 import { Label } from "../ui/label";
 import { Switch } from "../ui/custom/switch";
 import { PostImageField } from "./PostImageField";
+import PostImage, { styles as postImageStyles } from "./PostImage";
+import createPostStyles from "~/styles/createpost.css";
+
+export const styles = [postImageStyles, createPostStyles];
 
 const imageFieldReducer = (
   state: Array<string> = [],
@@ -115,11 +119,12 @@ export const CreatePost = ({
           name="text"
         />
       </CardContent>
-      <CardHeader className="editor__header header__condensed-padding bottom top">
-        <CardTitle className="editor__header__images">Images</CardTitle>
-      </CardHeader>
+      {imageFields && imageFields.length ? (
+        <CardHeader className="editor__header header__condensed-padding bottom top">
+          <CardTitle className="editor__header__images">Images</CardTitle>
+        </CardHeader>
+      ) : null}
       <CardContent className="editor__content__images">
-        {<pre>{JSON.stringify(imageFields, null, 2)}</pre>}
         {imageFields && imageFields.length
           ? imageFields.map((imgFld, idx) => (
               <PostImageField
@@ -129,14 +134,16 @@ export const CreatePost = ({
               />
             ))
           : null}
-        <Button
-          type="button"
-          className="editor__content__images__add-image"
-          onClick={addField}
-          disabled={imageFields.some((field) => field === "")}
-        >
-          Add Image
-        </Button>
+        <div className="editor__content__images__footer">
+          <Button
+            type="button"
+            className="editor__content__images__add-image"
+            onClick={addField}
+            disabled={imageFields.some((field) => field === "")}
+          >
+            Add Image
+          </Button>
+        </div>
       </CardContent>
       <CardFooter className="editor__footer">
         <div className="editor__footer__show-preview">
@@ -186,6 +193,11 @@ export const CreatePost = ({
                 )}
               </div>
             ) : null}
+            {imageFields && imageFields.length > 0
+              ? imageFields.map((src, idx) => (
+                  <PostImage key={`${src}-${idx}`} src={src} />
+                ))
+              : null}
             <MarkdownDisplay markdown={postBody} />
           </CardContent>
           <hr />

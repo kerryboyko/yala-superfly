@@ -3,6 +3,9 @@ import {
   DialogContent,
   DialogTrigger,
 } from "~/components/ui/custom/dialog";
+import postImageStyles from "~/styles/post-image.css";
+
+export const styles = postImageStyles;
 
 export const PostImage = ({ src }: { src: string }) => {
   return (

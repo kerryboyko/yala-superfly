@@ -1,18 +1,16 @@
-import { Prisma } from "@prisma/client";
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { Form, useNavigation } from "@remix-run/react";
 import { json } from "@remix-run/router";
-import { sanitize } from "isomorphic-dompurify";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 
 import { checkIfUserBanned } from "~/components/ModTools/logic/checkIfUserBanned";
-import CreatePost from "~/components/Post/CreatePost";
+import CreatePost, {
+  styles as createPostStyles,
+} from "~/components/Post/CreatePost";
 import { db } from "~/database/db.server";
-import { formDataToObject } from "~/logic/formDataToObject";
 import { getAuthSession, requireAuthSession } from "~/modules/auth";
-import createPostStyles from "~/styles/createpost.css";
 import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 
 export const links = linkFunctionFactory(createPostStyles);

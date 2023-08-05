@@ -15,10 +15,11 @@ import postDetailsStyles from "~/styles/post-details.css";
 
 import PostTools, { styles as postToolsStyles } from "./PostTools";
 import Voter, { styles as voterStyles } from "../Votes/Voter";
-import { string } from "zod";
-import PostImage from "./PostImage";
+import PostImage, { styles as postImageStyles } from "./PostImage";
 
-export const styles = [postDetailsStyles, voterStyles].concat(postToolsStyles);
+export const styles = [postDetailsStyles, voterStyles]
+  .concat(postToolsStyles)
+  .concat(postImageStyles);
 
 interface PostDetails {
   createdAt: string;

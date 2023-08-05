@@ -45,6 +45,12 @@
       font-family: "Ubuntu";
       font-size: 0.75rem;
     }
+    &__images {
+      &__footer {
+        display: flex;
+        justify-content: flex-end;
+      }
+    }
   }
 }
 
@@ -100,12 +106,35 @@
 
     &:hover {
       text-decoration: underline;
-      color: map-deep-get($palettes, "blue", ucla);
+      color: map-deep-get($palettes, "blue", "ucla");
     }
   }
   &__body {
     margin-bottom: 0.5rem;
     font-family: "Noto Sans";
+  }
+}
+
+.post-image-field {
+  &__preview {
+    margin: 1rem 0;
+  }
+  &__input {
+  }
+  &__buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin: 0.5rem 0;
+    &--button {
+      background-color: map-deep-get($palettes, "blue", "ucla");
+      margin-left: 0.5rem;
+      &:hover {
+        background-color: map-deep-get($palettes, "red", "golden-gate");
+      }
+    }
+    & .icon {
+      margin-right: 0.5rem;
+    }
   }
 }
 

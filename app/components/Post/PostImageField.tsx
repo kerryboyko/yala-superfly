@@ -1,6 +1,7 @@
 import { ChangeEventHandler, useMemo, useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
+import { ImagePlus, Trash2 } from "lucide-react";
 
 export const PostImageField = ({
   value,
@@ -17,9 +18,9 @@ export const PostImageField = ({
   const handleChange: ChangeEventHandler<HTMLInputElement> = (event) =>
     setTempValue(event.target.value);
   return (
-    <div>
-      <div className="post-image">
-        <img src={value} className="post-image__preview" />
+    <div className="post-image-field">
+      <div className="post-image-field__preview">
+        <img src={value} className="post-image-field__preview--image" />
       </div>
       <div>
         <Input
@@ -29,12 +30,25 @@ export const PostImageField = ({
         />
         <input type="hidden" name="images" value={value} />
       </div>
-      <Button type="button" disabled={!isDirty} onClick={saveData}>
-        {!isDirty && tempValue !== "" ? "Saved" : "Save/Update"}
-      </Button>
-      <Button type="button" onClick={removeField}>
-        Delete
-      </Button>
+      <div className="post-image-field__buttons">
+        <Button
+          type="button"
+          className="post-image-field__buttons--button"
+          disabled={!isDirty}
+          onClick={saveData}
+        >
+          <ImagePlus className="icon" />
+          {!isDirty && tempValue !== "" ? "Saved" : "Save/Update"}
+        </Button>
+        <Button
+          type="button"
+          className="post-image-field__buttons--button"
+          onClick={removeField}
+        >
+          <Trash2 className="icon" />
+          Delete
+        </Button>
+      </div>
     </div>
   );
 };
