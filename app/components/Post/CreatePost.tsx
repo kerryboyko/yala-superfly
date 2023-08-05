@@ -1,4 +1,4 @@
-import type { ChangeEventHandler } from "react";
+import type { ChangeEventHandler, FormEventHandler } from "react";
 import { useState } from "react";
 
 import { Button } from "~/components/ui/button";
@@ -14,6 +14,8 @@ import { Input } from "~/components/ui/input";
 import MarkdownDisplay from "../Markdown/MarkdownDisplay";
 import MarkdownTextarea from "../Markdown/MarkdownTextarea";
 import { Loader2, PenSquare, Eye, EyeOff } from "lucide-react";
+import { Label } from "../ui/label";
+import { Switch } from "../ui/custom/switch";
 
 export const CreatePost = ({
   loadingState,
@@ -25,7 +27,8 @@ export const CreatePost = ({
   const [postLink, setPostLink] = useState<string>("");
   const [postBody, setPostBody] = useState<string>("");
 
-  const togglePreview = () => setShowPreview((state) => !state);
+  const handlePreviewSwitch: FormEventHandler<HTMLButtonElement> = (_event) =>
+    setShowPreview((state) => !state);
 
   const handlePostTitle: ChangeEventHandler<HTMLInputElement> = (event) => {
     setPostTitle(event?.target?.value);
@@ -77,16 +80,20 @@ export const CreatePost = ({
         />
       </CardContent>
       <CardFooter className="editor__footer">
-        <Button
-          className={`editor__footer__button preview${
-            showPreview ? "--active" : ""
-          }`}
-          type="button"
-          onClick={togglePreview}
-        >
-          {showPreview ? <EyeOff className="icon" /> : <Eye className="icon" />}
-          {showPreview ? "Hide" : "Show"} Preview
-        </Button>
+        <div className="editor__footer__show-preview">
+          <Switch
+            className="editor__footer__show-preview--switch"
+            id="airplane-mode"
+            checked={showPreview}
+            onClick={handlePreviewSwitch}
+          />
+          <Label
+            htmlFor="airplane-mode"
+            className="editor__footer_switch__label"
+          >
+            Show Preview
+          </Label>
+        </div>
         <Button
           className="editor__footer__button submit"
           type="submit"
