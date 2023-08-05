@@ -52,6 +52,19 @@
   &__footer {
     display: flex;
     justify-content: flex-end;
+    &__show-preview {
+      display: flex;
+      align-items: center;
+      &--switch {
+        margin-right: 0.5rem;
+        &[data-state="checked"] {
+          background-color: map-deep-get($palettes, "red", "golden-gate");
+        }
+        &[data-state="unchecked"] {
+          background-color: map-deep-get($palettes, "blue", "ucla");
+        }
+      }
+    }
     &__button {
       margin-left: 0.5rem;
       background-color: map-deep-get($palettes, "blue", "ucla");

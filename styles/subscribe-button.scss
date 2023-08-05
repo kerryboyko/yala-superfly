@@ -7,7 +7,7 @@
   height: auto;
   &.disabled {
     pointer-events: none;
-    background-color: map-deep-get($palettes, "grey", "dark-silver");
+    opacity: 0.5;
   }
   justify-self: end;
   &.subscribe {
