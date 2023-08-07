@@ -1,4 +1,4 @@
-import type { ChangeEventHandler } from "react";
+import type { ChangeEventHandler, FormEventHandler } from "react";
 import { useState } from "react";
 
 import { Link } from "@remix-run/react";
@@ -12,8 +12,19 @@ import {
   CardTitle,
 } from "~/components/ui/custom/card";
 
+import PostImage, { styles as postImageStyles } from "./PostImage";
+import createPostStyles from "~/styles/createpost.css";
+
 import MarkdownDisplay from "../Markdown/MarkdownDisplay";
 import MarkdownTextarea from "../Markdown/MarkdownTextarea";
+import { PostImageField } from "./PostImageField";
+import useImageFields from "~/hooks/useImageFields";
+import { ImagePlus, Loader2, PenSquare } from "lucide-react";
+import { PostPreview } from "./PostPreview";
+import { Switch } from "../ui/custom/switch";
+import { Label } from "../ui/label";
+
+export const styles = [postImageStyles, createPostStyles];
 
 export const EditPost = ({
   initialText,
@@ -21,21 +32,30 @@ export const EditPost = ({
   postLink,
   communityRoute,
   postId,
+  meta,
+  loadingState,
 }: {
   initialText: string;
   postTitle: string;
   postLink?: string | null;
   communityRoute: string;
   postId: number;
+  meta?: any;
+  loadingState: "idle" | "submitting" | "loading";
 }) => {
   const [showPreview, setShowPreview] = useState<boolean>(false);
   const [postBody, setPostBody] = useState<string>(initialText);
 
-  const togglePreview = () => setShowPreview((state) => !state);
+  const handlePreviewSwitch: FormEventHandler<HTMLButtonElement> = (_event) =>
+    setShowPreview((state) => !state);
 
   const handlePostChange: ChangeEventHandler<HTMLTextAreaElement> = (event) => {
     setPostBody(event.target.value);
   };
+
+  const { imageFields, addField, editField, removeField } = useImageFields(
+    meta?.images || [],
+  );
 
   return (
     <Card className="edit-post">
@@ -48,53 +68,68 @@ export const EditPost = ({
           placeholder={"Type your post here"}
           onChange={handlePostChange}
           value={postBody}
-          name="post-edit-text"
+          name="text"
         />
       </CardContent>
-      <CardFooter className="editor__footer">
+      {imageFields && imageFields.length ? (
+        <>
+          <CardHeader className="editor__header__image-header">
+            <CardTitle className="editor__header__title">Images:</CardTitle>
+          </CardHeader>
+          {imageFields.map((imgSrc: string, idx: number) => (
+            <PostImageField
+              key={`${imgSrc}-${idx}`}
+              value={imgSrc}
+              editField={editField(idx)}
+              removeField={removeField(idx)}
+            />
+          ))}
+        </>
+      ) : null}
+
+      <div className="editor__content__images__footer__editor">
         <Button
-          className="editor__footer__button-preview"
           type="button"
-          onClick={togglePreview}
+          className="editor__content__images__add-image"
+          onClick={addField}
+          disabled={imageFields.some((field) => field === "")}
         >
-          {showPreview ? "Hide" : "Show"} Preview
+          <ImagePlus className="icon" />
+          Add Image
         </Button>
-        <Link to={`/community/${communityRoute}/post/${postId}/`}>
-          <Button className="editor__footer__button-cancel" type="button">
-            Cancel
-          </Button>
-        </Link>
-        <Button className="editor__footer__button-submit" type="submit">
-          Submit Edits
+      </div>
+      <CardFooter className="editor__footer">
+        <div className="editor__footer__show-preview">
+          <Switch
+            className="editor__footer__show-preview--switch"
+            id="preview"
+            checked={showPreview}
+            onClick={handlePreviewSwitch}
+          />
+          <Label htmlFor="preview" className="editor__footer_switch__label">
+            Show Preview
+          </Label>
+        </div>
+        <Button
+          className="editor__footer__button submit"
+          type="submit"
+          disabled={loadingState !== "idle"}
+        >
+          {loadingState === "idle" ? (
+            <PenSquare className="icon" />
+          ) : (
+            <Loader2 className="icon loading" />
+          )}
+          Submit
         </Button>
       </CardFooter>
       {showPreview ? (
-        <>
-          <hr />
-          <CardContent className="post-preview">
-            {postTitle ? (
-              <div className="post-preview__title">
-                {postLink ? (
-                  <a
-                    className="post-preview__link"
-                    href={postLink}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {postTitle}
-                  </a>
-                ) : (
-                  postTitle
-                )}
-              </div>
-            ) : null}
-            {/* {postEmbed ? (
-              <img alt="" className="post-preview__embed" src={postEmbed} />
-            ) : null} */}
-            <MarkdownDisplay markdown={postBody} />
-          </CardContent>
-          <hr />
-        </>
+        <PostPreview
+          postTitle={postTitle}
+          postLink={postLink || ""}
+          imageFields={imageFields}
+          postBody={postBody}
+        />
       ) : null}
     </Card>
   );

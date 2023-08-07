@@ -12,7 +12,7 @@ export const PostImageField = ({
   editField: (value: string) => void;
   removeField: () => void;
 }) => {
-  const [tempValue, setTempValue] = useState<string>("");
+  const [tempValue, setTempValue] = useState<string>(value || "");
   const isDirty = useMemo(() => value !== tempValue, [value, tempValue]);
   const saveData = () => editField(tempValue);
   const handleChange: ChangeEventHandler<HTMLInputElement> = (event) =>
@@ -24,6 +24,7 @@ export const PostImageField = ({
       </div>
       <div>
         <Input
+          className="post-image-field__input-field"
           name="image-input-field"
           value={tempValue}
           onChange={handleChange}

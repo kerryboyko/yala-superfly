@@ -74,7 +74,7 @@ export const action: ActionFunction = async ({ request, params }) => {
   }
   try {
     const postData = await db.post.create({
-      data: { ...payload, meta: { images } },
+      data: { ...payload, meta: { images } } as any,
     });
     return redirect(
       `/community/${postData.communityRoute}/post/${postData.id}`,

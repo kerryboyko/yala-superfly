@@ -1,5 +1,5 @@
 import type { ChangeEventHandler, FormEventHandler } from "react";
-import { useReducer, useState } from "react";
+import { useState } from "react";
 
 import { Button } from "~/components/ui/button";
 import {
@@ -13,48 +13,16 @@ import { Input } from "~/components/ui/input";
 
 import MarkdownDisplay from "../Markdown/MarkdownDisplay";
 import MarkdownTextarea from "../Markdown/MarkdownTextarea";
-import { Loader2, PenSquare } from "lucide-react";
+import { ImagePlus, Loader2, PenSquare } from "lucide-react";
 import { Label } from "../ui/label";
 import { Switch } from "../ui/custom/switch";
 import { PostImageField } from "./PostImageField";
 import PostImage, { styles as postImageStyles } from "./PostImage";
 import createPostStyles from "~/styles/createpost.css";
+import useImageFields from "~/hooks/useImageFields";
+import { PostPreview } from "./PostPreview";
 
 export const styles = [postImageStyles, createPostStyles];
-
-const imageFieldReducer = (
-  state: Array<string> = [],
-  action: { type: string; image?: string; idx?: number },
-) => {
-  if (action.type === "new-field") {
-    return state.concat("");
-  }
-  if (
-    action.type === "edit-field" &&
-    action.image &&
-    action.idx !== undefined
-  ) {
-    return state
-      .slice(0, action.idx)
-      .concat(action.image)
-      .concat(state.slice(action.idx + 1));
-  }
-  if (action.type === "delete-field" && action.idx !== undefined) {
-    return state.slice(0, action.idx).concat(state.slice(action.idx + 1));
-  }
-
-  return state;
-};
-
-const useImageFields = () => {
-  const [imageFields, dispatch] = useReducer(imageFieldReducer, []);
-  const addField = () => dispatch({ type: "new-field" });
-  const editField = (idx: number) => (value: string) =>
-    dispatch({ type: "edit-field", image: value, idx });
-  const removeField = (idx: number) => () =>
-    dispatch({ type: "delete-field", idx });
-  return { imageFields, addField, editField, removeField };
-};
 
 export const CreatePost = ({
   loadingState,
@@ -141,6 +109,7 @@ export const CreatePost = ({
             onClick={addField}
             disabled={imageFields.some((field) => field === "")}
           >
+            <ImagePlus className="icon" />
             Add Image
           </Button>
         </div>
@@ -153,10 +122,7 @@ export const CreatePost = ({
             checked={showPreview}
             onClick={handlePreviewSwitch}
           />
-          <Label
-            htmlFor="airplane-mode"
-            className="editor__footer_switch__label"
-          >
+          <Label htmlFor="preview" className="editor__footer_switch__label">
             Show Preview
           </Label>
         </div>
@@ -174,34 +140,12 @@ export const CreatePost = ({
         </Button>
       </CardFooter>
       {showPreview ? (
-        <>
-          <hr />
-          <CardContent className="post-preview">
-            {postTitle ? (
-              <div className="post-preview__title">
-                {postLink ? (
-                  <a
-                    className="post-preview__link"
-                    href={postLink}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {postTitle}
-                  </a>
-                ) : (
-                  postTitle
-                )}
-              </div>
-            ) : null}
-            {imageFields && imageFields.length > 0
-              ? imageFields.map((src, idx) => (
-                  <PostImage key={`${src}-${idx}`} src={src} />
-                ))
-              : null}
-            <MarkdownDisplay markdown={postBody} />
-          </CardContent>
-          <hr />
-        </>
+        <PostPreview
+          postTitle={postTitle}
+          postLink={postLink}
+          imageFields={imageFields}
+          postBody={postBody}
+        />
       ) : null}
     </Card>
   );
