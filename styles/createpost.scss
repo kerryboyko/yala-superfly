@@ -45,10 +45,21 @@
       font-family: "Ubuntu";
       font-size: 0.75rem;
     }
+    &__images {
+      &__footer {
+        display: flex;
+        justify-content: flex-end;
+      }
+    }
   }
 }
 
 .editor {
+  &__header {
+    &__image-header {
+      padding: 0 1.5rem;
+    }
+  }
   &__footer {
     display: flex;
     justify-content: flex-end;
@@ -83,6 +94,26 @@
       }
     }
   }
+  &__content {
+    &__images {
+      &__footer {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 0.5rem;
+        &__editor {
+          display: flex;
+          justify-content: flex-end;
+          margin: 0 1.5rem 0.5rem 1.5rem;
+        }
+      }
+      &__add-image {
+        background-color: map-deep-get($palettes, "blue", "ucla");
+        & .icon {
+          margin-right: 0.5rem;
+        }
+      }
+    }
+  }
 }
 
 .post-preview {
@@ -100,12 +131,37 @@
 
     &:hover {
       text-decoration: underline;
-      color: map-deep-get($palettes, "blue", ucla);
+      color: map-deep-get($palettes, "blue", "ucla");
     }
   }
   &__body {
     margin-bottom: 0.5rem;
     font-family: "Noto Sans";
+  }
+}
+
+.post-image-field {
+  padding: 0.5rem 1.5rem;
+  &__preview {
+    margin: 1rem 0;
+  }
+  &__input-field {
+    width: 100%;
+  }
+  &__buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin: 0.5rem 0;
+    &--button {
+      background-color: map-deep-get($palettes, "blue", "ucla");
+      margin-left: 0.5rem;
+      &:hover {
+        background-color: map-deep-get($palettes, "red", "golden-gate");
+      }
+    }
+    & .icon {
+      margin-right: 0.5rem;
+    }
   }
 }
 

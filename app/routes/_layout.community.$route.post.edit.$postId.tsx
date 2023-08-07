@@ -4,17 +4,21 @@ import {
   Form,
   isRouteErrorResponse,
   useLoaderData,
+  useNavigation,
   useParams,
   useRouteError,
 } from "@remix-run/react";
+import { Navigation } from "lucide-react";
+import { z } from "zod";
+import { zfd } from "zod-form-data";
 
-import EditPost from "~/components/Post/EditPost";
+import EditPost, { styles as editPostStyles } from "~/components/Post/EditPost";
 import { styles as postDetailsStyles } from "~/components/Post/PostDetails";
 import { db } from "~/database/db.server";
 import { requireAuthSession } from "~/modules/auth";
 import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 
-export const links = linkFunctionFactory(postDetailsStyles);
+export const links = linkFunctionFactory(postDetailsStyles, editPostStyles);
 
 export const loader = async ({ request, params }: LoaderArgs) => {
   const { route, postId } = params;
@@ -33,6 +37,7 @@ export const loader = async ({ request, params }: LoaderArgs) => {
       text: true,
       link: true,
       embeds: true,
+      meta: true,
       community: { select: { name: true, route: true } },
       authorId: true, // will use to match against uuid from token
       author: { select: { username: true } },
@@ -45,14 +50,20 @@ export const loader = async ({ request, params }: LoaderArgs) => {
   return json(post);
 };
 
+const formDataSchema = zfd.formData({
+  text: zfd.text(z.string()),
+  images: zfd.repeatableOfType(z.string().optional()),
+});
+const payloadSchema = z.object({
+  text: z.string().optional(),
+  meta: z.any().optional(),
+});
 export const action: ActionFunction = async ({ request, params }) => {
   const authSession = await requireAuthSession(request, {
     onFailRedirectTo: "/login",
     verify: true,
   });
-  const formData = await request.formData();
   const { route, postId } = params;
-  const postEditText = formData.get("post-edit-text") as string;
   const wherePost = {
     id: Number(postId),
     communityRoute: route || "",
@@ -64,16 +75,23 @@ export const action: ActionFunction = async ({ request, params }) => {
   if (!exists) {
     throw redirect(`/community/${params.route}/post/${params.postId}`);
   }
+  const formData = await request.formData();
+  const { text, images } = formDataSchema.parse(formData);
+  const payload = payloadSchema.parse({
+    text,
+    meta: {
+      images,
+    },
+  });
   await db.post.update({
     where: wherePost,
-    data: {
-      text: postEditText,
-    },
+    data: payload,
   });
   return redirect(`/community/${params.route}/post/${params.postId}`);
 };
 
 export default function EditPostRoute() {
+  const navigation = useNavigation();
   const data = useLoaderData<typeof loader>();
   return (
     <Form method="post">
@@ -83,6 +101,8 @@ export default function EditPostRoute() {
         initialText={data.text || ""}
         postTitle={data.title}
         postLink={data.link}
+        loadingState={navigation.state}
+        {...data}
       />
     </Form>
   );

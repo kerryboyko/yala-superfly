@@ -15,8 +15,11 @@ import postDetailsStyles from "~/styles/post-details.css";
 
 import PostTools, { styles as postToolsStyles } from "./PostTools";
 import Voter, { styles as voterStyles } from "../Votes/Voter";
+import PostImage, { styles as postImageStyles } from "./PostImage";
 
-export const styles = [postDetailsStyles, voterStyles].concat(postToolsStyles);
+export const styles = [postDetailsStyles, voterStyles]
+  .concat(postToolsStyles)
+  .concat(postImageStyles);
 
 interface PostDetails {
   createdAt: string;
@@ -37,6 +40,7 @@ interface PostDetails {
   postId: number | string;
   voteCount?: number | null;
   userVoted?: number | null;
+  images?: string[];
 }
 
 export const PostDetails = ({
@@ -53,6 +57,7 @@ export const PostDetails = ({
   postId,
   voteCount,
   userVoted,
+  images,
 }: PostDetails) => {
   const allEmbeds = embeds?.split(";");
 
@@ -109,17 +114,11 @@ export const PostDetails = ({
           </div>
         </div>
       </CardHeader>
-      {text || embeds ? (
+      {text || images ? (
         <CardContent className="post-details__content">
-          {embeds && Array.isArray(allEmbeds)
-            ? allEmbeds?.map((embed: string) => (
-                <div key={embed} className="post-details__content__embed">
-                  <img
-                    alt=""
-                    className="post-details__content__embed--image"
-                    src={embed}
-                  />
-                </div>
+          {images && Array.isArray(images)
+            ? images.map((src: string, idx: number) => (
+                <PostImage key={`${idx}-${src}`} src={src} />
               ))
             : null}
           {text ? (

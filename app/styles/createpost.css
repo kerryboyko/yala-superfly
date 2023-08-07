@@ -82,6 +82,12 @@
     top: -1rem;
     font-family: "Ubuntu";
     font-size: 0.75rem; }
+  .create-post .editor__content__images__footer {
+    display: flex;
+    justify-content: flex-end; }
+
+.editor__header__image-header {
+  padding: 0 1.5rem; }
 
 .editor__footer {
   display: flex;
@@ -105,6 +111,20 @@
     .editor__footer__button .icon {
       margin-right: 0.5rem; }
 
+.editor__content__images__footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.5rem; }
+  .editor__content__images__footer__editor {
+    display: flex;
+    justify-content: flex-end;
+    margin: 0 1.5rem 0.5rem 1.5rem; }
+
+.editor__content__images__add-image {
+  background-color: #427aa1; }
+  .editor__content__images__add-image .icon {
+    margin-right: 0.5rem; }
+
 .post-preview {
   background-color: #d1d1d5;
   padding-top: 1rem; }
@@ -122,6 +142,24 @@
   .post-preview__body {
     margin-bottom: 0.5rem;
     font-family: "Noto Sans"; }
+
+.post-image-field {
+  padding: 0.5rem 1.5rem; }
+  .post-image-field__preview {
+    margin: 1rem 0; }
+  .post-image-field__input-field {
+    width: 100%; }
+  .post-image-field__buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin: 0.5rem 0; }
+    .post-image-field__buttons--button {
+      background-color: #427aa1;
+      margin-left: 0.5rem; }
+      .post-image-field__buttons--button:hover {
+        background-color: #ee400b; }
+    .post-image-field__buttons .icon {
+      margin-right: 0.5rem; }
 
 @keyframes spin {
   100% {

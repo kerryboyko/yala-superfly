@@ -1,6 +1,6 @@
 ## Current Roadmap
 
-Last update: August 4, 2023
+Last update: August 5, 2023
 
 ### Bugs Found
 
@@ -43,15 +43,19 @@ Last update: August 4, 2023
 - ✅ Authors can edit or delete comments
 - ✅ Moderators can delete, but not edit comments.
 - ✅ If a comment with children is deleted, the comment is marked as deleted, but not removed in the comment hierarchy.
+- ✅ Users can now add images to their posts via URLs. (but not yet edit them.)
+- ✅ Authors can now edit post images as well as text.
+
+### What's *immediately* next;
+- 🔲 As a user *creating a community*, I would like to be able to *upload* a header image to be stored on our servers. 
 
 ### What's next? 
 
 - 🔲 As a site owner, I would like to require email confirmation for signups before a user can post. 
 - 🔲 As a user, I would like to place "Reactions" (like Slashdot moderation) for posts and comments
 - 🔲 As a user, I would like to be able to tag posts and comments with arbitrary hashes.
-- 🔲 As a user *making a post* (but not a comment), I would like to be able to embed images and youtube videos. 
-  - 🔲 This will take the form of URLs, rather than an upload service. I.e., users can upload to Imgur or another host and link the image to be shown. 
-- 🔲 As a user *creating a community*, I would like to be able to *upload* a header image to be stored on our servers. 
+- 🔲 As a user *making a post* (but not a comment), I would like to be able to embed youtube videos. 
+  - This will take the form of URLs, rather than an upload service. I.e., users can upload to Imgur or another host and link the image to be shown. 
 - 🔲 As a visitor, I'd like to see a list of most popular communities by page loads, subscribers, posts, comments, etc.
 - 🔲 As a visitor, I'd like to see a list of most posts (by votes, by visits, by 'hotness', most recent, etc.)
 - 🔲 As a developer, I'd like Unit & Integration testing. (Normally I do TDD first, but I needed to get used to the Remix environment and see what features are feasible.)
@@ -59,13 +63,16 @@ Last update: August 4, 2023
 - 🔲 As a user, I would like to upload avatars, images, community header images, etc. to bucket storage on supabase and have them displayed.
 - 🔲 As a moderator, I would like to 'lock' posts so that no more edits or comments can be made. 
 - 🔲 As a moderator, I would like to 'sticky' posts so that they always show up at the top of the page. 
+- 🔲 As a moderator, I would like to add other users as moderators
 - 🔲 As a user, I would like to add a direct message system. 
 - 🔲 As a myself, I would like to have a blog system that uses markdown so that I can have a development blog.  
 ### What is being postponed?
 
-- 🔲 Add "loading" to various buttons (subscribe/unsubscribe/delete) to let the user know it's working.
 - 🔲 I want to provide header images for communities, but it might make sense to create the community first before the header image is added. Thus, any moderator may change the community header, community headers will have filenames based on the community, etc.
   - 🔲 I may be setting up Supabase storage for this information, though I'm worried about bandwidth, especially as we pre-scale, and may limit header images to 540x540 pixels and 100kb (even perhaps using server-side code to resize and recompress images.  )
 - 🔲 Error boundaries need to be configured and prettified.
 
 
+### Refactor Targets
+
+- 🔲 SCSS files are servicable but might be simplified for reuse. Undecided if we should just clean up the Scss itself or if Styled Components can be used with Remix's idiosyncratic CSS bundling while still retaining the performance benefits.

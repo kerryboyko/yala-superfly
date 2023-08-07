@@ -36,6 +36,7 @@ import { getMyVoteOnThisPost, getVotesByPostId } from "~/modules/post";
 import type { RecursiveCommentTreeNode } from "~/types/comments";
 import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 import { Loader2, MessageSquarePlus } from "lucide-react";
+import { get } from "lodash";
 
 export const links = linkFunctionFactory(postDetailsStyles, showCommentStyles);
 
@@ -68,6 +69,7 @@ export const loader = async ({ request, params }: LoaderArgs) => {
       text: true,
       link: true,
       embeds: true,
+      meta: true,
       community: { select: { name: true, route: true } },
       authorId: true, // will use to match against uuid from token
       author: { select: { username: true } },
@@ -119,11 +121,13 @@ export const loader = async ({ request, params }: LoaderArgs) => {
       userVoted: myCommentVote[idx]?.value || null,
     })),
   );
+  const images = get(post, "meta.images", null);
   return json({
     post: {
       ...omit(post, ["comments"]),
       voteCount: votes._sum.value,
       userVoted: myVote?.value || null,
+      images,
     },
     comments: commentTree,
     communityRoute: params.route,
@@ -173,6 +177,7 @@ export const action: ActionFunction = async ({ request }) => {
 export default function PostRoute() {
   const data = useLoaderData<typeof loader>();
   const navigation = useNavigation();
+  console.log(data);
   useEffect(() => {
     if (navigation.state === "idle" && window) {
       const strippedUrl = window.location.origin + window.location.pathname;

@@ -1,0 +1,34 @@
+@import "palette";
+@import "mixins/map-deep-get";
+
+.post-image {
+  &__display {
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    object-fit: contain;
+    & img {
+      max-width: none;
+      max-height: none;
+      max-height: 90vh;
+      max-width: 90vw;
+    }
+    & .dialog-close-button {
+      position: absolute;
+      background-color: map-deep-get($palettes, "blue", "ucla");
+      color: white;
+      &:hover {
+        background-color: map-deep-get($palettes, "red", "golden-gate");
+      }
+      height: 1.5rem;
+      width: 1.5rem;
+      right: 0.5rem;
+      top: 0.5rem;
+      & svg {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+    }
+  }
+}
