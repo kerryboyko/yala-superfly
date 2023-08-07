@@ -4,9 +4,26 @@ import { Loader2, MinusCircle, PlusCircle } from "lucide-react";
 import subscribeButtonStyles from "~/styles/subscribe-button.css";
 
 import { Button } from "../ui/button";
-import { useMemo } from "react";
 
 export const styles = subscribeButtonStyles;
+
+const DisplayIcon = ({
+  loadingState,
+  isSubscribed,
+  className,
+}: {
+  loadingState: "idle" | "submitting" | "loading";
+  isSubscribed?: boolean;
+  className?: string;
+}) => {
+  if (loadingState !== "idle") {
+    return <Loader2 className={`loading ${className}`} />;
+  }
+  if (isSubscribed) {
+    return <MinusCircle className={className} />;
+  }
+  return <PlusCircle className={className} />;
+};
 
 export const SubscribeButton = ({
   communityRoute,
@@ -16,15 +33,6 @@ export const SubscribeButton = ({
   isSubscribed?: boolean;
 }) => {
   const fetcher = useFetcher();
-
-  const Icon = useMemo(() => {
-    if (fetcher.state === "idle") {
-      return isSubscribed ? MinusCircle : PlusCircle;
-    }
-    return ({ ...props }) => (
-      <Loader2 {...props} className={`${props.className ?? ""} loading`} />
-    );
-  }, [fetcher.state, isSubscribed]);
 
   return (
     <fetcher.Form
@@ -37,7 +45,11 @@ export const SubscribeButton = ({
         }`}
         type="submit"
       >
-        <Icon className="subscribe-button__icon" />
+        <DisplayIcon
+          loadingState={fetcher.state}
+          isSubscribed={isSubscribed}
+          className="subscribe-button__icon"
+        />
         {isSubscribed ? "Uns" : "S"}ubscribe
       </Button>
       <input

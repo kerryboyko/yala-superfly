@@ -8,7 +8,6 @@ import {
   useParams,
   useRouteError,
 } from "@remix-run/react";
-import { Navigation } from "lucide-react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 

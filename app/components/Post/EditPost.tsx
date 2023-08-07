@@ -1,7 +1,7 @@
 import type { ChangeEventHandler, FormEventHandler } from "react";
 import { useState } from "react";
 
-import { Link } from "@remix-run/react";
+import { ImagePlus, Loader2, PenSquare } from "lucide-react";
 
 import { Button } from "~/components/ui/button";
 import {
@@ -11,16 +11,13 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/custom/card";
-
-import PostImage, { styles as postImageStyles } from "./PostImage";
+import useImageFields from "~/hooks/useImageFields";
 import createPostStyles from "~/styles/createpost.css";
 
-import MarkdownDisplay from "../Markdown/MarkdownDisplay";
-import MarkdownTextarea from "../Markdown/MarkdownTextarea";
+import { styles as postImageStyles } from "./PostImage";
 import { PostImageField } from "./PostImageField";
-import useImageFields from "~/hooks/useImageFields";
-import { ImagePlus, Loader2, PenSquare } from "lucide-react";
 import { PostPreview } from "./PostPreview";
+import MarkdownTextarea from "../Markdown/MarkdownTextarea";
 import { Switch } from "../ui/custom/switch";
 import { Label } from "../ui/label";
 
@@ -30,8 +27,6 @@ export const EditPost = ({
   initialText,
   postTitle,
   postLink,
-  communityRoute,
-  postId,
   meta,
   loadingState,
 }: {

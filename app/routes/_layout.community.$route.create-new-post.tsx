@@ -17,7 +17,6 @@ export const links = linkFunctionFactory(createPostStyles);
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   const authSession = await getAuthSession(request);
-  console.log({ authSession });
   if (!authSession) {
     return redirect(`/community/${params.route}`);
   }
@@ -48,7 +47,6 @@ const payloadSchema = z.object({
   communityRoute: z.string(),
   meta: z.any().optional(),
 });
-const metaSchema = z.array(z.string()).optional();
 export const action: ActionFunction = async ({ request, params }) => {
   // TODO: there has to be a way to make this check without losing the data.
   const authSession = await requireAuthSession(request, {
@@ -68,7 +66,6 @@ export const action: ActionFunction = async ({ request, params }) => {
     link,
     text,
   });
-  const imageList = metaSchema.parse(images);
   if (!payload.link && !payload.text) {
     throw new Error(`Post contains no link, no text, and no embedded image`);
   }

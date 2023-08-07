@@ -1,6 +1,6 @@
+import PostImage from "./PostImage";
 import MarkdownDisplay from "../Markdown/MarkdownDisplay";
 import { CardContent } from "../ui/card";
-import PostImage from "./PostImage";
 
 export const PostPreview = ({
   postTitle,

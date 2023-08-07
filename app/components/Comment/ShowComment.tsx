@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 import { Form, Link, useFetcher, useNavigation } from "@remix-run/react";
 import { format } from "date-fns";
-import { Loader2, MessageSquarePlus } from "lucide-react";
+import { Loader2, MessagesSquare } from "lucide-react";
 
 import { MarkdownDisplay } from "~/components/Markdown/MarkdownDisplay";
 import showCommentStyles from "~/styles/show-comment.css";
@@ -14,7 +14,6 @@ import CommentTools from "./CommentTools";
 import CreateComment from "./CreateComment";
 import { Button } from "../ui/button";
 import Voter from "../Votes/Voter";
-import { MessagesSquare } from "lucide-react";
 
 export const styles = showCommentStyles;
 

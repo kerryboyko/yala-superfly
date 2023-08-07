@@ -13,9 +13,9 @@ import {
 import { getAuthorRoute, getCommunityLink } from "~/logic/getPostLinks";
 import postDetailsStyles from "~/styles/post-details.css";
 
+import PostImage, { styles as postImageStyles } from "./PostImage";
 import PostTools, { styles as postToolsStyles } from "./PostTools";
 import Voter, { styles as voterStyles } from "../Votes/Voter";
-import PostImage, { styles as postImageStyles } from "./PostImage";
 
 export const styles = [postDetailsStyles, voterStyles]
   .concat(postToolsStyles)
@@ -27,7 +27,6 @@ interface PostDetails {
   title: string;
   text?: string | null;
   link?: string | null;
-  embeds?: string | null;
   community: {
     name: string;
     route: string;
@@ -49,7 +48,6 @@ export const PostDetails = ({
   title,
   text,
   link,
-  embeds,
   community,
   author,
   authorIsThisUser,
@@ -58,86 +56,80 @@ export const PostDetails = ({
   voteCount,
   userVoted,
   images,
-}: PostDetails) => {
-  const allEmbeds = embeds?.split(";");
-
-  return (
-    <Card className="post-details">
-      <CardHeader className="post-details__header">
-        <div className="post-details__header-box">
-          <Voter
-            votes={voteCount}
-            userVoted={userVoted}
-            id={Number(postId)}
-            isComment={false}
-          />
-          <div className="post-details__title-box">
-            <CardTitle className="post-details__title">
-              {link ? (
-                <div className="post-details__title-link">
-                  <Link className="post-details__title-link--literal" to={link}>
-                    {title}
-                  </Link>
-                </div>
-              ) : (
-                <div className="post-details__title-text">{title}</div>
-              )}
-            </CardTitle>
-            <CardDescription>
-              <div className="post-details__description">
-                Posted {format(new Date(createdAt), "d MMMM, u - h:mm a")} to{" "}
-                <Link
-                  to={getCommunityLink({ communityRoute: community.route })}
-                >
-                  /community/{community.name}
-                </Link>{" "}
-                by{" "}
-                <Link to={getAuthorRoute({ author: author.username })}>
-                  {author.username}
+}: PostDetails) => (
+  <Card className="post-details">
+    <CardHeader className="post-details__header">
+      <div className="post-details__header-box">
+        <Voter
+          votes={voteCount}
+          userVoted={userVoted}
+          id={Number(postId)}
+          isComment={false}
+        />
+        <div className="post-details__title-box">
+          <CardTitle className="post-details__title">
+            {link ? (
+              <div className="post-details__title-link">
+                <Link className="post-details__title-link--literal" to={link}>
+                  {title}
                 </Link>
-                {updatedAt && createdAt !== updatedAt ? (
-                  <div>
-                    Last updated:{" "}
-                    {format(new Date(updatedAt), "d MMMM, u - h:mm a")}
-                  </div>
-                ) : null}
               </div>
-              {link ? (
-                <Link className="post-details__link--literal" to={link}>
-                  <div className="post-details__link">
-                    <LinkIcon className="link-icon" size="1rem" />
-                    {link}
-                  </div>
-                </Link>
+            ) : (
+              <div className="post-details__title-text">{title}</div>
+            )}
+          </CardTitle>
+          <CardDescription>
+            <div className="post-details__description">
+              Posted {format(new Date(createdAt), "d MMMM, u - h:mm a")} to{" "}
+              <Link to={getCommunityLink({ communityRoute: community.route })}>
+                /community/{community.name}
+              </Link>{" "}
+              by{" "}
+              <Link to={getAuthorRoute({ author: author.username })}>
+                {author.username}
+              </Link>
+              {updatedAt && createdAt !== updatedAt ? (
+                <div>
+                  Last updated:{" "}
+                  {format(new Date(updatedAt), "d MMMM, u - h:mm a")}
+                </div>
               ) : null}
-            </CardDescription>
-          </div>
+            </div>
+            {link ? (
+              <Link className="post-details__link--literal" to={link}>
+                <div className="post-details__link">
+                  <LinkIcon className="link-icon" size="1rem" />
+                  {link}
+                </div>
+              </Link>
+            ) : null}
+          </CardDescription>
         </div>
-      </CardHeader>
-      {text || images ? (
-        <CardContent className="post-details__content">
-          {images && Array.isArray(images)
-            ? images.map((src: string, idx: number) => (
-                <PostImage key={`${idx}-${src}`} src={src} />
-              ))
-            : null}
-          {text ? (
-            <MarkdownDisplay
-              className="post-details__content__text"
-              markdown={text}
-            />
-          ) : null}
-          <PostTools
-            postTitle={title}
-            isModerator={userIsModerator}
-            isAuthor={authorIsThisUser}
-            communityRoute={community.route}
-            postId={postId}
+      </div>
+    </CardHeader>
+    {text || images ? (
+      <CardContent className="post-details__content">
+        {images && Array.isArray(images)
+          ? images.map((src: string, idx: number) => (
+              <PostImage key={`${idx}-${src}`} src={src} />
+            ))
+          : null}
+        {text ? (
+          <MarkdownDisplay
+            className="post-details__content__text"
+            markdown={text}
           />
-        </CardContent>
-      ) : null}
-    </Card>
-  );
-};
+        ) : null}
+        <PostTools
+          postTitle={title}
+          isModerator={userIsModerator}
+          isAuthor={authorIsThisUser}
+          communityRoute={community.route}
+          postId={postId}
+        />
+      </CardContent>
+    ) : null}
+  </Card>
+);
 
 export default PostDetails;

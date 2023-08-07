@@ -10,7 +10,9 @@ import {
   useParams,
   useRouteError,
 } from "@remix-run/react";
+import { get } from "lodash";
 import omit from "lodash/omit";
+import { Loader2, MessageSquarePlus } from "lucide-react";
 import { z } from "zod";
 
 import { CreateComment } from "~/components/Comment/CreateComment";
@@ -35,8 +37,6 @@ import {
 import { getMyVoteOnThisPost, getVotesByPostId } from "~/modules/post";
 import type { RecursiveCommentTreeNode } from "~/types/comments";
 import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
-import { Loader2, MessageSquarePlus } from "lucide-react";
-import { get } from "lodash";
 
 export const links = linkFunctionFactory(postDetailsStyles, showCommentStyles);
 
@@ -177,18 +177,20 @@ export const action: ActionFunction = async ({ request }) => {
 export default function PostRoute() {
   const data = useLoaderData<typeof loader>();
   const navigation = useNavigation();
-  console.log(data);
+
   useEffect(() => {
     if (navigation.state === "idle" && window) {
       const strippedUrl = window.location.origin + window.location.pathname;
       window.history.replaceState(null, document.title, strippedUrl);
     }
   }, [navigation]);
+
   return (
     <div className="post-details">
       {data && data.post ? (
         <PostDetails
           {...data.post}
+          images={data.post.images || []}
           postId={data.post.id || ""}
           userIsModerator={data.userIsModerator}
           authorIsThisUser={data.post.authorId === data.loggedInUser}

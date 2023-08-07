@@ -1,5 +1,7 @@
 import React, { useMemo, useState } from "react";
 
+import { Loader2, PlusSquare } from "lucide-react";
+
 import { MarkdownTextarea } from "~/components/Markdown/MarkdownTextarea";
 import { Button } from "~/components/ui/button";
 import {
@@ -14,8 +16,6 @@ import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { COMMUNITY_NAME_CHAR_LIMITS } from "~/constants/communityNameLimits";
 import { formatCommunityName } from "~/logic/formatCommunityName";
-import { Loader2 } from "lucide-react";
-import { PlusSquare } from "lucide-react";
 
 const safetyCountClass = (
   text: string,

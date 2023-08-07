@@ -1,6 +1,8 @@
 import type { ChangeEventHandler, FormEventHandler } from "react";
 import { useState } from "react";
 
+import { ImagePlus, Loader2, PenSquare } from "lucide-react";
+
 import { Button } from "~/components/ui/button";
 import {
   Card,
@@ -10,17 +12,15 @@ import {
   CardTitle,
 } from "~/components/ui/custom/card";
 import { Input } from "~/components/ui/input";
-
-import MarkdownDisplay from "../Markdown/MarkdownDisplay";
-import MarkdownTextarea from "../Markdown/MarkdownTextarea";
-import { ImagePlus, Loader2, PenSquare } from "lucide-react";
-import { Label } from "../ui/label";
-import { Switch } from "../ui/custom/switch";
-import { PostImageField } from "./PostImageField";
-import PostImage, { styles as postImageStyles } from "./PostImage";
-import createPostStyles from "~/styles/createpost.css";
 import useImageFields from "~/hooks/useImageFields";
+import createPostStyles from "~/styles/createpost.css";
+
+import { styles as postImageStyles } from "./PostImage";
+import { PostImageField } from "./PostImageField";
 import { PostPreview } from "./PostPreview";
+import MarkdownTextarea from "../Markdown/MarkdownTextarea";
+import { Switch } from "../ui/custom/switch";
+import { Label } from "../ui/label";
 
 export const styles = [postImageStyles, createPostStyles];
 
@@ -96,6 +96,7 @@ export const CreatePost = ({
         {imageFields && imageFields.length
           ? imageFields.map((imgFld, idx) => (
               <PostImageField
+                key={`${imgFld}+${idx}`}
                 value={imgFld}
                 editField={editField(idx)}
                 removeField={removeField(idx)}

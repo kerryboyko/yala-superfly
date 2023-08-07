@@ -7,14 +7,14 @@ import {
   getCommunityLink,
   getCommentLink,
 } from "~/logic/getPostLinks";
+import truncateWithoutWordBreak from "~/logic/truncateWithoutWordBreak";
 import postSummaryStyles from "~/styles/post-summary.css";
 import type { PostSummaryData } from "~/types/posts";
 
 import PostTools, { styles as postToolsStyles } from "./PostTools";
+import MarkdownDisplay from "../Markdown/MarkdownDisplay";
 import { CardHeader } from "../ui/card";
 import Voter, { styles as Votertyles } from "../Votes/Voter";
-import MarkdownDisplay from "../Markdown/MarkdownDisplay";
-import truncateWithoutWordBreak from "~/logic/truncateWithoutWordBreak";
 
 export const styles = [Votertyles, postToolsStyles, postSummaryStyles];
 

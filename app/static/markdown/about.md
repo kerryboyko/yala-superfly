@@ -34,9 +34,9 @@ Reddit's big draw was _centralization with moderation_. Like Usenet, everything 
 
 What Lemmy and Kbin are trying to do is not centralization but _federation_, and while federation is, in my professional opinion, _really neat_, it isn't centralization. You can kinda-sorta have one login, but because you have one login, that doesn't mean you can easily interact with people on other Lemmy or Kbin instances as easily and seamlessly as interacting on Reddit. It can be hard to have the same experience as everyone else, as different servers have different rules about what data they pull down from other clients. In other words, it's just... not the same.
 
-Not to mention that it suffers from what my friend Andy calls the "One Guy In Kansas" problem. It costs money to host a federated instance, and you are at the whim of the person hosting the service to keep your account and connections. If they're doing it for fun, the site will go down when it stops being fun and starts being work.  If they're doing it for money, the site will go down when the money stops flowing. 
+Not to mention that it suffers from what my friend Andy calls the "One Guy In Kansas" problem. It costs money to host a federated instance, and you are at the whim of the person hosting the service to keep your account and connections. If they're doing it for fun, the site will go down when it stops being fun and starts being work. If they're doing it for money, the site will go down when the money stops flowing.
 
-Federation is a way to create a robust network out of individually fragile instances; but nobody wants their user experience to be "individually fragile." 
+Federation is a way to create a robust network out of individually fragile instances; but nobody wants their user experience to be "individually fragile."
 
 The problem with Reddit was not technological. The problem was the business model. I think I might have a way to solve that.
 
@@ -86,7 +86,7 @@ Not for the minimum viable product. There may be a way to integrate existing Act
 - The ORM used for that database is [Prisma](https://www.prisma.io/), (which honestly, coming from Knex.js and raw SQL, feels like cheating!).
 - Deployment is on [Fly.io](https://fly.io).
 - The base UI framework is using [Shadcn/UI](https://ui.shadcn.com/), a command line tool based on [Radix](https://www.radix-ui.com/).
-- Styling is done using SCSS. Tailwind *is* installed to support Shadcn/ui, but I don't like it and I don't use it in my code.  
+- Styling is done using SCSS. Tailwind _is_ installed to support Shadcn/ui, but I don't like it and I don't use it in my code.
   - Thanks to Yomesh Gupta for his article on devtools.tech: ["Setting up SASS with Remix Run"](https://devtools.tech/blog/setting-up-sass-with-remix-run---rid---lXDyMjDSdDZDXxNcJ2ep)
 - Unit Testing will be done via Jest; integration testing via Cypress.
 

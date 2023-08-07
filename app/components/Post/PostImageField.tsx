@@ -1,7 +1,10 @@
-import { ChangeEventHandler, useMemo, useState } from "react";
+import type { ChangeEventHandler } from "react";
+import { useMemo, useState } from "react";
+
+import { ImagePlus, Trash2 } from "lucide-react";
+
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { ImagePlus, Trash2 } from "lucide-react";
 
 export const PostImageField = ({
   value,
@@ -20,7 +23,11 @@ export const PostImageField = ({
   return (
     <div className="post-image-field">
       <div className="post-image-field__preview">
-        <img src={value} className="post-image-field__preview--image" />
+        <img
+          src={value}
+          alt={"placeholder"}
+          className="post-image-field__preview--image"
+        />
       </div>
       <div>
         <Input
