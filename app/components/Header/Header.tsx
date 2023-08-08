@@ -45,5 +45,19 @@ export const Header = ({
         </div>
       </div>
     ) : null}
+    <div className="header__link-navigation">
+      <NavLink className="header__link-navigation--link" to="/about">
+        About The YALA Project
+      </NavLink>
+      <NavLink className="header__link-navigation--link" to="/c/yaladev">
+        /c/yaladev - dev community
+      </NavLink>
+      <NavLink className="header__link-navigation--link" to="/allposts">
+        All Posts
+      </NavLink>
+      <NavLink className="header__link-navigation--link" to="/allcommunities">
+        All Communities
+      </NavLink>
+    </div>
   </div>
 );
