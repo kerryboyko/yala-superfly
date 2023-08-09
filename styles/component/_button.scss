@@ -18,14 +18,19 @@
 
 @mixin button-secondary() {
   @include button();
+  background-color: $base-secondary;
   &:hover {
-    background-color: $base-elements;
+    background-color: lighten($base-secondary, 20%);
   }
 }
 
 @mixin button-warning() {
   @include button();
+  background-color: transparent;
+  color: $warning;
+  border: 2px solid $warning;
   &:hover {
+    color: white;
     background-color: $warning;
   }
 }

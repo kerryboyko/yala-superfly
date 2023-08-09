@@ -1,4 +1,8 @@
 @use "sass:map";
+/* 
+
+hover color for elements will usually be lighten($base-elements, 20%);
+*/
 #form-file-upload {
   height: 16rem;
   width: 28rem;
@@ -106,7 +110,7 @@
     margin-left: 0.5rem;
     background-color: #144566; }
     .editor__footer__button:hover {
-      background-color: #ca0000; }
+      background-color: #257fbb; }
     .editor__footer__button.preview--active {
       font-style: italic; }
     .editor__footer__button .icon {
@@ -158,7 +162,7 @@
       background-color: #144566;
       margin-left: 0.5rem; }
       .post-image-field__buttons--button:hover {
-        background-color: #ca0000; }
+        background-color: #257fbb; }
     .post-image-field__buttons .icon {
       margin-right: 0.5rem; }
 

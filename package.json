@@ -5,7 +5,7 @@
   "scripts": {
     "build": "run-s build:*",
     "build:remix": "remix build",
-    "build:css": "node-sass ./styles -o ./app/styles --output-style compressed",
+    "build:css": "node-sass ./styles -o ./app/styles",
     "db:prepare-migration": "prisma migrate dev --create-only --skip-seed",
     "db:deploy-migration": "prisma migrate deploy",
     "dev": "run-p dev:*",

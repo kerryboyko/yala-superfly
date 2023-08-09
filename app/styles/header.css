@@ -1,1 +1,106 @@
-@use "sass:map";@use "sass:map";.header{font-family:"Ubuntu";display:flex;flex-direction:column;background-color:#b1cdd8}.header__interaction-bar{padding:0.5rem 1rem;display:flex;align-items:center;justify-content:flex-start}.header__interaction-bar>div{margin-right:1rem}.header__main{padding:0;width:100%;display:flex;justify-content:space-between;align-items:center}.header__command-menu{margin:1rem}.header__site-name{font-family:"Ubuntu";font-weight:700;font-size:1.5rem;margin:0.5rem 1rem;color:#ca0000}.header__site-name a{color:#ca0000}.header__commands__buttons{margin-left:1rem;margin-bottom:0.5rem}.header__interactions{display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-end;padding-top:1rem}.header__interactions__buttons{display:flex;justify-content:flex-end;align-items:center;margin:0 1rem 0.5rem 1rem}.header__interactions__buttons button{margin-left:1rem}.header__interactions__command-icons{display:flex;justify-content:flex-end;align-items:flex-end}.header__username{display:flex;flex-direction:row;justify-content:flex-end;align-items:center;padding-right:1rem}.header__username-display{font-size:1.25rem;align-items:center}.header__username-display a{text-decoration:none;color:#144566;cursor:pointer}.header__username-display a:hover{text-decoration:underline;color:#144566}.header .login-buttons{display:flex;margin:0.5rem 1rem}.header__link-navigation{display:flex;justify-content:center;border-top:1px solid #392719;border-bottom:1px solid #392719;padding:0.25rem 0}.header__link-navigation--link{font-weight:700;padding:0 1rem}.header__link-navigation--link:not(:last-child){border-right:1px solid #392719}.button{text-transform:uppercase;font-family:"Ubuntu";margin-left:0.25rem;margin-right:0.25rem}.button:hover{background-color:#144566}.command-icon__badge{margin:0 1rem;background-color:#144566}.command-icon__badge:hover{background-color:#ca0000}.command-icon__badge__text{text-transform:uppercase;padding-left:0.5rem}
+@use "sass:map";
+/* 
+
+hover color for elements will usually be lighten($base-elements, 20%);
+*/
+@use "sass:map";
+/* 
+
+hover color for elements will usually be lighten($base-elements, 20%);
+*/
+.header {
+  font-family: "Ubuntu";
+  display: flex;
+  flex-direction: column;
+  background-color: #b1cdd8; }
+  .header__interaction-bar {
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; }
+    .header__interaction-bar > div {
+      margin-right: 1rem; }
+  .header__main {
+    padding: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; }
+  .header__command-menu {
+    margin: 1rem; }
+  .header__site-name {
+    font-family: "Ubuntu";
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin: 0.5rem 1rem;
+    color: #ca0000; }
+    .header__site-name a {
+      color: #ca0000; }
+  .header__commands__buttons {
+    margin-left: 1rem;
+    margin-bottom: 0.5rem; }
+  .header__interactions {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding-top: 1rem; }
+    .header__interactions__buttons {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      margin: 0 1rem 0.5rem 1rem; }
+      .header__interactions__buttons button {
+        margin-left: 1rem; }
+    .header__interactions__command-icons {
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-end; }
+  .header__username {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 1rem; }
+  .header__username-display {
+    font-size: 1.25rem;
+    align-items: center; }
+    .header__username-display a {
+      text-decoration: none;
+      color: #144566;
+      cursor: pointer; }
+      .header__username-display a:hover {
+        text-decoration: underline;
+        color: #144566; }
+  .header .login-buttons {
+    display: flex;
+    margin: 0.5rem 1rem; }
+  .header__link-navigation {
+    display: flex;
+    justify-content: center;
+    border-top: 1px solid #392719;
+    border-bottom: 1px solid #392719;
+    padding: 0.25rem 0; }
+    .header__link-navigation--link {
+      font-weight: 700;
+      padding: 0 1rem; }
+      .header__link-navigation--link:not(:last-child) {
+        border-right: 1px solid #392719; }
+
+.button {
+  text-transform: uppercase;
+  font-family: "Ubuntu";
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+  background-color: #144566; }
+  .button:hover {
+    background-color: #257fbb; }
+
+.command-icon__badge {
+  margin: 0 1rem;
+  background-color: #144566; }
+  .command-icon__badge:hover {
+    background-color: #257fbb; }
+  .command-icon__badge__text {
+    text-transform: uppercase;
+    padding-left: 0.5rem; }

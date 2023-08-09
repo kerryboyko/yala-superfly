@@ -112,18 +112,18 @@
   font-family: "Ubuntu";
   margin-left: 0.25rem;
   margin-right: 0.25rem;
+  background-color: $base-elements;
   &:hover {
-    background-color: $base-elements;
+    background-color: lighten($base-elements, 20%);
   }
 }
 
-@debug $base-elements;
 .command-icon {
   &__badge {
     margin: 0 1rem;
     background-color: $base-elements;
     &:hover {
-      background-color: $base-highlight;
+      background-color: lighten($base-elements, 20%);
     }
     &__text {
       text-transform: uppercase;

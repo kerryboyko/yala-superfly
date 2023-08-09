@@ -1,1 +1,9 @@
-.all-communities__header{margin:0 2rem}.all-communities__header__heading{font-size:1.5rem;font-weight:bold}.all-communities__community-list{padding:1rem;margin:1rem}
+.all-communities__header {
+  margin: 0 2rem; }
+  .all-communities__header__heading {
+    font-size: 1.5rem;
+    font-weight: bold; }
+
+.all-communities__community-list {
+  padding: 1rem;
+  margin: 1rem; }

@@ -31,7 +31,7 @@
     &__button {
       background-color: $base-elements;
       &:hover {
-        background-color: $base-highlight;
+        background-color: lighten($base-elements, 20%);
       }
       &__icon {
         margin-right: 0.5rem;

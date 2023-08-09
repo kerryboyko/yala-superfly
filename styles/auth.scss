@@ -43,9 +43,10 @@
   font-family: "Ubuntu";
   width: calc(100% - 1rem);
   margin: 1rem 0.5rem;
+  background-color: $base-elements;
 
   &:hover {
-    background-color: $base-elements;
+    background-color: lighten($base-elements, 20%);
   }
 }
 

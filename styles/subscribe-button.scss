@@ -10,10 +10,10 @@
   }
   justify-self: end;
   &.subscribe {
-    background-color: green;
+    background-color: $upvote;
   }
   &.unsubscribe {
-    background-color: $warning;
+    background-color: $downvote;
   }
   &__icon {
     height: 1rem;

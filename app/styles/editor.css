@@ -1,5 +1,13 @@
 @use "sass:map";
+/* 
+
+hover color for elements will usually be lighten($base-elements, 20%);
+*/
 @use "sass:map";
+/* 
+
+hover color for elements will usually be lighten($base-elements, 20%);
+*/
 @use "color";
 .editor {
   margin: 1rem; }
@@ -20,11 +28,12 @@
       text-transform: uppercase;
       font-weight: 700;
       background-color: #144566;
-      cursor: pointer; }
+      cursor: pointer;
+      background-color: #bf8a58; }
       .editor__footer__button-preview:hover {
         background-color: #ca0000; }
       .editor__footer__button-preview:hover {
-        background-color: #144566; }
+        background-color: #dbbea2; }
     .editor__footer__button-submit {
       margin-left: 1rem;
       text-transform: uppercase;

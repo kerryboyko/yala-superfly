@@ -1,1 +1,21 @@
-@use "sass:map";.edit-post-button{background-color:transparent;color:#144566;box-shadow:none;height:auto;padding:0 0.5rem;cursor:pointer;display:flex;align-items:center}.edit-post-button--icon{height:1rem;width:1rem;margin-right:0.25rem}.edit-post-button:hover{background-color:transparent;text-decoration:underline}
+@use "sass:map";
+/* 
+
+hover color for elements will usually be lighten($base-elements, 20%);
+*/
+.edit-post-button {
+  background-color: transparent;
+  color: #144566;
+  box-shadow: none;
+  height: auto;
+  padding: 0 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center; }
+  .edit-post-button--icon {
+    height: 1rem;
+    width: 1rem;
+    margin-right: 0.25rem; }
+  .edit-post-button:hover {
+    background-color: transparent;
+    text-decoration: underline; }

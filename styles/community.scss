@@ -30,7 +30,6 @@
       cursor: pointer;
       &:hover {
         text-decoration: underline;
-        color: $base-elements;
       }
     }
     &__route {
@@ -42,7 +41,6 @@
       cursor: pointer;
       &:hover {
         text-decoration: underline;
-        color: $base-elements;
       }
     }
     &__created-by {
