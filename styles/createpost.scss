@@ -1,6 +1,6 @@
 @import "palette";
-@import "mixins/map-deep-get";
 @import "component/drag-drop-file";
+@use "color";
 
 .create-post {
   &__container {
@@ -22,7 +22,7 @@
       &__display {
         &--image {
           border-radius: 0.5rem;
-          border: 1px solid map-deep-get($palettes, "grey", "french-grey");
+          border: 1px solid $base-secondary;
           margin: 1rem 0;
         }
       }
@@ -31,7 +31,7 @@
         &.icon {
           margin-right: 1rem;
           animation: spin 4s linear infinite;
-          color: map-deep-get($palettes, "blue", "ucla");
+          color: $base-elements;
         }
       }
     }
@@ -69,18 +69,18 @@
       &--switch {
         margin-right: 0.5rem;
         &[data-state="checked"] {
-          background-color: map-deep-get($palettes, "red", "golden-gate");
+          background-color: $base-highlight;
         }
         &[data-state="unchecked"] {
-          background-color: map-deep-get($palettes, "blue", "ucla");
+          background-color: $base-elements;
         }
       }
     }
     &__button {
       margin-left: 0.5rem;
-      background-color: map-deep-get($palettes, "blue", "ucla");
+      background-color: $base-elements;
       &:hover {
-        background-color: map-deep-get($palettes, "red", "golden-gate");
+        background-color: $base-highlight;
       }
       &.preview {
         &--active {
@@ -107,7 +107,7 @@
         }
       }
       &__add-image {
-        background-color: map-deep-get($palettes, "blue", "ucla");
+        background-color: $base-elements;
         & .icon {
           margin-right: 0.5rem;
         }
@@ -117,7 +117,7 @@
 }
 
 .post-preview {
-  background-color: map-deep-get($palettes, "grey", "french-grey");
+  background-color: rgba($base-secondary, 0.3);
   padding-top: 1rem;
   &__title {
     font-family: "Noto Sans";
@@ -127,11 +127,11 @@
   }
   &__link {
     text-decoration: none;
-    color: map-deep-get($palettes, "blue", "ucla");
+    color: $base-elements;
 
     &:hover {
       text-decoration: underline;
-      color: map-deep-get($palettes, "blue", "ucla");
+      color: $base-elements;
     }
   }
   &__body {
@@ -153,10 +153,10 @@
     justify-content: flex-end;
     margin: 0.5rem 0;
     &--button {
-      background-color: map-deep-get($palettes, "blue", "ucla");
+      background-color: $base-elements;
       margin-left: 0.5rem;
       &:hover {
-        background-color: map-deep-get($palettes, "red", "golden-gate");
+        background-color: $base-highlight;
       }
     }
     & .icon {

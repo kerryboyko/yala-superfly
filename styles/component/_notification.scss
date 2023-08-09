@@ -1,9 +1,9 @@
 // @import "../../palette";
 // @import "../map-deep-get";
 
-// $notification-background: map-deep-get($palettes, "blue", "ucla") !default;
+// $notification-background: $base-elements !default;
 // $notification-background-hover: darken(
-//   map-deep-get($palettes, "blue", "ucla"),
+//   $base-elements,
 //   15
 // ) !default;
 

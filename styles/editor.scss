@@ -1,6 +1,6 @@
-@import "mixins/map-deep-get";
 @import "palette";
 @import "component/button";
+@use "color";
 
 .editor {
   margin: 1rem;
@@ -37,6 +37,6 @@
   }
   &__preview {
     padding: 1rem 2rem;
-    background-color: rgba(map-deep-get($palettes, "grey", "french-grey"), 0.5);
+    background-color: rgba($base-secondary, 0.3);
   }
 }

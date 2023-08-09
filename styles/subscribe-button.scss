@@ -1,4 +1,3 @@
-@import "mixins/map-deep-get";
 @import "palette";
 
 .subscribe-button {
@@ -14,7 +13,7 @@
     background-color: green;
   }
   &.unsubscribe {
-    background-color: map-deep-get($palettes, "red", "warning-red");
+    background-color: $warning;
   }
   &__icon {
     height: 1rem;

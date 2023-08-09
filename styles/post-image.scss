@@ -1,5 +1,4 @@
 @import "palette";
-@import "mixins/map-deep-get";
 
 .post-image {
   &__display {
@@ -16,10 +15,10 @@
     }
     & .dialog-close-button {
       position: absolute;
-      background-color: map-deep-get($palettes, "blue", "ucla");
+      background-color: $base-elements;
       color: white;
       &:hover {
-        background-color: map-deep-get($palettes, "red", "golden-gate");
+        background-color: $base-highlight;
       }
       height: 1.5rem;
       width: 1.5rem;

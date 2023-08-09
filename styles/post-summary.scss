@@ -1,9 +1,8 @@
 @import "breakpoints";
 @import "palette";
-@import "mixins/map-deep-get";
 
 .post-summary {
-  // background-color: map-deep-get($palettes, "white", "snow-white");
+  // background-color: $snow-white
 
   display: grid;
   grid-template-areas:
@@ -62,7 +61,7 @@
       height: 18rem;
       padding: 0.25rem;
       border-radius: 0.25rem;
-      border: 1px solid map-deep-get($palettes, "grey", "french-grey");
+      border: 1px solid $base-secondary;
       @media (min-width: $breakpoint-mobile) {
         object-fit: cover;
         object-position: 0 0;
@@ -70,7 +69,7 @@
         height: 6rem;
         padding: 0.25rem;
         border-radius: 0.25rem;
-        border: 1px solid map-deep-get($palettes, "grey", "french-grey");
+        border: 1px solid $base-secondary;
       }
     }
   }
@@ -89,11 +88,11 @@
     padding-left: 1rem;
     > a {
       text-decoration: none;
-      color: map-deep-get($palettes, "blue", "ucla");
+      color: $base-elements;
       cursor: pointer;
       &:hover {
         text-decoration: underline;
-        color: map-deep-get($palettes, "blue", ucla);
+        color: $base-elements;
       }
     }
   }
@@ -154,8 +153,7 @@
   padding: 0.25rem 0.25rem 0.75rem 0.25rem;
   margin-bottom: 0.5rem;
   &:not(:last-child) {
-    border-bottom: 1px dotted
-      rgba(map-deep-get($palettes, "black", "charcoal"), 0.5);
+    border-bottom: 1px dotted rgba($base-dark-line, 0.5);
   }
   &__header {
     display: flex;

@@ -1,4 +1,5 @@
 @use "sass:map";
+@import "mixins/map-deep-get";
 
 $palettes: (
   "red": (
@@ -34,4 +35,29 @@ $palettes: (
     cultured: #f4f4f4,
     platinum: #e7e7e4,
   ),
+  "cowboy": (
+    blue: #144566,
+    red: #ca0000,
+    sky: #b1cdd8,
+    gold: #eeb03f,
+    brown: #9b5e41,
+    tan: #bf8a58,
+    dark-brown: #392719,
+  ),
 );
+
+$base-background: #b1cdd8;
+$base-elements: #144566;
+$base-highlight: #ca0000;
+$base-secondary: #bf8a58; // no idea why this doesn't work.
+$base-dark-line: #392719;
+$warning: #cd212e;
+$alert: #ff7900;
+$snow-white: #f2f0eb;
+$upvote: #009e60;
+$downvote: #b90e0a;
+$disabled: #717171;
+
+$navtab-background: #f4f4f4;
+$navtab-color: #717171;
+$navtab-border: #e7e7e4;

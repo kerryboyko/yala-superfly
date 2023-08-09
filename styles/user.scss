@@ -1,10 +1,9 @@
 @import "palette";
-@import "mixins/map-deep-get";
 @import "breakpoints";
 
-$honolulu: map-deep-get($palettes, "blue", ucla);
-$ucla: map-deep-get($palettes, "blue", "ucla");
-$golden-gate: map-deep-get($palettes, "red", "golden-gate");
+$honolulu: $base-elements;
+$ucla: $base-elements;
+$golden-gate: $base-highlight;
 
 .framing {
   margin-top: 1rem;
@@ -56,9 +55,9 @@ $golden-gate: map-deep-get($palettes, "red", "golden-gate");
     display: flex;
     flex-basis: auto;
     flex-direction: column;
-    background-color: map-deep-get($palettes, "white", "cultured");
-    color: map-deep-get($palettes, "grey", "dark-silver");
-    border: 1px solid map-deep-get($palettes, "white", "platinum");
+    background-color: $navtab-background;
+    color: $navtab-color;
+    border: 1px solid $navtab-border;
     border-radius: 0.5rem;
     padding: 0.25rem;
     @media (min-width: $breakpoint-tablet) {
@@ -85,9 +84,9 @@ $golden-gate: map-deep-get($palettes, "red", "golden-gate");
     cursor: pointer;
     position: relative;
     &.is-active {
-      background-color: map-deep-get($palettes, "white", "true-white");
+      background-color: white;
       border-radius: 0.5rem;
-      color: map-deep-get($palettes, "red", "golden-gate");
+      color: $base-highlight;
     }
     @media (min-width: $breakpoint-tablet) {
       font-size: 1rem;
@@ -103,11 +102,11 @@ $golden-gate: map-deep-get($palettes, "red", "golden-gate");
     width: 1rem;
     margin-left: 0.25rem;
     line-height: 1rem;
-    color: map-deep-get($palettes, "white", "true-white");
-    background-color: map-deep-get($palettes, "blue", "ucla");
+    color: white;
+    background-color: $base-elements;
     border-radius: 1rem;
     &.is-active {
-      background-color: map-deep-get($palettes, "red", "golden-gate");
+      background-color: $base-highlight;
     }
   }
 }
@@ -115,8 +114,7 @@ $golden-gate: map-deep-get($palettes, "red", "golden-gate");
 .comment-summary {
   padding: 1rem;
   &:not(:last-child) {
-    border-bottom: 1px dotted
-      rgba(map-deep-get($palettes, "black", "charcoal"), 0.5);
+    border-bottom: 1px dotted rgba($base-dark-line, 0.5);
   }
   &__link {
     font-family: "Noto Sans";
@@ -151,8 +149,7 @@ $golden-gate: map-deep-get($palettes, "red", "golden-gate");
   padding: 0.25rem 0.25rem 0.75rem 0.25rem;
   margin-bottom: 0.5rem;
   &:not(:last-child) {
-    border-bottom: 1px dotted
-      rgba(map-deep-get($palettes, "black", "charcoal"), 0.5);
+    border-bottom: 1px dotted rgba($base-dark-line, 0.5);
   }
   &__link {
     font-family: "Ubuntu";
@@ -172,8 +169,7 @@ $golden-gate: map-deep-get($palettes, "red", "golden-gate");
     &__content {
       & .subscription {
         &:not(:last-child) {
-          border-bottom: 1px dotted
-            rgba(map-deep-get($palettes, "black", "charcoal"), 0.5);
+          border-bottom: 1px dotted rgba($base-dark-line, 0.5);
         }
       }
     }

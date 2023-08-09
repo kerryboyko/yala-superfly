@@ -1,9 +1,8 @@
-@import "mixins/map-deep-get";
 @import "palette";
 
 .edit-post-button {
   background-color: transparent;
-  color: map-deep-get($palettes, "blue", "ucla");
+  color: $base-elements;
   box-shadow: none;
   height: auto;
   padding: 0 0.5rem;

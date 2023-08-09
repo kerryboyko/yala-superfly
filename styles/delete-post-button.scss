@@ -1,9 +1,8 @@
-@import "mixins/map-deep-get";
 @import "palette";
 
 .delete-post-button {
   background-color: transparent;
-  color: map-deep-get($palettes, "red", "warning-red");
+  color: $warning;
   box-shadow: none;
   height: auto;
   padding: 0 0.5rem;
@@ -24,7 +23,7 @@
 .delete-post-dialog {
   &__title {
     &__link-title {
-      color: map-deep-get($palettes, "blue", "ucla");
+      color: $base-elements;
       font-family: "Ubuntu";
       font-weight: 700;
     }
@@ -35,10 +34,10 @@
   }
   &__continue-button {
     background-color: white;
-    color: map-deep-get($palettes, "red", "warning-red");
-    border: 1px solid map-deep-get($palettes, "red", "warning-red");
+    color: $warning;
+    border: 1px solid $warning;
     &:hover {
-      background-color: map-deep-get($palettes, "red", "warning-red");
+      background-color: $warning;
       color: white;
     }
   }

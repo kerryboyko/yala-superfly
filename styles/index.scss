@@ -3,7 +3,6 @@
 */
 
 @import "palette";
-@import "mixins/map-deep-get";
 
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Mono&family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Serif:ital,wght@0,300;0,600;1,300;1,600&family=Ubuntu:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 :root {
@@ -19,11 +18,11 @@ body {
 
 a {
   text-decoration: none;
-  color: map-deep-get($palettes, "blue", "ucla");
+  color: $base-elements;
   cursor: pointer;
   &:hover {
     text-decoration: underline;
-    color: map-deep-get($palettes, "blue", ucla);
+    color: $base-elements;
   }
 }
 
@@ -66,7 +65,7 @@ a {
     white-space: normal;
     margin-left: 1rem;
     padding-left: 1rem;
-    border-left: 0.25rem solid map-deep-get($palettes, "black", "charcoal");
+    border-left: 0.25rem solid $base-dark-line;
     font-weight: 300;
     & strong {
       font-weight: 600;
@@ -147,7 +146,7 @@ a {
 }
 
 .pagination {
-  background-color: map-deep-get($palettes, "grey", "bright-grey");
+  background-color: $base-background;
   padding: 0.25rem;
   border-radius: 0.25rem;
 
@@ -159,19 +158,19 @@ a {
     align-items: center;
     & select {
       margin: 0 0.25rem;
-      border: 1px solid map-deep-get($palettes, "black", "charcoal");
+      border: 1px solid $base-dark-line;
       border-radius: 0.25rem;
     }
   }
 }
 
 .error-display {
-  color: map-deep-get($palettes, "red", "warning-red");
+  color: $warning;
   font-size: 0.75rem;
 }
 
 .deleted-by {
-  color: map-deep-get($palettes, "grey", "dark-silver");
+  color: $base-dark-line;
 }
 
 .loading {

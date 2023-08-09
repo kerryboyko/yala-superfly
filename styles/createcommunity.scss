@@ -1,12 +1,11 @@
 @import "palette";
-@import "mixins/map-deep-get";
 @import "component/drag-drop-file";
 
 .warning-red {
-  color: map-deep-get($palettes, "red", "warning-red");
+  color: $warning;
 }
 .safety-orange {
-  color: map-deep-get($palettes, "orange", "safety-orange");
+  color: $alert;
 }
 
 .create-community {
@@ -30,9 +29,9 @@
   &__footer {
     justify-content: flex-end;
     &__button {
-      background-color: map-deep-get($palettes, "blue", "ucla");
+      background-color: $base-elements;
       &:hover {
-        background-color: map-deep-get($palettes, "red", "golden-gate");
+        background-color: $base-highlight;
       }
       &__icon {
         margin-right: 0.5rem;
@@ -47,7 +46,7 @@
       &__display {
         &--image {
           border-radius: 0.5rem;
-          border: 1px solid map-deep-get($palettes, "grey", "french-grey");
+          border: 1px solid $base-background;
           margin: 1rem 0;
         }
       }

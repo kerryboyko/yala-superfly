@@ -1,5 +1,4 @@
 @import "palette";
-@import "mixins/map-deep-get";
 
 .sign-up,
 .complete-profile,
@@ -23,7 +22,7 @@
   line-height: 1.175rem;
   padding: 0.25rem 0.5rem;
   & .error {
-    color: map-deep-get($palettes, "red", "warning-red");
+    color: $warning;
     margin-left: 0.75rem;
     margin-top: 0.75rem;
     font-family: "Ubuntu";
@@ -46,7 +45,7 @@
   margin: 1rem 0.5rem;
 
   &:hover {
-    background-color: map-deep-get($palettes, "blue", "ucla");
+    background-color: $base-elements;
   }
 }
 

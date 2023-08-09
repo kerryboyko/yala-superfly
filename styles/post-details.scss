@@ -1,10 +1,8 @@
 @import "breakpoints";
 @import "palette";
-@import "mixins/map-deep-get";
 @import "component/button";
 
 .post-details {
-  // background-color: map-deep-get($palettes, "white", "snow-white");
   font-family: "Noto Sans";
 
   margin: 1rem;
@@ -35,9 +33,9 @@
     padding: 0.25rem;
     display: flex;
     align-items: center;
-    background-color: rgba(map-deep-get($palettes, "white", "snow-white"), 0.5);
+    background-color: rgba($snow-white, 0.5);
     &:hover {
-      background-color: map-deep-get($palettes, "white", "snow-white");
+      background-color: $snow-white;
       font-weight: 700;
     }
     & .link-icon {
@@ -50,9 +48,9 @@
       margin-top: 1rem;
       & pre {
         font-family: "Noto Sans Mono";
-        background-color: map-deep-get($palettes, "white", "snow-white");
+        background-color: $snow-white;
         padding: 0.5rem;
-        border: 1px dashed map-deep-get($palettes, "black", "charcoal");
+        border: 1px dashed $base-dark-line;
       }
     }
   }
@@ -85,7 +83,7 @@
 }
 
 .debug__message {
-  color: map-deep-get($palettes, "red", "warning-red");
+  color: $warning;
   font-size: 0.5rem;
 }
 

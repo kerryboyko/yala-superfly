@@ -1,6 +1,5 @@
 @import "breakpoints";
 @import "palette";
-@import "mixins/map-deep-get";
 @import "component/button";
 
 .community {
@@ -27,11 +26,11 @@
       font-family: "Ubuntu";
       font-size: 1.5rem;
       font-weight: 700;
-      color: map-deep-get($palettes, "blue", "ucla");
+      color: $base-elements;
       cursor: pointer;
       &:hover {
         text-decoration: underline;
-        color: map-deep-get($palettes, "blue", ucla);
+        color: $base-elements;
       }
     }
     &__route {
@@ -39,11 +38,11 @@
       font-size: 1rem;
       font-weight: 400;
       text-align: center;
-      color: map-deep-get($palettes, "blue", "ucla");
+      color: $base-elements;
       cursor: pointer;
       &:hover {
         text-decoration: underline;
-        color: map-deep-get($palettes, "blue", ucla);
+        color: $base-elements;
       }
     }
     &__created-by {
@@ -85,7 +84,7 @@
     &__reason-for-ban {
       margin-bottom: 1rem;
       &--warning {
-        color: map-deep-get($palettes, "red", "warning-red");
+        color: $warning;
         font-size: 0.75rem;
       }
     }

@@ -1,12 +1,10 @@
 @import "palette";
-@import "mixins/map-deep-get";
 @import "component/button";
 
 .show-comment {
   &.child {
     padding-left: 1rem;
-    border-left: 3px solid
-      rgba(map-deep-get($palettes, "black", "charcoal"), 0.5);
+    border-left: 3px solid rgba($base-dark-line, 0.5);
   }
   &__header {
     font-family: "Ubuntu";
@@ -42,9 +40,9 @@
           margin-right: 0.5rem;
         }
         &:disabled {
-          background-color: map-deep-get($palettes, "grey", "light-grey");
-          color: map-deep-get($palettes, "black", "charcoal");
-          border-color: map-deep-get($palettes, "black", "charcoal");
+          background-color: $disabled;
+          color: $base-dark-line;
+          border-color: $base-dark-line;
         }
       }
     }
@@ -63,7 +61,7 @@
       flex-direction: row;
       &__reply-button {
         background-color: transparent;
-        color: map-deep-get($palettes, "blue", "ucla");
+        color: $base-elements;
         box-shadow: none;
         height: auto;
         padding: 0 0.5rem;
@@ -86,7 +84,7 @@
 
 .delete-comment-button {
   background-color: transparent;
-  color: map-deep-get($palettes, "red", "warning-red");
+  color: $warning;
   box-shadow: none;
   height: auto;
   padding: 0 0.5rem;
@@ -107,7 +105,7 @@
 .delete-comment-dialog {
   &__title {
     &__link-title {
-      color: map-deep-get($palettes, "blue", "ucla");
+      color: $base-elements;
       font-family: "Ubuntu";
       font-weight: 700;
     }
@@ -118,10 +116,10 @@
   }
   &__continue-button {
     background-color: white;
-    color: map-deep-get($palettes, "red", "warning-red");
-    border: 1px solid map-deep-get($palettes, "red", "warning-red");
+    color: $warning;
+    border: 1px solid $warning;
     &:hover {
-      background-color: map-deep-get($palettes, "red", "warning-red");
+      background-color: $warning;
       color: white;
     }
   }
@@ -129,7 +127,7 @@
 
 .edit-comment-button {
   background-color: transparent;
-  color: map-deep-get($palettes, "blue", "ucla");
+  color: $base-elements;
   box-shadow: none;
   height: auto;
   padding: 0 0.5rem;

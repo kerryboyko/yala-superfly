@@ -1,13 +1,12 @@
-@import "palette";
-@import "mixins/map-deep-get";
 @import "component/button";
+@import "palette";
 
 .header {
   font-family: "Ubuntu";
 
   display: flex;
   flex-direction: column;
-  background-color: map-deep-get($palettes, "grey", "bright-grey");
+  background-color: $base-background;
 
   &__interaction-bar {
     padding: 0.5rem 1rem;
@@ -33,9 +32,9 @@
     font-weight: 700;
     font-size: 1.5rem;
     margin: 0.5rem 1rem;
-    color: map-deep-get($palettes, "red", "golden-gate");
+    color: $base-highlight;
     & a {
-      color: map-deep-get($palettes, "red", "golden-gate");
+      color: $base-highlight;
     }
   }
 
@@ -79,11 +78,11 @@
 
     & a {
       text-decoration: none;
-      color: map-deep-get($palettes, "blue", "ucla");
+      color: $base-elements;
       cursor: pointer;
       &:hover {
         text-decoration: underline;
-        color: map-deep-get($palettes, "blue", ucla);
+        color: $base-elements;
       }
     }
   }
@@ -94,15 +93,15 @@
   &__link-navigation {
     display: flex;
     justify-content: center;
-    border-top: 1px solid map-deep-get($palettes, "grey", "charcoal");
-    border-bottom: 1px solid map-deep-get($palettes, "grey", "charcoal");
+    border-top: 1px solid $base-dark-line;
+    border-bottom: 1px solid $base-dark-line;
 
     padding: 0.25rem 0;
     &--link {
       font-weight: 700;
       padding: 0 1rem;
       &:not(:last-child) {
-        border-right: 1px solid map-deep-get($palettes, "grey", "charcoal");
+        border-right: 1px solid $base-dark-line;
       }
     }
   }
@@ -114,16 +113,17 @@
   margin-left: 0.25rem;
   margin-right: 0.25rem;
   &:hover {
-    background-color: map-deep-get($palettes, "blue", "ucla");
+    background-color: $base-elements;
   }
 }
 
+@debug $base-elements;
 .command-icon {
   &__badge {
     margin: 0 1rem;
-    background-color: map-deep-get($palettes, "blue", ucla);
+    background-color: $base-elements;
     &:hover {
-      background-color: map-deep-get($palettes, "red", "golden-gate");
+      background-color: $base-highlight;
     }
     &__text {
       text-transform: uppercase;

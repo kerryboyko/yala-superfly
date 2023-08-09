@@ -1,4 +1,3 @@
-@import "mixins/map-deep-get";
 @import "palette";
 
 .subscription,
@@ -8,8 +7,7 @@
 
   align-items: center;
   &:not(:last-child) {
-    border-bottom: 1px dotted
-      rgba(map-deep-get($palettes, "black", "charcoal"), 0.5);
+    border-bottom: 1px dotted rgba($base-dark-line, 0.5);
   }
   padding-bottom: 0.25rem;
   margin-bottom: 0.5rem;
@@ -17,7 +15,7 @@
     grid-area: name;
     font-weight: 700;
     &__moderate-link {
-      color: map-deep-get($palettes, "red", "golden-gate");
+      color: $base-highlight;
     }
   }
   &__route {

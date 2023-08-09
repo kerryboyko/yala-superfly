@@ -1,15 +1,14 @@
 @import "../palette";
-@import "../mixins/map-deep-get";
 
 @mixin button() {
   text-transform: uppercase;
   font-family: "Ubuntu";
   text-transform: uppercase;
   font-weight: 700;
-  background-color: map-deep-get($palettes, "blue", "ucla");
+  background-color: $base-elements;
   cursor: pointer;
   &:hover {
-    background-color: map-deep-get($palettes, "red", "golden-gate");
+    background-color: $base-highlight;
   }
 }
 
@@ -20,13 +19,13 @@
 @mixin button-secondary() {
   @include button();
   &:hover {
-    background-color: map-deep-get($palettes, "red", ucla);
+    background-color: $base-elements;
   }
 }
 
 @mixin button-warning() {
   @include button();
   &:hover {
-    background-color: map-deep-get($palettes, "red", "warning-red");
+    background-color: $warning;
   }
 }
