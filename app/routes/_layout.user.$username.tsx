@@ -10,14 +10,18 @@ import {
 } from "@remix-run/react";
 import { format, formatDistance } from "date-fns";
 
-import { UserTabs } from "~/components/User/UserTabs";
+import { UserTabs, styles as userTabStyles } from "~/components/User/UserTabs";
 import { db } from "~/database/db.server";
 import { getAuthSession } from "~/modules/auth";
 import postSummaryStyles from "~/styles/post-summary.css";
 import userStyles from "~/styles/user.css";
 import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 
-export const links = linkFunctionFactory(postSummaryStyles, userStyles);
+export const links = linkFunctionFactory(
+  postSummaryStyles,
+  userStyles,
+  userTabStyles,
+);
 
 export const loader = async ({ params, request }: LoaderArgs) => {
   const profile = await db.profile.findUnique({

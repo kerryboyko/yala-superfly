@@ -1,0 +1,74 @@
+@import "breakpoints";
+@import "palette";
+
+.nav-tabs {
+  @media (min-width: $breakpoint-tablet) {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+  &__container {
+    display: flex;
+    flex-basis: auto;
+    flex-direction: column;
+    background-color: $navtab-background;
+    color: $navtab-color;
+    border: 1px solid $navtab-border;
+    border-radius: 0.5rem;
+    padding: 0.25rem;
+    @media (min-width: $breakpoint-tablet) {
+      font-size: 1rem;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  &__tab {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-family: "Ubuntu";
+    text-decoration: none;
+    text-transform: uppercase;
+    background-color: rgba(0, 0, 0, 0);
+    justify-content: center;
+    padding: 1rem 0.75rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.25rem;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    &.is-active {
+      background-color: white;
+      border-radius: 0.5rem;
+      color: $base-highlight;
+    }
+    @media (min-width: $breakpoint-tablet) {
+      font-size: 1rem;
+      padding: 0.5rem 1.25rem;
+    }
+  }
+  &__label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    & .icon {
+      margin-right: 0.5rem;
+    }
+  }
+  &__count {
+    font-family: "Ubuntu";
+    font-size: 0.75rem;
+    height: 1rem;
+    width: 1rem;
+    margin-left: 0.25rem;
+    line-height: 1rem;
+    color: white;
+    background-color: $base-elements;
+    border-radius: 1rem;
+    &.is-active {
+      background-color: $base-highlight;
+    }
+  }
+}

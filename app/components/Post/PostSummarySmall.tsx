@@ -11,7 +11,7 @@ import Voter, { styles as Votertyles } from "../Votes/Voter";
 export const styles = Votertyles;
 
 export const PostSummarySmall: React.FC<
-  PostSummaryData & { index: number }
+  PostSummaryData & { index: number; showCommunity?: boolean }
 > = ({ index, ...post }) => {
   const truncatedText = truncateWithoutWordBreak(post.text || "", 100);
   return (

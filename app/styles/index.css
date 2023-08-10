@@ -8,6 +8,11 @@
 hover color for elements will usually be lighten($base-elements, 20%);
 */
 :root {
+  --breakpoint-mobile: 480px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 1200px; }
+
+:root {
   margin: 0;
   padding: 0; }
 
@@ -144,3 +149,13 @@ a {
 
 section {
   margin-top: 1rem; }
+
+.framing {
+  display: flex;
+  margin-top: 1rem;
+  width: 100%; }
+  @media (min-width: 768px) {
+    .framing {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between; } }

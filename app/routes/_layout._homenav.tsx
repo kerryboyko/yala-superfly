@@ -1,24 +1,35 @@
-import type { LoaderFunction, TypedResponse } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
+import { LoaderFunction, json } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
 
 import { GenericErrorBoundary } from "~/components/Error/GenericErrorBoundary";
-import { Header } from "~/components/Header/Header";
-import { db } from "~/database/db.server";
+import { HomeTabs, styles as homeTabStyles } from "~/components/Home/HomeTabs";
 import { getAuthSession } from "~/modules/auth";
+
 import headerStyles from "~/styles/header.css";
 import indexStyles from "~/styles/index.css";
 import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 
-export const links = linkFunctionFactory(headerStyles, indexStyles);
+export const links = linkFunctionFactory(
+  headerStyles,
+  indexStyles,
+  homeTabStyles,
+);
+
+export const loader: LoaderFunction = async ({ request }) => {
+  const isLoggedIn = await getAuthSession(request);
+  return json({
+    isLoggedIn: !!isLoggedIn,
+  });
+};
 
 export default function HomeNav() {
+  const { isLoggedIn } = useLoaderData();
   return (
     <>
       <main className="main">
-        Home Nav
-        <div className="outlet-homenav">
-          <Outlet />
+        <HomeTabs isLoggedIn={isLoggedIn} />
+        <div className="outlet-home">
+          <Outlet context={{ isLoggedIn }} />
         </div>
       </main>
     </>

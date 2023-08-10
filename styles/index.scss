@@ -3,6 +3,7 @@
 */
 
 @import "palette";
+@import "breakpoints";
 
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Mono&family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Serif:ital,wght@0,300;0,600;1,300;1,600&family=Ubuntu:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 :root {
@@ -186,4 +187,15 @@ a {
 
 section {
   margin-top: 1rem;
+}
+
+.framing {
+  display: flex;
+  margin-top: 1rem;
+  width: 100%;
+  @media (min-width: $breakpoint-tablet) {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
 }

@@ -1,5 +1,7 @@
 import { NavLink } from "@remix-run/react";
+import navTabStyles from "~/styles/nav-tabs.css";
 
+export const styles = navTabStyles;
 export interface UserTabsProps {
   username: string;
   profile: {
@@ -32,19 +34,17 @@ export const UserTabs = ({ username, profile, isThisUser }: UserTabsProps) => {
   }
 
   return (
-    <div className="user-nav-tabs">
-      <div className="user-nav-tabs__container">
+    <div className="nav-tabs">
+      <div className="nav-tabs__container">
         <NavLink
           key={"overview"}
           to={`/user/${username}`}
-          className="user-nav-tabs--link"
+          className="nav-tabs--link"
           end
         >
           {({ isActive }) => (
-            <div
-              className={`user-nav-tabs__tab ${isActive ? "is-active" : ""}`}
-            >
-              <div className="user-nav-tabs__label">Overview</div>
+            <div className={`nav-tabs__tab ${isActive ? "is-active" : ""}`}>
+              <div className="nav-tabs__label">Overview</div>
             </div>
           )}
         </NavLink>
@@ -54,19 +54,15 @@ export const UserTabs = ({ username, profile, isThisUser }: UserTabsProps) => {
             <NavLink
               key={key}
               to={`/user/${username}/${slugs[key][0]}`}
-              className="user-nav-tabs--link"
+              className="nav-tabs--link"
               end
             >
               {({ isActive }) => (
-                <div
-                  className={`user-nav-tabs__tab ${
-                    isActive ? "is-active" : ""
-                  }`}
-                >
-                  <div className="user-nav-tabs__label">{slugs[key][1]}</div>
+                <div className={`nav-tabs__tab ${isActive ? "is-active" : ""}`}>
+                  <div className="nav-tabs__label">{slugs[key][1]}</div>
                   {profile._count[key] > 0 ? (
                     <div
-                      className={`user-nav-tabs__count ${
+                      className={`nav-tabs__count ${
                         isActive ? "is-active" : ""
                       }`}
                     >
@@ -81,14 +77,14 @@ export const UserTabs = ({ username, profile, isThisUser }: UserTabsProps) => {
           <NavLink
             key={"messages"}
             to={`/user/${username}/messages`}
-            className="user-nav-tabs--link"
+            className="nav-tabs--link"
             end
           >
             {({ isActive }) => (
               <div
-                className={`user-nav-tabs__tab ${isActive ? "is-active" : ""}`}
+                className={`nav-tabs__tab ${isActive ? "is-active" : ""}`}
               >
-                <div className="user-nav-tabs__label">Messages</div>
+                <div className="nav-tabs__label">Messages</div>
               </div>
             )}
           </NavLink>
