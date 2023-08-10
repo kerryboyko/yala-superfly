@@ -36,7 +36,8 @@ export const loader: LoaderFunction = async ({ request }) => {
       communityRoute: true,
     },
   });
-
+  // this is taking five seconds for ONE post.
+  // maybe I need to do some sort of caching system.
   const posts = await db.post.findMany({
     where: authUser?.userId ? { OR: subscriptions } : defaultWhereClause,
     orderBy: [{ aggregatedHotness: "desc" }, { aggregatedVotes: "desc" }],

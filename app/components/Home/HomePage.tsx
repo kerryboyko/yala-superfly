@@ -19,7 +19,7 @@ export const HomePage = ({
           <CardTitle>
             {isLoggedIn
               ? `Hottest posts from your subscribed communities:`
-              : ""}
+              : "Hottest posts from our communities"}
           </CardTitle>
         </CardHeader>
         <CardContent>

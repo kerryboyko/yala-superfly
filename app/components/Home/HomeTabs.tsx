@@ -26,7 +26,7 @@ export const HomeTabs = ({ isLoggedIn }: HomeTabsProps) => {
         ) : null}
         <NavLink
           key={"hottest-posts"}
-          to={`/hottest`}
+          to={isLoggedIn ? `/hottest` : "/"}
           className="nav-tabs--link"
           end
         >
@@ -39,7 +39,6 @@ export const HomeTabs = ({ isLoggedIn }: HomeTabsProps) => {
             </div>
           )}
         </NavLink>
-
         <NavLink
           key={"most-popular-communities"}
           to={`/popular-communities`}
