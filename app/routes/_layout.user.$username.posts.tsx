@@ -7,6 +7,7 @@ import {
 } from "@remix-run/react";
 import { format } from "date-fns";
 import pick from "lodash/pick";
+import { useEffect } from "react";
 
 import { Paginator } from "~/components/Paginator/Paginator";
 import PostSummary, {
@@ -60,6 +61,10 @@ export const loader = async ({ params, request }: LoaderArgs) => {
           text: true,
           link: true,
           community: { select: { name: true, route: true } },
+          aggregatedHotness: true,
+          aggregatedUpcomingness: true,
+          aggregatedVotes: true,
+          lastAggregated: true,
           _count: { select: { comments: true } },
 
           reactions: {
@@ -98,7 +103,7 @@ export const loader = async ({ params, request }: LoaderArgs) => {
   }
 
   let isThisUser = authUser?.userId === profile.userId;
-
+  // TODO: we want to start using aggregated votes
   const votes = await db.$transaction(
     profile.posts.map((post) => getVotesByPostId(post.id)),
   );
@@ -115,7 +120,18 @@ export const loader = async ({ params, request }: LoaderArgs) => {
     numberPosts: profile._count.posts,
     posts: profile.posts.map(
       (post, idx): PostSummaryData => ({
-        ...pick(post, ["createdAt", "title", "embeds", "id", "text", "link"]),
+        ...pick(post, [
+          "createdAt",
+          "title",
+          "embeds",
+          "id",
+          "text",
+          "link",
+          "aggregatedHotness",
+          "aggregatedUpcomingness",
+          "aggregatedVotes",
+          "lastAggregated",
+        ]),
         createdAt: format(new Date(post.createdAt), "do MMM, yyyy h:mm aaaa"),
         author: profile.username,
         communityRoute: post.community.route,
@@ -133,6 +149,9 @@ export const loader = async ({ params, request }: LoaderArgs) => {
 
 export default function UserProfilePosts() {
   const data = useLoaderData();
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
   return (
     <div>
       {data.posts.map((post: PostSummaryData, idx: number) => (

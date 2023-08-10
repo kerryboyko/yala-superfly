@@ -6,20 +6,16 @@ generator client {
 datasource db {
   provider   = "postgresql"
   url        = env("DB_CONNECTION_STRING")
-  extensions = [citext(schema: "public")]
+  extensions = [citext(schema: "public"), pg_cron(schema: "extensions"), uuid_ossp(map: "uuid-ossp", schema: "extensions")]
 }
 
-// Each of these tables has a 'meta' field added to it, which takes an optional JSON data object. 
-// This is basically to ease development moving forward. Migrating the development database is a snap,
-// migrating the staging/demo database is a pain and a half, so if a feature needs a schema change,
-// we can use 'meta' to store the data (inefficiently) for now, and refactor during the next big schema update. 
 model User {
   id        String   @id @default(cuid())
   email     String   @unique @db.Citext
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  profile   Profile? @relation("UserProfile")
   meta      Json?
+  profile   Profile? @relation("UserProfile")
 
   @@index([email, id])
 }
@@ -36,6 +32,7 @@ model Profile {
   lastLoginInstant          DateTime?
   passwordLastUpdateInstant DateTime?
   memberships               String[]
+  meta                      Json?
   comments                  Comment[]              @relation("CommentAuthor")
   reactedComments           CommentReaction[]      @relation("ReactedToComment")
   taggedComments            CommentTag[]           @relation("TaggedComment")
@@ -52,7 +49,6 @@ model Profile {
   taggedPosts               PostTag[]              @relation("TaggedPost")
   Voter                     PostVote[]             @relation("PostVoter")
   user                      User                   @relation("UserProfile", fields: [userId], references: [id], onDelete: Cascade)
-  meta                      Json?
 
   @@index([username])
 }
@@ -67,6 +63,7 @@ model Comment {
   isSticked      Boolean           @default(false)
   communityRoute String            @db.Citext
   postId         Int
+  meta           Json?
   author         Profile           @relation("CommentAuthor", fields: [authorId], references: [userId], onDelete: Cascade)
   community      Community         @relation("CommentCommunity", fields: [communityRoute], references: [route], onDelete: Cascade)
   parent         Comment?          @relation("ParentComment", fields: [parentId], references: [id], onDelete: Cascade)
@@ -75,49 +72,52 @@ model Comment {
   reactions      CommentReaction[] @relation("CommentHasReaction")
   tags           CommentTag[]      @relation("CommentHasTag")
   votes          CommentVote[]     @relation("CommentVote")
-  meta           Json?
 }
 
 model CommentVote {
-  value     Int
-  commentId Int
-  comment   Comment @relation("CommentVote", fields: [commentId], references: [id], onDelete: Cascade)
   voterId   String
-  voter     Profile @relation("CommentVoter", fields: [voterId], references: [userId], onDelete: Cascade)
+  commentId Int
+  value     Int
   meta      Json?
+  comment   Comment @relation("CommentVote", fields: [commentId], references: [id], onDelete: Cascade)
+  voter     Profile @relation("CommentVoter", fields: [voterId], references: [userId], onDelete: Cascade)
 
   @@id([commentId, voterId])
 }
 
 model PostVote {
-  value   Int
-  post    Post    @relation("PostVote", fields: [postId], references: [id], onDelete: Cascade)
-  postId  Int
-  voter   Profile @relation("PostVoter", fields: [voterId], references: [userId], onDelete: Cascade)
   voterId String
+  postId  Int
+  value   Int
   meta    Json?
+  post    Post    @relation("PostVote", fields: [postId], references: [id], onDelete: Cascade)
+  voter   Profile @relation("PostVoter", fields: [voterId], references: [userId], onDelete: Cascade)
 
   @@id([postId, voterId])
 }
 
 model Post {
-  id             Int            @id @unique @default(autoincrement())
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
-  title          String         @db.VarChar(512)
-  text           String?
-  embeds         String?
-  link           String?
-  authorId       String
-  communityRoute String         @db.Citext
-  isSticked      Boolean        @default(false)
-  comments       Comment[]      @relation("CommentPost")
-  author         Profile        @relation("PostAuthor", fields: [authorId], references: [userId], onDelete: Cascade)
-  community      Community      @relation("PostedIn", fields: [communityRoute], references: [route], onDelete: Cascade)
-  reactions      PostReaction[] @relation("PostHasReaction")
-  tags           PostTag[]      @relation("PostHasTag")
-  postVotes      PostVote[]     @relation("PostVote")
-  meta           Json?
+  id                     Int            @id @unique @default(autoincrement())
+  createdAt              DateTime       @default(now())
+  updatedAt              DateTime       @updatedAt
+  title                  String         @db.VarChar(512)
+  text                   String?
+  embeds                 String?
+  link                   String?
+  authorId               String
+  communityRoute         String         @db.Citext
+  isSticked              Boolean        @default(false)
+  meta                   Json?
+  aggregatedHotness      Float          @default(0.0)
+  aggregatedUpcomingness Float          @default(0.0)
+  aggregatedVotes        Int            @default(0)
+  lastAggregated         DateTime?
+  comments               Comment[]      @relation("CommentPost")
+  author                 Profile        @relation("PostAuthor", fields: [authorId], references: [userId], onDelete: Cascade)
+  community              Community      @relation("PostedIn", fields: [communityRoute], references: [route], onDelete: Cascade)
+  reactions              PostReaction[] @relation("PostHasReaction")
+  tags                   PostTag[]      @relation("PostHasTag")
+  postVotes              PostVote[]     @relation("PostVote")
 }
 
 model Community {
@@ -129,13 +129,13 @@ model Community {
   headerImage          String?
   description          String?
   isPublic             Boolean                @default(true)
+  meta                 Json?
   comments             Comment[]              @relation("CommentCommunity")
   createdBy            Profile                @relation("CommunityCreator", fields: [createdById], references: [userId], onDelete: Cascade)
   communityBans        CommunityBan[]         @relation("BannedFrom")
   moderators           CommunityModerators[]  @relation("ModeratedCommunity")
   communitySubscribers CommunitySubscribers[] @relation("SubscribedCommunity")
   posts                Post[]                 @relation("PostedIn")
-  meta                 Json?
 
   @@index([name])
 }
@@ -146,28 +146,28 @@ model CommunityBan {
   bannedUserId   String
   bannedById     String
   banReason      String?
+  meta           Json?
   bannedBy       Profile   @relation("BanningUser", fields: [bannedById], references: [userId], onDelete: Cascade)
   bannedUser     Profile   @relation("CommunityBan", fields: [bannedUserId], references: [userId], onDelete: Cascade)
   community      Community @relation("BannedFrom", fields: [communityRoute], references: [route], onDelete: Cascade)
-  meta           Json?
 }
 
 model CommunityModerators {
   id             Int       @id @unique @default(autoincrement())
   communityRoute String    @db.Citext
   moderatorId    String
+  meta           Json?
   community      Community @relation("ModeratedCommunity", fields: [communityRoute], references: [route], onDelete: Cascade)
   moderator      Profile   @relation("ModeratesCommunity", fields: [moderatorId], references: [userId], onDelete: Cascade)
-  meta           Json?
 }
 
 model CommunitySubscribers {
   id             Int       @id @unique @default(autoincrement())
   communityRoute String    @db.Citext
   subscriberId   String
+  meta           Json?
   community      Community @relation("SubscribedCommunity", fields: [communityRoute], references: [route], onDelete: Cascade)
   subscriber     Profile   @relation("CommunitySubscriber", fields: [subscriberId], references: [userId], onDelete: Cascade)
-  meta           Json?
 }
 
 model Message {
@@ -178,25 +178,25 @@ model Message {
   text          String
   createdAt     DateTime  @default(now())
   read          Boolean   @default(false)
+  meta          Json?
   from          Profile   @relation("SentMessage", fields: [fromId], references: [userId], onDelete: Cascade)
   parent        Message?  @relation("ParentMessage", fields: [parentId], references: [id], onDelete: Cascade)
   childMessages Message[] @relation("ParentMessage")
   to            Profile   @relation("ReceivedMessage", fields: [toId], references: [userId], onDelete: Cascade)
-  meta          Json?
 }
 
 model Reaction {
   name     String            @id @unique
+  meta     Json?
   comments CommentReaction[] @relation("CommentReactionType")
   posts    PostReaction[]    @relation("PostReactionType")
-  meta     Json?
 }
 
 model Tag {
   name       String       @id @unique
+  meta       Json?
   CommentTag CommentTag[] @relation("CommentTagIdentity")
   PostTag    PostTag[]    @relation("PostTagIdentity")
-  meta       Json?
 }
 
 model PostTag {
@@ -204,21 +204,21 @@ model PostTag {
   postId   Int
   tagName  String
   taggerId String
+  meta     Json?
   post     Post    @relation("PostHasTag", fields: [postId], references: [id], onDelete: Cascade)
   tag      Tag     @relation("PostTagIdentity", fields: [tagName], references: [name], onDelete: Cascade)
   tagger   Profile @relation("TaggedPost", fields: [taggerId], references: [userId], onDelete: Cascade)
-  meta     Json?
 }
 
 model CommentTag {
   id        Int     @id @unique @default(autoincrement())
-  comment   Comment @relation("CommentHasTag", fields: [commentId], references: [id], onDelete: Cascade)
   commentId Int
   tagName   String
   taggerId  String
+  meta      Json?
+  comment   Comment @relation("CommentHasTag", fields: [commentId], references: [id], onDelete: Cascade)
   tag       Tag     @relation("CommentTagIdentity", fields: [tagName], references: [name], onDelete: Cascade)
   tagger    Profile @relation("TaggedComment", fields: [taggerId], references: [userId], onDelete: Cascade)
-  meta      Json?
 }
 
 model PostReaction {
@@ -226,10 +226,10 @@ model PostReaction {
   reactionName String
   postId       Int
   reactorId    String
+  meta         Json?
   post         Post     @relation("PostHasReaction", fields: [postId], references: [id], onDelete: Cascade)
   reaction     Reaction @relation("PostReactionType", fields: [reactionName], references: [name], onDelete: Cascade)
   reactor      Profile  @relation("ReactedToPost", fields: [reactorId], references: [userId], onDelete: Cascade)
-  meta         Json?
 }
 
 model CommentReaction {
@@ -237,8 +237,8 @@ model CommentReaction {
   reactionName String
   commentId    Int
   reactorId    String
+  meta         Json?
   comment      Comment  @relation("CommentHasReaction", fields: [commentId], references: [id], onDelete: Cascade)
   reaction     Reaction @relation("CommentReactionType", fields: [reactionName], references: [name], onDelete: Cascade)
   reactor      Profile  @relation("ReactedToComment", fields: [reactorId], references: [userId], onDelete: Cascade)
-  meta         Json?
 }
