@@ -8,8 +8,19 @@ import { renderToPipeableStream } from "react-dom/server";
 import { I18nextProvider } from "react-i18next";
 
 import { createI18nextServerInstance } from "./integrations/i18n";
+import updateHotness from "./modules/post/updateHotness.server";
 
 const ABORT_DELAY = 5000;
+
+// this is basically a job that runs every 3 hours to recalculate the hotness of posts.
+const RECALC_HOTNESS_DELAY = 1000 * 60 * 60 * 3;
+
+const recalcHotness = () => {
+  console.info("Recalculating Hotness");
+  updateHotness();
+  setTimeout(recalcHotness, RECALC_HOTNESS_DELAY);
+};
+recalcHotness();
 
 export default async function handleRequest(
   request: Request,
