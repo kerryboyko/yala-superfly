@@ -51,7 +51,9 @@ export const PostSummarySmall: React.FC<
           isSmall={true}
         />
         <div className="post-summary-small__comments-link">
-          <Link to={getCommentLink(post)}>Comments: {post.commentCount}</Link>
+          <Link to={getCommentLink(post)}>
+            Comments: {post.commentCount || "0"}
+          </Link>
         </div>
       </div>
     </div>
