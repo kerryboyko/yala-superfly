@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .about {
   display: flex;
   justify-content: center;
@@ -16,3 +17,17 @@
 
 .content-box {
   max-width: 48rem; }
+
+.privacy-policy,
+.terms-of-service {
+  padding: 1rem; }
+  .privacy-policy ul,
+  .terms-of-service ul {
+    padding-top: 0.25rem; }
+  .privacy-policy li,
+  .terms-of-service li {
+    padding-bottom: 0.25rem;
+    margin-left: 0.5rem; }
+    .privacy-policy li:before,
+    .terms-of-service li:before {
+      content: "• "; }

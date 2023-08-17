@@ -64,15 +64,6 @@ hover color for elements will usually be lighten($base-elements, 20%);
     .community__sidebar__create-new-post {
       margin-top: 1rem;
       margin-bottom: 1rem; }
-      .community__sidebar__create-new-post button {
-        text-transform: uppercase;
-        font-family: "Ubuntu";
-        text-transform: uppercase;
-        font-weight: 700;
-        background-color: #144566;
-        cursor: pointer; }
-        .community__sidebar__create-new-post button:hover {
-          background-color: #ca0000; }
   .community__outlet {
     grid-area: outlet; }
 

@@ -64,7 +64,9 @@ export const BanUsers = ({
               placeholder="Reason for Ban? (Optional)"
             />
 
-            <Button type="submit">Ban Users</Button>
+            <Button className="button" type="submit">
+              Ban Users
+            </Button>
           </fetcher.Form>
         </div>
         {get(fetcher, "data.result", false) ? (

@@ -72,15 +72,7 @@ hover color for elements will usually be lighten($base-elements, 20%);
     display: flex;
     justify-content: flex-end; }
     .create-comment__footer--submit-button {
-      text-transform: uppercase;
-      font-family: "Ubuntu";
-      text-transform: uppercase;
-      font-weight: 700;
-      background-color: #144566;
-      cursor: pointer;
       margin-right: 0.5rem; }
-      .create-comment__footer--submit-button:hover {
-        background-color: #ca0000; }
       .create-comment__footer--submit-button .icon {
         margin-right: 0.5rem; }
 

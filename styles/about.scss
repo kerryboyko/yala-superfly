@@ -25,3 +25,18 @@
 .content-box {
   max-width: 48rem;
 }
+
+.privacy-policy,
+.terms-of-service {
+  padding: 1rem;
+  & ul {
+    padding-top: 0.25rem;
+  }
+  & li {
+    padding-bottom: 0.25rem;
+    margin-left: 0.5rem;
+    &:before {
+      content: "• ";
+    }
+  }
+}

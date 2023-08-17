@@ -94,7 +94,9 @@ export default function CommunityProfileRoute() {
             </div>
             <div className="community__sidebar__create-new-post">
               <Link to={`/community/${community.route}/create-new-post`}>
-                <Button type="button">Create New Post</Button>
+                <Button className="button" type="button">
+                  Create New Post
+                </Button>
               </Link>
             </div>
           </>

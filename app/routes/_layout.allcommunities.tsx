@@ -8,21 +8,22 @@ import pick from "lodash/pick";
 
 import { GenericErrorBoundary } from "~/components/Error/GenericErrorBoundary";
 import Paginator from "~/components/Paginator/Paginator";
-import Subscription, {
-  styles as subscriptionStyles,
-} from "~/components/Subscription/Subscription";
+import Subscription from "~/components/Subscription/Subscription";
 import { Button } from "~/components/ui/button";
 import { Card } from "~/components/ui/custom/card";
 import { db } from "~/database/db.server";
 import { grabQueryParams } from "~/logic/grabQueryParams";
 import { getAuthSession } from "~/modules/auth/session.server";
 import allCommunitiesStyles from "~/styles/all-communities.css";
+import subscriptionStyles from "~/styles/subscriptions.css";
+import subscribeButtonStyles from "~/styles/subscribe-button.css";
 import type { Pagination } from "~/types/posts";
 import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 
 export const links = linkFunctionFactory(
   subscriptionStyles,
   allCommunitiesStyles,
+  subscribeButtonStyles,
 );
 
 const defaultPagination: Pagination = {
@@ -121,7 +122,11 @@ export default function CommunityProfileRoute() {
           There are currently {data.pagination.totalCount} communities in Yala
         </div>
         <div>
-          <Button type="button" onClick={toggleDescription}>
+          <Button
+            className="button show-descriptions"
+            type="button"
+            onClick={toggleDescription}
+          >
             {showDescription ? "Hide" : "Show"} Descriptions
           </Button>
         </div>

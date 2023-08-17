@@ -29,7 +29,6 @@
       &__loading {
         display: flex;
         &.icon {
-          margin-right: 1rem;
           animation: spin 4s linear infinite;
           color: $base-elements;
         }
@@ -88,9 +87,6 @@
         }
       }
       &.submit {
-      }
-      & .icon {
-        margin-right: 0.5rem;
       }
     }
   }
@@ -158,9 +154,6 @@
       &:hover {
         background-color: lighten($base-elements, 20%);
       }
-    }
-    & .icon {
-      margin-right: 0.5rem;
     }
   }
 }

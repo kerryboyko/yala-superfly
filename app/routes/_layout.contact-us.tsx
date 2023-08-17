@@ -4,10 +4,10 @@ import aboutStyles from "~/styles/about.css";
 export const links: LinksFunction = () =>
   [aboutStyles].map((href) => ({ rel: "stylesheet", href }));
 
-export default function TermsOfServiceRoute() {
+export default function PrivacyPolicyRoute() {
   return (
-    <main className="tos">
-      <div>Terms of service go here</div>
+    <main className="privacy-policy">
+      <div>contact us form go here</div>
     </main>
   );
 }

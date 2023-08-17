@@ -58,8 +58,6 @@ hover color for elements will usually be lighten($base-elements, 20%);
       background-color: #ca0000; }
     .show-comment__footer__reply-button--text {
       margin-left: 0.5rem; }
-    .show-comment__footer__reply-button .icon {
-      margin-right: 0.5rem; }
   .show-comment__footer .comment-tools {
     display: flex;
     flex-direction: row; }

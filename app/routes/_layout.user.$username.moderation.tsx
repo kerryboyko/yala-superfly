@@ -78,7 +78,10 @@ export default function UserComments() {
     <div className="user-moderates">
       <Card className="user-moderates__card">
         <CardHeader>
-          <Button onClick={toggleShowDescription}>
+          <Button
+            className="button show-descriptions"
+            onClick={toggleShowDescription}
+          >
             {showDescription ? "Hide Descriptions" : "Show Descriptions"}
           </Button>
         </CardHeader>

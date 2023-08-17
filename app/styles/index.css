@@ -162,3 +162,31 @@ section {
   .framing .home-page-like {
     margin: 0 2rem;
     width: 100%; }
+
+.full-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; }
+  .full-layout .footer {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-around;
+    padding: 0.5rem;
+    flex-direction: column;
+    font-family: "Ubuntu";
+    font-weight: 700; }
+    @media (min-width: 768px) {
+      .full-layout .footer {
+        flex-direction: row; } }
+
+.button {
+  font-family: "Ubuntu";
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+  background-color: #144566; }
+  .button:hover {
+    background-color: #257fbb; }
+  .button .icon {
+    margin-right: 0.5rem; }

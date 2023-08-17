@@ -73,7 +73,6 @@
     display: flex;
     justify-content: flex-end;
     &--submit-button {
-      @include button-primary();
       margin-right: 0.5rem;
       & .icon {
         margin-right: 0.5rem;

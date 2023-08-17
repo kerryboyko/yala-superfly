@@ -203,3 +203,37 @@ section {
     width: 100%;
   }
 }
+
+.full-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  & .footer {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-around;
+    padding: 0.5rem;
+    flex-direction: column;
+    font-family: "Ubuntu";
+    font-weight: 700;
+    @media (min-width: $breakpoint-tablet) {
+      flex-direction: row;
+    }
+  }
+}
+
+.button {
+  font-family: "Ubuntu";
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+  background-color: $base-elements;
+  &:hover {
+    background-color: lighten($base-elements, 20%);
+  }
+  & .icon {
+    margin-right: 0.5rem;
+  }
+}

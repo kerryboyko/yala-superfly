@@ -75,7 +75,6 @@ hover color for elements will usually be lighten($base-elements, 20%);
 .create-post__content__embed-image__loading {
   display: flex; }
   .create-post__content__embed-image__loading.icon {
-    margin-right: 1rem;
     animation: spin 4s linear infinite;
     color: #144566; }
 
@@ -113,8 +112,6 @@ hover color for elements will usually be lighten($base-elements, 20%);
       background-color: #257fbb; }
     .editor__footer__button.preview--active {
       font-style: italic; }
-    .editor__footer__button .icon {
-      margin-right: 0.5rem; }
 
 .editor__content__images__footer {
   display: flex;
@@ -163,8 +160,6 @@ hover color for elements will usually be lighten($base-elements, 20%);
       margin-left: 0.5rem; }
       .post-image-field__buttons--button:hover {
         background-color: #257fbb; }
-    .post-image-field__buttons .icon {
-      margin-right: 0.5rem; }
 
 @keyframes spin {
   100% {

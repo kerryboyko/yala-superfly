@@ -22,28 +22,8 @@ hover color for elements will usually be lighten($base-elements, 20%);
   .editor__footer {
     display: flex;
     justify-content: flex-end; }
-    .editor__footer__button-preview {
-      text-transform: uppercase;
-      font-family: "Ubuntu";
-      text-transform: uppercase;
-      font-weight: 700;
-      background-color: #144566;
-      cursor: pointer;
-      background-color: #bf8a58; }
-      .editor__footer__button-preview:hover {
-        background-color: #ca0000; }
-      .editor__footer__button-preview:hover {
-        background-color: #dbbea2; }
     .editor__footer__button-submit {
-      margin-left: 1rem;
-      text-transform: uppercase;
-      font-family: "Ubuntu";
-      text-transform: uppercase;
-      font-weight: 700;
-      background-color: #144566;
-      cursor: pointer; }
-      .editor__footer__button-submit:hover {
-        background-color: #ca0000; }
+      margin-left: 1rem; }
   .editor__preview {
     padding: 1rem 2rem;
     background-color: rgba(191, 138, 88, 0.3); }

@@ -55,7 +55,10 @@ export default function PopularCommunitiesRoute() {
       <div className="home-page-like">
         <Card>
           <CardHeader>
-            <Button className="button" onClick={toggleShowDescription}>
+            <Button
+              className="button show-descriptions"
+              onClick={toggleShowDescription}
+            >
               {showDescription ? "Hide Descriptions" : "Show Descriptions"}
             </Button>
             <CardTitle>Most Popular Communities:</CardTitle>

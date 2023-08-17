@@ -3,14 +3,20 @@ import { json, redirect } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
 
 import { GenericErrorBoundary } from "~/components/Error/GenericErrorBoundary";
+import Footer from "~/components/Footer/Footer";
 import { Header } from "~/components/Header/Header";
 import { db } from "~/database/db.server";
 import { getAuthSession } from "~/modules/auth";
 import headerStyles from "~/styles/header.css";
 import indexStyles from "~/styles/index.css";
+import footerStyles from "~/styles/footer.css";
 import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 
-export const links = linkFunctionFactory(headerStyles, indexStyles);
+export const links = linkFunctionFactory(
+  headerStyles,
+  indexStyles,
+  footerStyles,
+);
 
 export const loader: LoaderFunction = async ({
   request,
@@ -57,14 +63,21 @@ export default function Dashboard() {
   const data = useLoaderData<typeof loader>();
 
   return (
-    <>
-      <main className="main">
-        <Header isLoggedIn={data.isLoggedIn} username={data.username} />
-        <div className="outlet-main">
-          <Outlet />
-        </div>
-      </main>
-    </>
+    <div className="full-layout">
+      <div>
+        <header>
+          <Header isLoggedIn={data.isLoggedIn} username={data.username} />
+        </header>
+        <main>
+          <div className="outlet-main">
+            <Outlet />
+          </div>
+        </main>
+      </div>
+      <footer>
+        <Footer />
+      </footer>
+    </div>
   );
 }
 

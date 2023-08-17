@@ -8,18 +8,25 @@ hover color for elements will usually be lighten($base-elements, 20%);
 
 hover color for elements will usually be lighten($base-elements, 20%);
 */
+:root {
+  --breakpoint-mobile: 480px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 1200px; }
+
 .header {
   font-family: "Ubuntu";
-  display: flex;
-  flex-direction: column;
-  background-color: #b1cdd8; }
-  .header__interaction-bar {
-    padding: 0.5rem 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start; }
-    .header__interaction-bar > div {
-      margin-right: 1rem; }
+  display: grid;
+  grid-template-areas: "logo auth" "links links";
+  grid-template-rows: auto;
+  background-color: #b1cdd8;
+  width: 100%; }
+  @media (min-width: 875px) {
+    .header {
+      grid-template-areas: "logo auth" "logo links";
+      grid-template-columns: 15rem auto; } }
+  @media (min-width: 1200px) {
+    .header {
+      grid-template-rows: auto 2rem; } }
   .header__main {
     padding: 0;
     width: 100%;
@@ -33,62 +40,53 @@ hover color for elements will usually be lighten($base-elements, 20%);
     font-weight: 700;
     font-size: 1.5rem;
     margin: 0.5rem 1rem;
+    grid-area: logo;
     color: #ca0000; }
     .header__site-name a {
       color: #ca0000; }
-  .header__commands__buttons {
-    margin-left: 1rem;
-    margin-bottom: 0.5rem; }
-  .header__interactions {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: flex-end;
-    padding-top: 1rem; }
-    .header__interactions__buttons {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      margin: 0 1rem 0.5rem 1rem; }
-      .header__interactions__buttons button {
-        margin-left: 1rem; }
-    .header__interactions__command-icons {
-      display: flex;
-      justify-content: flex-end;
-      align-items: flex-end; }
-  .header__username {
+  .header__site {
+    height: 10rem;
+    width: 15rem;
+    max-width: 15rem;
+    grid-area: logo; }
+    .header__site--logo {
+      height: 10rem;
+      max-width: 15rem; }
+  .header__auth {
+    grid-area: auth;
+    width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    align-items: center;
-    padding-right: 1rem; }
-  .header__username-display {
-    font-size: 1.25rem;
     align-items: center; }
-    .header__username-display a {
-      text-decoration: none;
-      color: #144566;
-      cursor: pointer; }
-      .header__username-display a:hover {
-        text-decoration: underline;
-        color: #144566; }
-  .header .login-buttons {
-    display: flex;
-    margin: 0.5rem 1rem; }
+    .header__auth .login-buttons {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      align-items: center;
+      margin-left: 0.5rem;
+      margin-right: 0.5rem; }
+      .header__auth .login-buttons__buttons__login {
+        margin-left: 0.5rem; }
   .header__link-navigation {
+    width: 100%;
+    grid-area: links;
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    border-top: 1px solid #392719;
-    border-bottom: 1px solid #392719;
+    align-items: center;
+    grid-area: links;
     padding: 0.25rem 0; }
     .header__link-navigation--link {
       font-weight: 700;
       padding: 0 1rem; }
-      .header__link-navigation--link:not(:last-child) {
-        border-right: 1px solid #392719; }
+    @media (min-width: 875px) {
+      .header__link-navigation {
+        flex-direction: row; }
+        .header__link-navigation--link:not(:last-child) {
+          border-right: 1px solid #392719; } }
 
 .button {
-  text-transform: uppercase;
   font-family: "Ubuntu";
   margin-left: 0.25rem;
   margin-right: 0.25rem;

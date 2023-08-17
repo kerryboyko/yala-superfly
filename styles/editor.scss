@@ -27,12 +27,9 @@
     display: flex;
     justify-content: flex-end;
     &__button-preview {
-      @include button-secondary();
     }
     &__button-submit {
       margin-left: 1rem;
-
-      @include button-primary();
     }
   }
   &__preview {

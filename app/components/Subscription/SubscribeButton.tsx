@@ -40,9 +40,9 @@ export const SubscribeButton = ({
       action={`/api/v1/add-remove-subscription/${communityRoute}`}
     >
       <Button
-        className={`subscribe-button ${isSubscribed ? "un" : ""}subscribe ${
-          fetcher.state !== "idle" ? "disabled" : ""
-        }`}
+        className={`button subscribe-button ${
+          isSubscribed ? "un" : ""
+        }subscribe ${fetcher.state !== "idle" ? "disabled" : ""}`}
         type="submit"
       >
         <DisplayIcon

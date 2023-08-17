@@ -207,7 +207,7 @@ export default function PostRoute() {
           />
           <div className="create-comment__footer">
             <Button
-              className="create-comment__footer--submit-button"
+              className="button create-comment__footer--submit-button"
               type="submit"
               disabled={navigation.state !== "idle"}
             >

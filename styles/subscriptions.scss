@@ -48,3 +48,9 @@
     "description description description";
   grid-template-columns: 1fr 1fr 1fr;
 }
+
+.button {
+  &.show-descriptions {
+    width: 100%;
+  }
+}

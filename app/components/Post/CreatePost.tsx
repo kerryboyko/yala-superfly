@@ -106,7 +106,7 @@ export const CreatePost = ({
         <div className="editor__content__images__footer">
           <Button
             type="button"
-            className="editor__content__images__add-image"
+            className="button"
             onClick={addField}
             disabled={imageFields.some((field) => field === "")}
           >
@@ -128,7 +128,7 @@ export const CreatePost = ({
           </Label>
         </div>
         <Button
-          className="editor__footer__button submit"
+          className="button"
           type="submit"
           disabled={loadingState !== "idle"}
         >

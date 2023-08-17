@@ -64,9 +64,6 @@
     &__create-new-post {
       margin-top: 1rem;
       margin-bottom: 1rem;
-      & button {
-        @include button-primary();
-      }
     }
   }
   &__outlet {

@@ -1,22 +1,28 @@
 @import "component/button";
 @import "palette";
+@import "breakpoints";
 
 .header {
   font-family: "Ubuntu";
 
-  display: flex;
-  flex-direction: column;
-  background-color: $base-background;
+  display: grid;
+  grid-template-areas:
+    "logo auth"
+    "links links";
+  grid-template-rows: auto;
 
-  &__interaction-bar {
-    padding: 0.5rem 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    & > div {
-      margin-right: 1rem;
-    }
+  @media (min-width: 875px) {
+    grid-template-areas:
+      "logo auth"
+      "logo links";
+    grid-template-columns: 15rem auto;
   }
+  @media (min-width: 1200px) {
+    grid-template-rows: auto 2rem;
+  }
+  background-color: $base-background;
+  width: 100%;
+
   &__main {
     padding: 0;
     width: 100%;
@@ -32,83 +38,69 @@
     font-weight: 700;
     font-size: 1.5rem;
     margin: 0.5rem 1rem;
+    grid-area: logo;
     color: $base-highlight;
     & a {
       color: $base-highlight;
     }
   }
-
-  &__commands {
-    &__buttons {
-      margin-left: 1rem;
-      margin-bottom: 0.5rem;
+  &__site {
+    height: 10rem;
+    width: 15rem;
+    max-width: 15rem;
+    grid-area: logo;
+    &--logo {
+      height: 10rem;
+      max-width: 15rem;
     }
   }
-  &__interactions {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: flex-end;
-    padding-top: 1rem;
-    &__buttons {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      margin: 0 1rem 0.5rem 1rem;
-      & button {
-        margin-left: 1rem;
-      }
-    }
-    &__command-icons {
-      display: flex;
-      justify-content: flex-end;
-      align-items: flex-end;
-    }
-  }
-  &__username {
+  &__auth {
+    grid-area: auth;
+    width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
-    padding-right: 1rem;
-  }
-  &__username-display {
-    font-size: 1.25rem;
-    align-items: center;
-
-    & a {
-      text-decoration: none;
-      color: $base-elements;
-      cursor: pointer;
-      &:hover {
-        text-decoration: underline;
-        color: $base-elements;
+    & .login-buttons {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      align-items: center;
+      margin-left: 0.5rem;
+      margin-right: 0.5rem;
+      &__buttons {
+        &__login {
+          margin-left: 0.5rem;
+        }
       }
     }
   }
-  & .login-buttons {
-    display: flex;
-    margin: 0.5rem 1rem;
-  }
   &__link-navigation {
+    width: 100%;
+    grid-area: links;
     display: flex;
-    justify-content: center;
-    border-top: 1px solid $base-dark-line;
-    border-bottom: 1px solid $base-dark-line;
+    flex-direction: column;
 
+    justify-content: center;
+    align-items: center;
+    grid-area: links;
     padding: 0.25rem 0;
     &--link {
       font-weight: 700;
       padding: 0 1rem;
-      &:not(:last-child) {
-        border-right: 1px solid $base-dark-line;
+    }
+    @media (min-width: 875px) {
+      flex-direction: row;
+      &--link {
+        &:not(:last-child) {
+          border-right: 1px solid $base-dark-line;
+        }
       }
     }
   }
 }
 
 .button {
-  text-transform: uppercase;
   font-family: "Ubuntu";
   margin-left: 0.25rem;
   margin-right: 0.25rem;
