@@ -1,5 +1,11 @@
 import { NavLink } from "@remix-run/react";
-import { ActivitySquare, Flame, Home, MessageCircle } from "lucide-react";
+import {
+  ActivitySquare,
+  Flame,
+  Home,
+  MessageCircle,
+  Clock,
+} from "lucide-react";
 import navTabStyles from "~/styles/nav-tabs.css";
 
 export const styles = navTabStyles;
@@ -35,6 +41,21 @@ export const HomeTabs = ({ isLoggedIn }: HomeTabsProps) => {
               <div className="nav-tabs__label">
                 <Flame className="icon" />
                 Hottest Posts
+              </div>
+            </div>
+          )}
+        </NavLink>
+        <NavLink
+          key={"newest-posts"}
+          to={`/newest`}
+          className="nav-tabs--link"
+          end
+        >
+          {({ isActive }) => (
+            <div className={`nav-tabs__tab ${isActive ? "is-active" : ""}`}>
+              <div className="nav-tabs__label">
+                <Clock className="icon" />
+                Newest Posts
               </div>
             </div>
           )}

@@ -159,3 +159,6 @@ section {
       display: flex;
       flex-direction: row;
       justify-content: space-between; } }
+  .framing .home-page-like {
+    margin: 0 2rem;
+    width: 100%; }
