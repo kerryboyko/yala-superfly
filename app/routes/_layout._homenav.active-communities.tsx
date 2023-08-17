@@ -1,23 +1,25 @@
+import { useState } from "react";
+
 import type { LinksFunction, LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-
-import type { Pagination } from "~/types/posts";
-import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
-import { grabQueryParams } from "~/logic/grabQueryParams";
-import { getAuthSession } from "~/modules/auth/session.server";
 import { useLoaderData } from "@remix-run/react";
-import postSummaryStyles from "~/styles/post-summary.css";
-import aboutStyles from "~/styles/about.css";
-import voterStyles from "~/styles/post-votes.css";
-import { countCommunities, findActiveCommunities } from "~/modules/postLists";
+
+import Paginator from "~/components/Paginator/Paginator";
 import Subscription, {
   styles as subscriptionStyles,
 } from "~/components/Subscription/Subscription";
-import { useState } from "react";
 import { Button } from "~/components/ui/button";
 import { Card, CardHeader, CardContent } from "~/components/ui/card";
 import { CardTitle } from "~/components/ui/custom/card";
-import Paginator from "~/components/Paginator/Paginator";
+import { grabQueryParams } from "~/logic/grabQueryParams";
+import { getAuthSession } from "~/modules/auth/session.server";
+import { countCommunities, findActiveCommunities } from "~/modules/postLists";
+import aboutStyles from "~/styles/about.css";
+import postSummaryStyles from "~/styles/post-summary.css";
+import voterStyles from "~/styles/post-votes.css";
+import type { Pagination } from "~/types/posts";
+import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
+
 export const links: LinksFunction = linkFunctionFactory(
   aboutStyles,
   postSummaryStyles,

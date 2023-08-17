@@ -22,4 +22,4 @@ In the meantime, feel free to go around and kick the tires! Try:
 
 [This is the github link for the sourcecode - if you find an issue, feel free to report it!](https://github.com/kerryboyko/yala-superfly)
 
-Want to help out?  [Check out our list of issues on Github and submit a PR!](https://github.com/kerryboyko/yala-superfly/issues)
+Want to help out? [Check out our list of issues on Github and submit a PR!](https://github.com/kerryboyko/yala-superfly/issues)

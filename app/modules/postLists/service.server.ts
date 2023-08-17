@@ -1,5 +1,6 @@
-import { db } from "~/database/db.server";
 import omit from "lodash/omit";
+
+import { db } from "~/database/db.server";
 
 type OrderByCriterion = { [key: string]: "asc" | "desc" | OrderByCriterion };
 type OrderByCriteria = Array<OrderByCriterion>;
@@ -32,7 +33,6 @@ export const genericFindPosts = async ({
   };
   orderBy: OrderByCriteria;
 }) => {
-  const numberPosts = await db.post.count();
   const posts = await db.post.findMany({
     where: subscriptions ? { OR: subscriptions } : {},
     orderBy,

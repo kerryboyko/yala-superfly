@@ -1,10 +1,10 @@
-import { LoaderFunction, json } from "@remix-run/node";
+import type { LoaderFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
 
 import { GenericErrorBoundary } from "~/components/Error/GenericErrorBoundary";
 import { HomeTabs, styles as homeTabStyles } from "~/components/Home/HomeTabs";
 import { getAuthSession } from "~/modules/auth";
-
 import headerStyles from "~/styles/header.css";
 import indexStyles from "~/styles/index.css";
 import { linkFunctionFactory } from "~/utils/linkFunctionFactory";

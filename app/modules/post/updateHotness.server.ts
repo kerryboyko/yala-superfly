@@ -1,4 +1,5 @@
 import pick from "lodash/pick";
+
 import { db } from "~/database";
 import { getVotesByPostId } from "~/modules/post";
 
@@ -8,13 +9,11 @@ const HRS_48 = HRS * 48;
 const getPeriod48 = (createdAt: Date): number =>
   (Date.now() - new Date(createdAt).getTime()) / HRS_48;
 
-const getHotness = (votes: number, period48: number): number => {
-  return votes / Math.pow(2, period48);
-};
+const getHotness = (votes: number, period48: number): number =>
+  votes / Math.pow(2, period48);
 
-const getUpcomingness = (votes: number, period48: number): number => {
-  return votes / Math.pow(2, period48 * period48);
-};
+const getUpcomingness = (votes: number, period48: number): number =>
+  votes / Math.pow(2, period48 * period48);
 
 const dueForAggregation = ({
   createdAt,

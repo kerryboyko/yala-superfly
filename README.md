@@ -1,4 +1,5 @@
 # YALA - Yet Another Link Aggregator, Codebase
+
 ## Development
 
 - Create a [Supabase Database](https://supabase.com/) (free tier gives you 2 databases)
@@ -13,11 +14,11 @@
 
 - Go to https://app.supabase.io/project/{PROJECT}/settings/api to find your secrets
 - "Project API keys"
-- Add the following to the .env file: 
-  - `SUPABASE_URL`, 
-  - `SERVER_URL` (is your localhost on dev, likely "http://localhost:3000"), 
-  - `SUPABASE_SERVICE_ROLE` (aka `service_role` `secret`), 
-  - `SUPABASE_ANON_PUBLIC` (aka `anon` `public`) and 
+- Add the following to the .env file:
+  - `SUPABASE_URL`,
+  - `SERVER_URL` (is your localhost on dev, likely "http://localhost:3000"),
+  - `SUPABASE_SERVICE_ROLE` (aka `service_role` `secret`),
+  - `SUPABASE_ANON_PUBLIC` (aka `anon` `public`) and
   - `DATABASE_PASSWORD`
   - `SESSION_SECRET` (a secret to use with sessions)
   - `SUPABASE_REFERENCE_ID` (ie., the random name superbase assigns your project)
@@ -28,20 +29,22 @@
 You will also need to run a series of commands:
 
 - Install the node packages
+
 ```sh
 npm i
 ```
 
-- Setup and seed the database. 
+- Setup and seed the database.
+
 ```sh
 npm run setup
 ```
 
 - Start dev server:
+
 ```sh
   npm run dev
 ```
-
 
 ## Testing
 

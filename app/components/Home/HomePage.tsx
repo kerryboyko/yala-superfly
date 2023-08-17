@@ -1,6 +1,7 @@
-import { PostSummaryData } from "~/types/posts";
-import { HottestSubscribed } from "./HottestSubscribed";
+import type { PostSummaryData } from "~/types/posts";
+
 import { HottestPosts } from "./HottestPosts";
+import { HottestSubscribed } from "./HottestSubscribed";
 
 export const HomePage = ({
   posts,
@@ -12,8 +13,8 @@ export const HomePage = ({
   isLoggedIn: boolean;
   numPosts: number;
   pagination: { perPage: number; pageNum: number };
-}) => {
-  return isLoggedIn ? (
+}) =>
+  isLoggedIn ? (
     <HottestSubscribed
       posts={posts}
       numPosts={numPosts}
@@ -22,4 +23,3 @@ export const HomePage = ({
   ) : (
     <HottestPosts posts={posts} numPosts={numPosts} pagination={pagination} />
   );
-};

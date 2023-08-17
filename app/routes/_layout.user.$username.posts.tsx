@@ -7,7 +7,6 @@ import {
 } from "@remix-run/react";
 import { format } from "date-fns";
 import pick from "lodash/pick";
-import { useEffect } from "react";
 
 import { Paginator } from "~/components/Paginator/Paginator";
 import PostSummary, {
@@ -149,9 +148,6 @@ export const loader = async ({ params, request }: LoaderArgs) => {
 
 export default function UserProfilePosts() {
   const data = useLoaderData();
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
   return (
     <div>
       {data.posts.map((post: PostSummaryData, idx: number) => (
