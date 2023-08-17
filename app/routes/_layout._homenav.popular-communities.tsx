@@ -1,21 +1,26 @@
 import type { LinksFunction, LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { useOutletContext } from "react-router";
-import { HomePage } from "~/components/Home/HomePage";
+
 import type { Pagination } from "~/types/posts";
 import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 import { grabQueryParams } from "~/logic/grabQueryParams";
 import { getAuthSession } from "~/modules/auth/session.server";
-import { db } from "~/database";
 import { useLoaderData } from "@remix-run/react";
 import postSummaryStyles from "~/styles/post-summary.css";
 import aboutStyles from "~/styles/about.css";
 import voterStyles from "~/styles/post-votes.css";
 import { findPopularCommunities } from "~/modules/postLists";
+import Subscription, {
+  styles as subscriptionStyles,
+} from "~/components/Subscription/Subscription";
+import { useState } from "react";
+import { Button } from "~/components/ui/button";
+import { Card, CardHeader, CardContent, CardTitle } from "~/components/ui/card";
 export const links: LinksFunction = linkFunctionFactory(
   aboutStyles,
   postSummaryStyles,
   voterStyles,
+  subscriptionStyles,
 );
 
 const defaultPagination: Pagination = {
@@ -36,10 +41,36 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export default function PopularCommunitiesRoute() {
   const data = useLoaderData();
+  const [showDescription, setShowDescription] = useState<boolean>(false);
+  const toggleShowDescription = () =>
+    setShowDescription((state: boolean) => !state);
+
   return (
     <div className="framing">
-      UNDER CONSTRUCTION
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+      <div className="home-page-like">
+        <Card>
+          <CardHeader>
+            <Button className="button" onClick={toggleShowDescription}>
+              {showDescription ? "Hide Descriptions" : "Show Descriptions"}
+            </Button>
+            <CardTitle>Most Popular Communities:</CardTitle>
+          </CardHeader>
+          <CardContent className="user-subscribes__card__content">
+            {data.popularCommunities.map((popCom: any) => (
+              <Subscription
+                key={popCom.communityRoute}
+                communityRoute={popCom.route}
+                communityName={popCom.name}
+                communityDescription={popCom.description || ""}
+                numPosts={popCom._count.posts}
+                numComments={popCom._count.comments}
+                isSubscribed={popCom.isSubscribed}
+                showDescription={showDescription}
+              />
+            ))}
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }

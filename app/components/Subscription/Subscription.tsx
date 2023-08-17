@@ -10,7 +10,7 @@ import {
 
 export const styles = [subscriptionStyles, subscribeButtonStyles];
 
-export interface Subscription {
+export interface SubscriptionType {
   communityRoute: string;
   communityName: string;
   communityDescription: string | null;
@@ -21,7 +21,7 @@ export interface Subscription {
   showDescription: boolean;
 }
 
-export const Subscription: React.FC<Subscription> = ({
+export const Subscription: React.FC<SubscriptionType> = ({
   communityRoute,
   communityName,
   communityDescription,
