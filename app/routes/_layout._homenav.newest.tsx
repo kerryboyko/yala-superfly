@@ -1,7 +1,6 @@
 import type { LinksFunction, LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "react-router";
-import { HottestPosts } from "~/components/Home/HottestPosts";
 import type { Pagination } from "~/types/posts";
 import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 import { grabQueryParams } from "~/logic/grabQueryParams";
@@ -9,8 +8,9 @@ import { getAuthSession } from "~/modules/auth/session.server";
 import postSummaryStyles from "~/styles/post-summary.css";
 import aboutStyles from "~/styles/about.css";
 import voterStyles from "~/styles/post-votes.css";
-import { findNewestPosts } from "~/modules/postLists";
+import { countPosts, findNewestPosts } from "~/modules/postLists";
 import { PostList } from "~/components/Home/PostList";
+import Paginator from "~/components/Paginator/Paginator";
 export const links: LinksFunction = linkFunctionFactory(
   aboutStyles,
   postSummaryStyles,
@@ -26,23 +26,27 @@ export const loader: LoaderFunction = async ({ request }) => {
   const pagination = Object.assign({}, defaultPagination, queryParams);
   const skip = Math.max(0, (pagination.pageNum - 1) * pagination.perPage);
   const authUser = await getAuthSession(request);
+  const numPosts = await countPosts();
   const posts = await findNewestPosts({
     userId: authUser?.userId,
     pagination: { skip, perPage: pagination.perPage },
   });
 
-  return json({ posts });
+  return json({ posts, pagination, numPosts });
 };
 
 export default function HottestPostsPage() {
-  const { posts }: any = useLoaderData();
+  const { posts, pagination, numPosts }: any = useLoaderData();
   return (
     <div className="framing">
-      <PostList
-        className="home-page-like"
-        title="Newest posts from our communities"
-        posts={posts}
-      />
+      <div className="home-page-like">
+        <PostList title="Newest posts from our communities" posts={posts} />
+        <Paginator
+          perPage={pagination.perPage}
+          currentPage={pagination.pageNum}
+          totalCount={numPosts}
+        />
+      </div>
     </div>
   );
 }

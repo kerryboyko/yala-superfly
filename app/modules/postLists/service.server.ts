@@ -14,6 +14,10 @@ const mostSubscribers: OrderByCriteria = [
 ];
 const mostPosts: OrderByCriteria = [{ posts: { _count: "desc" } }];
 
+export const countPosts = async () => await db.post.count();
+export const countCommunities = async () =>
+  await db.community.count({ where: { isPublic: true } });
+
 export const genericFindPosts = async ({
   userId,
   pagination,
@@ -28,6 +32,7 @@ export const genericFindPosts = async ({
   };
   orderBy: OrderByCriteria;
 }) => {
+  const numberPosts = await db.post.count();
   const posts = await db.post.findMany({
     where: subscriptions ? { OR: subscriptions } : {},
     orderBy,

@@ -27,9 +27,9 @@ export const Paginator = ({ perPage, currentPage, totalCount }: any) => {
     [totalPages],
   );
 
-  if (!shouldShowPaginator(totalCount, perPage)) {
-    return null;
-  }
+  // if (!shouldShowPaginator(totalCount, perPage)) {
+  //   return null;
+  // }
   return (
     <div className="pagination">
       <div className="pagination__entry pagination__go-to-page">

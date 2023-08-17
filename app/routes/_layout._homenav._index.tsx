@@ -11,6 +11,7 @@ import postSummaryStyles from "~/styles/post-summary.css";
 import aboutStyles from "~/styles/about.css";
 import voterStyles from "~/styles/post-votes.css";
 import {
+  countPosts,
   findHottestPosts,
   findHottestSubscribedPosts,
 } from "~/modules/postLists";
@@ -34,12 +35,13 @@ export const loader: LoaderFunction = async ({ request }) => {
     userId: authUser?.userId,
     pagination: { skip, perPage: pagination.perPage },
   };
+  const numPosts = await countPosts();
   const query = authUser?.userId
     ? findHottestSubscribedPosts
     : findHottestPosts;
   const posts = await query(dbQueryParams);
 
-  return json({ posts });
+  return json({ posts, numPosts, pagination });
 };
 
 export default function IndexRoute() {
@@ -47,7 +49,12 @@ export default function IndexRoute() {
   const data = useLoaderData();
   return (
     <div className="framing">
-      <HomePage posts={data.posts} isLoggedIn={isLoggedIn} />
+      <HomePage
+        posts={data.posts}
+        isLoggedIn={isLoggedIn}
+        numPosts={data.numPosts}
+        pagination={data.pagination}
+      />
     </div>
   );
 }

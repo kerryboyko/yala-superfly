@@ -9,7 +9,7 @@ import { getAuthSession } from "~/modules/auth/session.server";
 import postSummaryStyles from "~/styles/post-summary.css";
 import aboutStyles from "~/styles/about.css";
 import voterStyles from "~/styles/post-votes.css";
-import { findHottestPosts } from "~/modules/postLists";
+import { countPosts, findHottestPosts } from "~/modules/postLists";
 export const links: LinksFunction = linkFunctionFactory(
   aboutStyles,
   postSummaryStyles,
@@ -25,19 +25,20 @@ export const loader: LoaderFunction = async ({ request }) => {
   const pagination = Object.assign({}, defaultPagination, queryParams);
   const skip = Math.max(0, (pagination.pageNum - 1) * pagination.perPage);
   const authUser = await getAuthSession(request);
+  const numPosts = await countPosts();
   const posts = await findHottestPosts({
     userId: authUser?.userId,
     pagination: { skip, perPage: pagination.perPage },
   });
 
-  return json({ posts });
+  return json({ posts, pagination, numPosts });
 };
 
 export default function HottestPostsPage() {
-  const { posts }: any = useLoaderData();
+  const { posts, pagination, numPosts }: any = useLoaderData();
   return (
     <div className="framing">
-      <HottestPosts posts={posts} />
+      <HottestPosts posts={posts} pagination={pagination} numPosts={numPosts} />
     </div>
   );
 }

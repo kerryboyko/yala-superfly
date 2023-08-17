@@ -9,13 +9,14 @@ import { useLoaderData } from "@remix-run/react";
 import postSummaryStyles from "~/styles/post-summary.css";
 import aboutStyles from "~/styles/about.css";
 import voterStyles from "~/styles/post-votes.css";
-import { findPopularCommunities } from "~/modules/postLists";
+import { countCommunities, findPopularCommunities } from "~/modules/postLists";
 import Subscription, {
   styles as subscriptionStyles,
 } from "~/components/Subscription/Subscription";
 import { useState } from "react";
 import { Button } from "~/components/ui/button";
 import { Card, CardHeader, CardContent, CardTitle } from "~/components/ui/card";
+import Paginator from "~/components/Paginator/Paginator";
 export const links: LinksFunction = linkFunctionFactory(
   aboutStyles,
   postSummaryStyles,
@@ -32,11 +33,13 @@ export const loader: LoaderFunction = async ({ request }) => {
   const pagination = Object.assign({}, defaultPagination, queryParams);
   const skip = Math.max(0, (pagination.pageNum - 1) * pagination.perPage);
   const authUser = await getAuthSession(request);
+  const numCommunities = await countCommunities();
+
   const popularCommunities = await findPopularCommunities({
     userId: authUser?.userId,
     pagination: { perPage: pagination.perPage, skip },
   });
-  return json({ popularCommunities });
+  return json({ popularCommunities, numCommunities, pagination });
 };
 
 export default function PopularCommunitiesRoute() {
@@ -69,6 +72,11 @@ export default function PopularCommunitiesRoute() {
               />
             ))}
           </CardContent>
+          <Paginator
+            perPage={data.pagination.perPage}
+            currentPage={data.pagination.pageNum}
+            totalCount={data.numCommunities}
+          />
         </Card>
       </div>
     </div>
