@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { FormEventHandler, useMemo, useState } from "react";
 
 import { Loader2, PlusSquare } from "lucide-react";
 
@@ -16,6 +16,7 @@ import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { COMMUNITY_NAME_CHAR_LIMITS } from "~/constants/communityNameLimits";
 import { formatCommunityName } from "~/logic/formatCommunityName";
+import DragDropFile from "../DragDropFile/DragDropFile";
 
 const safetyCountClass = (
   text: string,
@@ -158,6 +159,9 @@ export const CreateCommunityForm = ({
               {errors.communityDescription}
             </div>
           ) : null}
+        </div>
+        <div>
+          <DragDropFile />
         </div>
       </CardContent>
       <CardFooter className="create-community__footer">

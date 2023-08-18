@@ -44,7 +44,7 @@ export const action = async ({ request }: ActionArgs) => {
   });
   const { userId } = authSession;
   const data = await request.formData().then(formDataToObject);
-
+  console.log(data);
   try {
     const { communityName, communityDescription, communityRoute } =
       formSchema.parse(data);
