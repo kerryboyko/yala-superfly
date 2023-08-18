@@ -1,6 +1,6 @@
 ## Current Roadmap
 
-Last update: August 5, 2023
+Last update: August 17, 2023
 
 ### Bugs Found
 
@@ -44,14 +44,14 @@ Last update: August 5, 2023
 - ✅ If a comment with children is deleted, the comment is marked as deleted, but not removed in the comment hierarchy.
 - ✅ Users can now add images to their posts via URLs. (but not yet edit them.)
 - ✅ Authors can now edit post images as well as text.
+- ✅ Visitors can now see a list of most popular communities by subscribers, and posts.
+- ✅ Visitors can now see a list of most posts (by 'hotness', most recent, etc.)
 
 ### What's _immediately_ next;
 
 ### What's next?
 
 - 🔲 As a site owner, I would like to require email confirmation for signups before a user can post.
-- 🔲 As a visitor, I'd like to see a list of most popular communities by page loads, subscribers, posts, comments, etc.
-- 🔲 As a visitor, I'd like to see a list of most posts (by votes, by visits, by 'hotness', most recent, etc.)
 - 🔲 As a user, I would like to place "Reactions" (like Slashdot moderation) for posts and comments
 - 🔲 As a user, I would like to be able to tag posts and comments with arbitrary hashes.
 - 🔲 As a user _making a post_ (but not a comment), I would like to be able to embed youtube videos.
@@ -70,6 +70,7 @@ Last update: August 5, 2023
 - 🔲 I want to provide header images for communities, but it might make sense to create the community first before the header image is added. Thus, any moderator may change the community header, community headers will have filenames based on the community, etc.
   - 🔲 I may be setting up Supabase storage for this information, though I'm worried about bandwidth, especially as we pre-scale, and may limit header images to 540x540 pixels and 100kb (even perhaps using server-side code to resize and recompress images. )
 - 🔲 Error boundaries need to be configured and prettified.
+- 🔲 I may offer support for private communities as a subscription service.  
 
 ### Refactor Targets
 
