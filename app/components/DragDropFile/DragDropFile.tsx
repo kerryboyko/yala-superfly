@@ -13,7 +13,6 @@ export const ImagePreview = ({
   const [imgUri, setImgUri] = useState<string | ArrayBuffer | null>(null);
 
   useEffect(() => {
-    console.log("useEffectTriggering", file);
     let reader = new FileReader();
     reader.onload = (ev: ProgressEvent<FileReader>) =>
       setImgUri(ev?.target?.result || null);
@@ -42,7 +41,6 @@ export const ImagePreview = ({
 };
 
 const checkFileRestrictions = (file: File): string => {
-  console.log(file);
   if (
     !["image/jpeg", "image/png", "image/gif", "image/webp"].includes(file.type)
   ) {
@@ -90,8 +88,6 @@ export const DragDropFile = ({
 
   const handleDrag: DragEventHandler = useCallback(
     (event) => {
-      console.log("handleDrag");
-
       event.preventDefault();
       event.stopPropagation();
       if (event.type === "dragenter" || event.type === "dragover") {
@@ -113,7 +109,6 @@ export const DragDropFile = ({
   };
 
   const handleInput = function (event: any) {
-    console.log("useEffectTriggering");
     event.preventDefault();
     if (event.target.files && event.target.files[0]) {
       checkAndHandleFile(event.target.files[0]);
