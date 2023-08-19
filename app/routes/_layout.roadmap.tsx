@@ -1,5 +1,4 @@
 import type { LinksFunction } from "@remix-run/node";
-import { NavLink } from "@remix-run/react";
 
 import FormatMarkdownFile from "~/components/Markdown/FormatMarkdownFile";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";

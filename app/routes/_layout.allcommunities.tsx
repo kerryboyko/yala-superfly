@@ -15,8 +15,8 @@ import { db } from "~/database/db.server";
 import { grabQueryParams } from "~/logic/grabQueryParams";
 import { getAuthSession } from "~/modules/auth/session.server";
 import allCommunitiesStyles from "~/styles/all-communities.css";
-import subscriptionStyles from "~/styles/subscriptions.css";
 import subscribeButtonStyles from "~/styles/subscribe-button.css";
+import subscriptionStyles from "~/styles/subscriptions.css";
 import type { Pagination } from "~/types/posts";
 import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 

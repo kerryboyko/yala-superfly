@@ -1,5 +1,3 @@
-export const MediaGuidesRoute = () => {
-  return null;
-};
+export const MediaGuidesRoute = () => null;
 
 export default MediaGuidesRoute;

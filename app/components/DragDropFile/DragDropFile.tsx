@@ -1,7 +1,9 @@
 import type { DragEventHandler } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Button } from "../ui/button";
+
 import { XSquare } from "lucide-react";
+
+import { Button } from "../ui/button";
 
 export const ImagePreview = ({
   file,
@@ -27,12 +29,17 @@ export const ImagePreview = ({
   return typeof imgUri === "string" ? (
     <div className="image-preview">
       <div className="image-preview__image">
-        <img className="image-preview__image--image" src={imgUri} />
+        <img
+          alt="Your preview"
+          className="image-preview__image--image"
+          src={imgUri}
+        />
       </div>
       <Button
         type="button"
         onClick={onCancel}
         className="image-preview__button-cancel"
+        aria-label="cancel"
       >
         <XSquare className="icon" />
       </Button>

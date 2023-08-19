@@ -70,7 +70,7 @@ Last update: August 17, 2023
 - 🔲 I want to provide header images for communities, but it might make sense to create the community first before the header image is added. Thus, any moderator may change the community header, community headers will have filenames based on the community, etc.
   - 🔲 I may be setting up Supabase storage for this information, though I'm worried about bandwidth, especially as we pre-scale, and may limit header images to 540x540 pixels and 100kb (even perhaps using server-side code to resize and recompress images. )
 - 🔲 Error boundaries need to be configured and prettified.
-- 🔲 I may offer support for private communities as a subscription service.  
+- 🔲 I may offer support for private communities as a subscription service.
 
 ### Refactor Targets
 

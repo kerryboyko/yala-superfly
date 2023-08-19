@@ -7,9 +7,9 @@ import Footer from "~/components/Footer/Footer";
 import { Header } from "~/components/Header/Header";
 import { db } from "~/database/db.server";
 import { getAuthSession } from "~/modules/auth";
+import footerStyles from "~/styles/footer.css";
 import headerStyles from "~/styles/header.css";
 import indexStyles from "~/styles/index.css";
-import footerStyles from "~/styles/footer.css";
 import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 
 export const links = linkFunctionFactory(

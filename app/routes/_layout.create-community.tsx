@@ -1,8 +1,6 @@
-import type {
-  ActionArgs,
-  LoaderFunction,
-  UploadHandler,
-} from "@remix-run/node";
+import crypto from "crypto";
+
+import type { ActionArgs, LoaderFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Form, useActionData, useNavigation } from "@remix-run/react";
 import { z } from "zod";
@@ -12,11 +10,9 @@ import { CreateCommunityForm } from "~/components/Community/CreateCommunity";
 import { COMMUNITY_NAME_CHAR_LIMITS } from "~/constants/communityNameLimits";
 import { db } from "~/database/db.server";
 import { supabaseClient } from "~/integrations/supabase";
-import { formDataToObject } from "~/logic/formDataToObject";
 import { getAuthSession, requireAuthSession } from "~/modules/auth";
 import createCommunityStyles from "~/styles/createcommunity.css";
 import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
-import crypto from "crypto";
 
 const getRandomHex = () => crypto.randomBytes(10).toString("base64url");
 
