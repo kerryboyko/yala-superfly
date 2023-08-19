@@ -10,7 +10,8 @@ hover color for elements will usually be lighten($base-elements, 20%);
 */
 .drag-drop-file-container {
   display: flex;
-  flex-direction: row; }
+  flex-direction: row;
+  margin: 1rem 0; }
 
 .file-warning {
   color: #cd212e; }
@@ -35,18 +36,15 @@ hover color for elements will usually be lighten($base-elements, 20%);
       width: 2rem; }
 
 #form-file-upload {
-  height: 16rem;
-  width: 28rem;
+  width: 100%;
+  min-height: 10rem;
   max-width: 100%;
   text-align: center;
   position: relative; }
-  #form-file-upload.size--small {
-    height: auto;
-    width: auto;
-    display: flex; }
-  #form-file-upload.size--compressed {
-    height: 16rem;
-    width: 8rem; }
+  @media (min-width: 560px) {
+    #form-file-upload {
+      height: 16rem;
+      max-width: 28rem; } }
 
 #input-file-upload {
   display: none; }

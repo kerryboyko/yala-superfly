@@ -3,6 +3,7 @@
 .drag-drop-file-container {
   display: flex;
   flex-direction: row;
+  margin: 1rem 0;
 }
 
 .file-warning {
@@ -35,19 +36,15 @@
 }
 
 #form-file-upload {
-  height: 16rem;
-  width: 28rem;
+  width: 100%;
+  min-height: 10rem;
   max-width: 100%;
   text-align: center;
   position: relative;
-  &.size--small {
-    height: auto;
-    width: auto;
-    display: flex;
-  }
-  &.size--compressed {
+
+  @media (min-width: 560px) {
     height: 16rem;
-    width: 8rem;
+    max-width: 28rem;
   }
 }
 

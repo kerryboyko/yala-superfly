@@ -161,6 +161,16 @@ export const CreateCommunityForm = ({
           ) : null}
         </div>
         <div>
+          <Label
+            htmlFor="header-image"
+            className="create-community__content__header-image label"
+          >
+            Header Image
+          </Label>
+          <div className="text-sm">
+            Header images must be no more than 512kb, and must be a jpeg, gif,
+            png, or webp file.
+          </div>
           <DragDropFile />
         </div>
       </CardContent>
