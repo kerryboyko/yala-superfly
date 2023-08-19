@@ -3,6 +3,37 @@
 
 hover color for elements will usually be lighten($base-elements, 20%);
 */
+@use "sass:map";
+/* 
+
+hover color for elements will usually be lighten($base-elements, 20%);
+*/
+.drag-drop-file-container {
+  display: flex;
+  flex-direction: row; }
+
+.file-warning {
+  color: #cd212e; }
+
+.image-preview {
+  position: relative; }
+  .image-preview__image {
+    margin: 1rem 0.5rem; }
+    .image-preview__image--image {
+      max-height: 14rem; }
+  .image-preview__button-cancel {
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-color: #cd212e; }
+    .image-preview__button-cancel:hover {
+      background-color: #b90e0a; }
+    .image-preview__button-cancel .icon {
+      height: 2rem;
+      width: 2rem; }
+
 #form-file-upload {
   height: 16rem;
   width: 28rem;
@@ -13,6 +44,9 @@ hover color for elements will usually be lighten($base-elements, 20%);
     height: auto;
     width: auto;
     display: flex; }
+  #form-file-upload.size--compressed {
+    height: 16rem;
+    width: 8rem; }
 
 #input-file-upload {
   display: none; }
