@@ -46,6 +46,8 @@ Last update: August 17, 2023
 - ✅ Authors can now edit post images as well as text.
 - ✅ Visitors can now see a list of most popular communities by subscribers, and posts.
 - ✅ Visitors can now see a list of most posts (by 'hotness', most recent, etc.)
+- ✅ Users _creating a community_ can _upload_ a jpg/png/webp/gif header image to be stored on our servers.
+
 
 ### What's _immediately_ next;
 
@@ -56,8 +58,8 @@ Last update: August 17, 2023
 - 🔲 As a user, I would like to be able to tag posts and comments with arbitrary hashes.
 - 🔲 As a user _making a post_ (but not a comment), I would like to be able to embed youtube videos.
 - 🔲 As a user, I'd like to be able to get a share menu for posts (a popover) which allows me to copy a link to the clipboard or to have a downloadable HTML code that I can embed in a webpage.
-- 🔲 As a user _creating a community_, I would like to be able to _upload_ a header image to be stored on our servers.
 - 🔲 As a user, I would like to have a way to semi-privately message other users, perhaps using real-time chat.
+- 🔲 As a user, I would like to have a loading notification when I switch routes and load a new website. This should be available through Remix's useNavigation() hook. 
 - 🔲 As a moderator, I would like to 'lock' posts so that no more edits or comments can be made.
 - 🔲 As a moderator, I would like to 'sticky' posts so that they always show up at the top of the page.
 - 🔲 As a moderator, I would like to add other users as moderators
@@ -65,10 +67,9 @@ Last update: August 17, 2023
 - 🔲 As a developer, I'd like Unit & Integration testing. (Normally I do TDD first, but I needed to get used to the Remix environment and see what features are feasible.)
 - 🔲 As a developer, I would like to have a blog system that uses markdown so that I can have a development blog.
 
+
 ### What is being postponed?
 
-- 🔲 I want to provide header images for communities, but it might make sense to create the community first before the header image is added. Thus, any moderator may change the community header, community headers will have filenames based on the community, etc.
-  - 🔲 I may be setting up Supabase storage for this information, though I'm worried about bandwidth, especially as we pre-scale, and may limit header images to 540x540 pixels and 100kb (even perhaps using server-side code to resize and recompress images. )
 - 🔲 Error boundaries need to be configured and prettified.
 - 🔲 I may offer support for private communities as a subscription service.
 
