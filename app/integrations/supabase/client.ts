@@ -46,4 +46,7 @@ function getSupabaseAdmin() {
 
 const supabaseClient = getSupabaseClient(SUPABASE_ANON_PUBLIC);
 
+export const getUserAuthedSupabaseClient = (accessToken: string) =>
+  getSupabaseClient(SUPABASE_ANON_PUBLIC, accessToken);
+
 export { getSupabaseAdmin, supabaseClient };

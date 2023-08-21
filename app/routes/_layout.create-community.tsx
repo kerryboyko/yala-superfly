@@ -9,7 +9,7 @@ import { zfd } from "zod-form-data";
 import { CreateCommunityForm } from "~/components/Community/CreateCommunity";
 import { COMMUNITY_NAME_CHAR_LIMITS } from "~/constants/communityNameLimits";
 import { db } from "~/database/db.server";
-import { supabaseClient } from "~/integrations/supabase";
+import { getUserAuthedSupabaseClient } from "~/integrations/supabase";
 import { getAuthSession, requireAuthSession } from "~/modules/auth";
 import createCommunityStyles from "~/styles/createcommunity.css";
 import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
@@ -31,11 +31,20 @@ const formSchema = zfd.formData({
   "input-file-upload": zfd.file(z.instanceof(File).optional()),
 });
 
-const uploadHandler = async (file: File, filename: string) => {
-  const { data, error } = await supabaseClient.storage
-    .from("yala-header-images/public")
-    .upload(filename, file);
+const uploadHandler = async (
+  file: File,
+  filename: string,
+  accessToken: string,
+) => {
+  const client = getUserAuthedSupabaseClient(accessToken);
+  const { data, error } = await client.storage
+    .from("public")
+    .upload(`header-images/${filename}`, file, {
+      cacheControl: "3600",
+      upsert: false,
+    });
   if (error) {
+    console.error(error);
     throw error;
   }
   return data;
@@ -55,7 +64,7 @@ export const action = async ({ request }: ActionArgs) => {
     onFailRedirectTo: "/login",
     verify: true,
   });
-  const { userId } = authSession;
+  const { userId, accessToken } = authSession;
   const formData = await request.formData();
   try {
     const data = formSchema.parse(formData);
@@ -66,6 +75,7 @@ export const action = async ({ request }: ActionArgs) => {
       const uploadResponse = await uploadHandler(
         headerImage,
         `header_${getRandomHex()}.${headerImage?.type.split("/").pop()}`,
+        accessToken,
       );
       headerImageUrl = uploadResponse.path;
     }
@@ -122,7 +132,7 @@ export const action = async ({ request }: ActionArgs) => {
         errors.communityRoute = `A community with that route name already exists`;
       }
     }
-    return json({ status: "error", errors });
+    return json({ status: "error", errors, rawError: err }, { status: 500 });
   }
 };
 

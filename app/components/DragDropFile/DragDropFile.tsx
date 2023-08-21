@@ -9,7 +9,7 @@ export const ImagePreview = ({
   file,
   onCancel,
 }: {
-  file?: File;
+  file?: File | null;
   onCancel: () => void;
 }) => {
   const [imgUri, setImgUri] = useState<string | ArrayBuffer | null>(null);

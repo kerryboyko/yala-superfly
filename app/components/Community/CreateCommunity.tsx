@@ -166,7 +166,7 @@ export const CreateCommunityForm = ({
             htmlFor="header-image"
             className="create-community__content__header-image label"
           >
-            Header Image
+            Header Image (optional)
           </Label>
           <div className="text-sm">
             Header images must be no more than 512kb, and must be a jpeg, gif,

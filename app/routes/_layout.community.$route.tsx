@@ -16,7 +16,7 @@ import communityStyles from "~/styles/community.css";
 import { SUPABASE_URL } from "~/utils/env";
 import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
 
-const STORAGE_URL = `${SUPABASE_URL}/storage/v1/object/public/yala-header-images/public`;
+const STORAGE_URL = `${SUPABASE_URL}/storage/v1/object/public/public`;
 
 export const links = linkFunctionFactory(
   subscribeButtonStyles,
