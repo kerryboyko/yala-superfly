@@ -75,3 +75,11 @@ hover color for elements will usually be lighten($base-elements, 20%);
   .moderate-community .ban-control__reason-for-ban--warning {
     color: #cd212e;
     font-size: 0.75rem; }
+
+.edit-community-link {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0; }
+  .edit-community-link--link-box {
+    display: flex;
+    align-items: center; }

@@ -122,6 +122,10 @@ hover color for elements will usually be lighten($base-elements, 20%);
     display: flex;
     justify-content: flex-end; }
 
+.create-post__warning {
+  color: #cd212e;
+  margin: 0.25rem 2rem; }
+
 .editor__header__image-header {
   padding: 0 1.5rem; }
 

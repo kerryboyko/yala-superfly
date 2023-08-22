@@ -1,6 +1,6 @@
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
-import { Form, useNavigation } from "@remix-run/react";
+import { Form, useActionData, useNavigation } from "@remix-run/react";
 import { json } from "@remix-run/router";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
@@ -66,8 +66,8 @@ export const action: ActionFunction = async ({ request, params }) => {
     link,
     text,
   });
-  if (!payload.link && !payload.text) {
-    throw new Error(`Post contains no link, no text, and no embedded image`);
+  if (!payload.link && !payload.text && !!images) {
+    return json({ error: `Post contains no link, no text, and no images` });
   }
   try {
     const postData = await db.post.create({
@@ -85,10 +85,14 @@ export const action: ActionFunction = async ({ request, params }) => {
 
 export default function CreateNewPostRoute() {
   const navigation = useNavigation();
+  const actionData = useActionData();
   return (
     <div className="create-post__container">
       <Form method="post">
-        <CreatePost loadingState={navigation.state} />
+        <CreatePost
+          loadingState={navigation.state}
+          warning={actionData?.error}
+        />
       </Form>
     </div>
   );

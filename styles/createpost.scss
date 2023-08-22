@@ -51,6 +51,10 @@
       }
     }
   }
+  &__warning {
+    color: $warning;
+    margin: 0.25rem 2rem;
+  }
 }
 
 .editor {

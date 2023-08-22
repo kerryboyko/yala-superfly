@@ -26,8 +26,10 @@ export const styles = [postImageStyles, createPostStyles];
 
 export const CreatePost = ({
   loadingState,
+  warning,
 }: {
   loadingState: "idle" | "submitting" | "loading";
+  warning?: string;
 }) => {
   const [showPreview, setShowPreview] = useState<boolean>(false);
   const [postTitle, setPostTitle] = useState<string>("");
@@ -115,6 +117,7 @@ export const CreatePost = ({
           </Button>
         </div>
       </CardContent>
+      {warning ? <div className="create-post__warning">{warning}</div> : null}
       <CardFooter className="editor__footer">
         <div className="editor__footer__show-preview">
           <Switch
