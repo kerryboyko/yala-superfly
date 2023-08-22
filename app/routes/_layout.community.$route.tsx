@@ -3,6 +3,7 @@ import { json } from "@remix-run/node";
 import { useLoaderData, Outlet, Link } from "@remix-run/react";
 import { formatRelative } from "date-fns";
 import omit from "lodash/omit";
+import { FileEdit } from "lucide-react";
 
 import { GenericErrorBoundary } from "~/components/Error/GenericErrorBoundary";
 import MarkdownDisplay from "~/components/Markdown/MarkdownDisplay";
@@ -13,10 +14,8 @@ import { Button } from "~/components/ui/button";
 import { db } from "~/database/db.server";
 import { getAuthSession } from "~/modules/auth";
 import communityStyles from "~/styles/community.css";
-import { SUPABASE_URL } from "~/utils/env";
+import { STORAGE_URL } from "~/utils/env";
 import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
-
-const STORAGE_URL = `${SUPABASE_URL}/storage/v1/object/public/public`;
 
 export const links = linkFunctionFactory(
   subscribeButtonStyles,
@@ -42,6 +41,11 @@ export const loader = async ({ params, request }: LoaderArgs) => {
           subscriberId: userId,
         },
       },
+      moderators: {
+        where: {
+          moderatorId: userId,
+        },
+      },
     },
   });
   if (!community) {
@@ -56,6 +60,7 @@ export const loader = async ({ params, request }: LoaderArgs) => {
       createdBy: community.createdBy.username,
       userIsSubscribed:
         community.communitySubscribers[0]?.subscriberId === userId,
+      userIsModerator: community.moderators[0]?.moderatorId === userId,
     },
     userIsLoggedIn: !!authUser,
   });
@@ -107,6 +112,16 @@ export default function CommunityProfileRoute() {
         <div className="community__sidebar__description">
           <MarkdownDisplay markdown={community.description || ""} />
         </div>
+        {community.userIsModerator ? (
+          <div className="edit-community-link">
+            <Link to={`edit`}>
+              <div className="edit-community-link--link-box">
+                <FileEdit className="edit-community-link--icon" />
+                Edit Community
+              </div>
+            </Link>
+          </div>
+        ) : null}
       </div>
       <div className="community__outlet">
         <Outlet />

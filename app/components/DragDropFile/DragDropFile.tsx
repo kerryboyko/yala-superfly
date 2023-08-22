@@ -1,16 +1,22 @@
 import type { DragEventHandler } from "react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import { XSquare } from "lucide-react";
+import { Trash2, XSquare } from "lucide-react";
+
+import { STORAGE_URL } from "~/utils/env";
 
 import { Button } from "../ui/button";
 
 export const ImagePreview = ({
   file,
   onCancel,
+  originalImage,
+  isShowingOriginal,
 }: {
   file?: File | null;
   onCancel: () => void;
+  originalImage?: string;
+  isShowingOriginal: boolean;
 }) => {
   const [imgUri, setImgUri] = useState<string | ArrayBuffer | null>(null);
 
@@ -26,14 +32,19 @@ export const ImagePreview = ({
     }
   }, [file, setImgUri]);
 
-  return typeof imgUri === "string" ? (
+  return isShowingOriginal || typeof imgUri === "string" ? (
     <div className="image-preview">
       <div className="image-preview__image">
         <img
           alt="Your preview"
           className="image-preview__image--image"
-          src={imgUri}
+          src={
+            isShowingOriginal
+              ? `${STORAGE_URL}/${originalImage}`
+              : imgUri?.toString()
+          }
         />
+        {isShowingOriginal ? "Original Image" : null}
       </div>
       <Button
         type="button"
@@ -41,7 +52,11 @@ export const ImagePreview = ({
         className="image-preview__button-cancel"
         aria-label="cancel"
       >
-        <XSquare className="icon" />
+        {isShowingOriginal ? (
+          <Trash2 className="icon trash" />
+        ) : (
+          <XSquare className="icon" />
+        )}
       </Button>
     </div>
   ) : null;
@@ -69,16 +84,26 @@ export const DragDropFile = ({
   uploadButtonLabel = `Upload a file`,
   handleFiles = () => null,
   size = "normal",
+  initialHeaderImage,
 }: {
   dragAndDropLabel?: string;
   uploadButtonLabel?: string;
   handleFiles?: (f: any[]) => void;
   size?: string;
+  initialHeaderImage?: string;
 }) => {
   const [dragActive, setDragActive] = useState<boolean>(false);
   const [file, setFile] = useState<File | null>(null);
   const [fileWarning, setFileWarning] = useState<string>("");
+  const [shouldDeleteOriginal, setShouldDeleteOriginal] = useState<boolean>(
+    !initialHeaderImage,
+  );
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const isShowingOriginal = useMemo(
+    () => !shouldDeleteOriginal && initialHeaderImage && file === null,
+    [shouldDeleteOriginal, initialHeaderImage, file],
+  );
 
   const onButtonClick = () => {
     inputRef.current?.click();
@@ -123,6 +148,7 @@ export const DragDropFile = ({
   };
 
   const handleCancel = () => {
+    setShouldDeleteOriginal(true);
     setFile(null);
     handleFiles([null]);
     if (inputRef?.current) {
@@ -144,6 +170,12 @@ export const DragDropFile = ({
           multiple={false}
           onInput={handleInput}
           ref={inputRef}
+        />
+        <input
+          type="hidden"
+          id="delete-original-image"
+          name="delete-original-image"
+          value={shouldDeleteOriginal.toString()}
         />
         <label
           id="label-file-upload"
@@ -172,10 +204,15 @@ export const DragDropFile = ({
             onDragLeave={handleDrag}
             onDragOver={handleDrag}
             onDrop={handleDrop}
-          ></div>
+          />
         )}
       </div>
-      <ImagePreview onCancel={handleCancel} file={file} />
+      <ImagePreview
+        onCancel={handleCancel}
+        isShowingOriginal={!!isShowingOriginal}
+        originalImage={shouldDeleteOriginal ? undefined : initialHeaderImage}
+        file={file}
+      />
     </div>
   );
 };

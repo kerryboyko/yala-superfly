@@ -57,6 +57,9 @@ export const NODE_ENV = getEnv("NODE_ENV", {
   isRequired: false,
 });
 export const SUPABASE_URL = getEnv("SUPABASE_URL", { isSecret: false });
+
+export const STORAGE_URL = `${SUPABASE_URL}/storage/v1/object/public/public`;
+
 export const SUPABASE_ANON_PUBLIC = getEnv("SUPABASE_ANON_PUBLIC", {
   isSecret: false,
 });

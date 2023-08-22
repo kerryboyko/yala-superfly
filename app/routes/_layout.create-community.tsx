@@ -1,5 +1,3 @@
-import crypto from "crypto";
-
 import type { ActionArgs, LoaderFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Form, useActionData, useNavigation } from "@remix-run/react";
@@ -7,14 +5,13 @@ import { z } from "zod";
 import { zfd } from "zod-form-data";
 
 import { CreateCommunityForm } from "~/components/Community/CreateCommunity";
+import headerImageUploadHandler from "~/components/Community/headerImageUploadHandler";
 import { COMMUNITY_NAME_CHAR_LIMITS } from "~/constants/communityNameLimits";
 import { db } from "~/database/db.server";
-import { getUserAuthedSupabaseClient } from "~/integrations/supabase";
 import { getAuthSession, requireAuthSession } from "~/modules/auth";
 import createCommunityStyles from "~/styles/createcommunity.css";
+import { getRandomB64 } from "~/utils/getRandomString";
 import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
-
-const getRandomHex = () => crypto.randomBytes(10).toString("base64url");
 
 export const links = linkFunctionFactory(createCommunityStyles);
 
@@ -30,25 +27,6 @@ const formSchema = zfd.formData({
   ),
   "input-file-upload": zfd.file(z.instanceof(File).optional()),
 });
-
-const uploadHandler = async (
-  file: File,
-  filename: string,
-  accessToken: string,
-) => {
-  const client = getUserAuthedSupabaseClient(accessToken);
-  const { data, error } = await client.storage
-    .from("public")
-    .upload(`header-images/${filename}`, file, {
-      cacheControl: "3600",
-      upsert: false,
-    });
-  if (error) {
-    console.error(error);
-    throw error;
-  }
-  return data;
-};
 
 export const loader: LoaderFunction = async ({ request }) => {
   const authSession = await getAuthSession(request);
@@ -72,9 +50,9 @@ export const action = async ({ request }: ActionArgs) => {
     const headerImage = data["input-file-upload"] || null;
     let headerImageUrl: string | null = null;
     if (headerImage) {
-      const uploadResponse = await uploadHandler(
+      const uploadResponse = await headerImageUploadHandler(
         headerImage,
-        `header_${getRandomHex()}.${headerImage?.type.split("/").pop()}`,
+        `header_${getRandomB64()}.${headerImage?.type.split("/").pop()}`,
         accessToken,
       );
       headerImageUrl = uploadResponse.path;
