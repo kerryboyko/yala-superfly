@@ -1,1 +1,2 @@
-export const stringIsEmail = (str: string): boolean => str.includes("@");
+export const stringIsEmail = (str: string): boolean =>
+  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(str);
