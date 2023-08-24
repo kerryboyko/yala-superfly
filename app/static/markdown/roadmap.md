@@ -1,6 +1,20 @@
 ## Current Roadmap
 
-Last update: August 17, 2023
+Last update: August 24, 2023
+
+### FEATURE FREEZE
+
+- Release 0.1.0 ALPHA; 
+
+Quite frankly, I've put off doing this for long enough.  We're now in a spot with the site where it can be considered to be more or less feature complete, even if it's not 100% where it needs to be with regards to login sessions, e-mail services, or etc.  
+
+Right now, this site is less of a viable product, and more of a tech demo while I'm applying to jobs.  The problem is - this tech demo is not 100% where I would like to show the code. First, there's a lack of unit testing and integration testing.  Those were put to the side to deliver the features, but it can be put off no longer. 
+
+Secondly, there are a number of scenarios where I'd like to simplify and organize the code base.  A lot of reusable database calls are in the /routes folder, when that really should be a 'seperate concern'. 
+
+And finally, the SCSS files could use simplification and reorganization.  
+
+So for that reason, I'm calling a feature freeze right now and calling what I have Release 0.1.0 ALPHA and get the site ready for Release 0.2.0 BETA. 
 
 ### Bugs Found
 
@@ -51,6 +65,7 @@ Last update: August 17, 2023
 
 ### What's _immediately_ next;
 
+- 🔲 As a developer, I'd like Unit & Integration testing. (Normally I do TDD first, but I needed to get used to the Remix environment and see what features are feasible.)
 ### What's next?
 
 - 🔲 As a site owner, I would like to require email confirmation for signups before a user can post.
@@ -63,7 +78,7 @@ Last update: August 17, 2023
 - 🔲 As a moderator, I would like to 'lock' posts so that no more edits or comments can be made.
 - 🔲 As a moderator, I would like to 'sticky' posts so that they always show up at the top of the page.
 - 🔲 As a moderator, I would like to add other users as moderators
-- 🔲 As a developer, I'd like Unit & Integration testing. (Normally I do TDD first, but I needed to get used to the Remix environment and see what features are feasible.)
+
 - 🔲 As a developer, I would like to have a blog system that uses markdown so that I can have a development blog.
 
 ### What is being postponed?
