@@ -28,7 +28,6 @@ import {
 import { Button } from "~/components/ui/button";
 import { db } from "~/database/db.server";
 import createCommentTree from "~/logic/createCommentTree";
-import { formDataToObject } from "~/logic/formDataToObject";
 import { getAuthSession, requireAuthSession } from "~/modules/auth";
 import {
   getMyVotesByUserIdOnComments,
@@ -37,6 +36,7 @@ import {
 import { getMyVoteOnThisPost, getVotesByPostId } from "~/modules/post";
 import type { RecursiveCommentTreeNode } from "~/types/comments";
 import { linkFunctionFactory } from "~/utils/linkFunctionFactory";
+import { zfd } from "zod-form-data";
 
 export const links = linkFunctionFactory(postDetailsStyles, showCommentStyles);
 
@@ -146,6 +146,13 @@ const commentSchema = z.object({
   authorId: z.string(),
 });
 
+const formDataSchema = zfd.formData({
+  "comment-text": zfd.text(),
+  "comment-parentId": zfd.text(z.string().optional()),
+  "comment-postId": zfd.text(),
+  "comment-community-route": zfd.text(),
+});
+
 export const action: ActionFunction = async ({ request }) => {
   const authSession = await requireAuthSession(request, {
     onFailRedirectTo: "/login",
@@ -154,22 +161,28 @@ export const action: ActionFunction = async ({ request }) => {
 
   // this is used to post comments;
   try {
-    const formData = await request.formData().then(formDataToObject);
+    const formData = await request.formData();
+    const parsed = formDataSchema.parse(formData);
+    console.log(parsed);
     const NULL_VALUES = ["", undefined, null, NaN];
     const payload = commentSchema.parse({
-      text: formData["comment-text"],
-      parentId: NULL_VALUES.includes(formData["comment-parentId"])
+      text: parsed["comment-text"],
+      parentId:
+        !parsed["comment-parentId"] ||
+        NULL_VALUES.includes(parsed["comment-parentId"])
+          ? null
+          : parseInt(parsed["comment-parentId"], 10),
+      postId: NULL_VALUES.includes(parsed["comment-postId"])
         ? null
-        : parseInt(formData["comment-parentId"], 10),
-      postId: NULL_VALUES.includes(formData["comment-postId"])
-        ? null
-        : parseInt(formData["comment-postId"], 10),
-      communityRoute: formData["comment-community-route"],
+        : parseInt(parsed["comment-postId"], 10),
+      communityRoute: parsed["comment-community-route"],
       authorId: authSession.userId,
     });
+
     const reply = await db.comment.create({ data: payload });
     return redirect(`#comment-${reply.id}`);
   } catch (err: any) {
+    console.log(err);
     return json({ status: 500, ...err });
   }
 };
