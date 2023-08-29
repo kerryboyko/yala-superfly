@@ -1,5 +1,6 @@
 import type { LinksFunction, LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
+import { format } from "date-fns";
 import { useLoaderData } from "react-router";
 
 import { HottestPosts } from "~/components/Home/HottestPosts";
@@ -32,7 +33,14 @@ export const loader: LoaderFunction = async ({ request }) => {
     pagination: { skip, perPage: pagination.perPage },
   });
 
-  return json({ posts, pagination, numPosts });
+  return json({
+    posts: posts.map((p) => ({
+      ...p,
+      createdAt: format(new Date(p.createdAt), "d MMMM, u - h:mm a"),
+    })),
+    pagination,
+    numPosts,
+  });
 };
 
 export default function HottestPostsPage() {

@@ -1,6 +1,7 @@
 import type { LinksFunction, LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import { format } from "date-fns";
 import { useOutletContext } from "react-router";
 
 import { HomePage } from "~/components/Home/HomePage";
@@ -42,7 +43,14 @@ export const loader: LoaderFunction = async ({ request }) => {
     : findHottestPosts;
   const posts = await query(dbQueryParams);
 
-  return json({ posts, numPosts, pagination });
+  return json({
+    posts: posts.map((p) => ({
+      ...p,
+      createdAt: format(new Date(p.createdAt), "d MMMM, u - h:mm a"),
+    })),
+    numPosts,
+    pagination,
+  });
 };
 
 export default function IndexRoute() {
