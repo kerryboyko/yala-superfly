@@ -8,6 +8,8 @@ import type { PostSummaryData } from "~/types/posts";
 import MarkdownDisplay from "../Markdown/MarkdownDisplay";
 import Voter, { styles as Votertyles } from "../Votes/Voter";
 
+import { format } from "date-fns";
+
 export const styles = Votertyles;
 
 export const PostSummarySmall: React.FC<
@@ -38,7 +40,7 @@ export const PostSummarySmall: React.FC<
       ) : null}
       <div className="post-summary-small__info">
         <div className="post-summary-small__community-link">
-          Posted {post.createdAt} to{" "}
+          Posted {format(new Date(post.createdAt), "yyy-MM-dd HH:mm")} to{" "}
           <Link to={getCommunityLink(post)}>/c/{post.communityRoute}</Link>
         </div>
         <Voter
