@@ -39,9 +39,7 @@ export const PostSummarySmall: React.FC<
       <div className="post-summary-small__info">
         <div className="post-summary-small__community-link">
           Posted {post.createdAt} to{" "}
-          <Link to={getCommunityLink(post)}>
-            /community/{post.communityName}
-          </Link>
+          <Link to={getCommunityLink(post)}>/c/{post.communityRoute}</Link>
         </div>
         <Voter
           votes={post.voteCount}

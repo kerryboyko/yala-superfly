@@ -53,9 +53,7 @@ export const PostSummary: React.FC<
       <CardDescription>
         <div className="post-summary__community-link">
           Posted {post.createdAt} to{" "}
-          <Link to={getCommunityLink(post)}>
-            /community/{post.communityName}
-          </Link>
+          <Link to={getCommunityLink(post)}>/c/{post.communityRoute}</Link>
         </div>
         {post.link ? (
           <div className="post-summary__link">
