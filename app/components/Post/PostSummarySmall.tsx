@@ -40,7 +40,7 @@ export const PostSummarySmall: React.FC<
       ) : null}
       <div className="post-summary-small__info">
         <div className="post-summary-small__community-link">
-          Posted {format(new Date(post.createdAt), "yyy-MM-dd HH:mm")} to{" "}
+          Posted {post.createdAt} to{" "}
           <Link to={getCommunityLink(post)}>/c/{post.communityRoute}</Link>
         </div>
         <Voter
