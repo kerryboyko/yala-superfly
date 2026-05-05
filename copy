@@ -1,0 +1,100 @@
+[2m2026-05-05T18:24:50Z[0m runner[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]Machine started in 1.659s
+[2m2026-05-05T18:24:51Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]2026/05/05 18:24:51 INFO SSH listening listen_address=[fdaa:2:225d:a7b:6a7:7c2b:c560:2]:22
+[2m2026-05-05T18:24:51Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]> start
+[2m2026-05-05T18:24:51Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]> remix-serve build
+[2m2026-05-05T18:24:53Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]/myapp/node_modules/@supabase/realtime-js/src/lib/websocket-factory.ts:178
+[2m2026-05-05T18:24:53Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]    throw new Error(errorMessage)
+[2m2026-05-05T18:24:53Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]          ^
+[2m2026-05-05T18:24:53Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]Error: Node.js 20 detected without native WebSocket support.
+[2m2026-05-05T18:24:53Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]Suggested solution: For Node.js < 22, install "ws" package and provide it via the transport option:
+[2m2026-05-05T18:24:53Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]import ws from "ws"
+[2m2026-05-05T18:24:53Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]new RealtimeClient(url, { transport: ws })
+[2m2026-05-05T18:24:53Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]    at Function.getWebSocketConstructor (/myapp/node_modules/@supabase/realtime-js/src/lib/websocket-factory.ts:178:11)
+[2m2026-05-05T18:24:53Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]    at RealtimeClient._initializeOptions (/myapp/node_modules/@supabase/realtime-js/src/RealtimeClient.ts:763:63)
+[2m2026-05-05T18:24:53Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]    at new RealtimeClient (/myapp/node_modules/@supabase/realtime-js/src/RealtimeClient.ts:242:39)
+[2m2026-05-05T18:24:53Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]    at SupabaseClient._initRealtimeClient (/myapp/node_modules/@supabase/supabase-js/src/SupabaseClient.ts:279:12)
+[2m2026-05-05T18:24:53Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]    at new SupabaseClient (/myapp/node_modules/@supabase/supabase-js/src/SupabaseClient.ts:119:26)
+[2m2026-05-05T18:24:53Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]    at createClient (/myapp/node_modules/@supabase/supabase-js/src/index.ts:38:10)
+[2m2026-05-05T18:24:53Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]    at getSupabaseClient (/myapp/build/index.js:253:46)
+[2m2026-05-05T18:24:53Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]    at Object.<anonymous> (/myapp/build/index.js:268:22)
+[2m2026-05-05T18:24:53Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]    at Module._compile (node:internal/modules/cjs/loader:1521:14)
+[2m2026-05-05T18:24:53Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]    at Object.Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+[2m2026-05-05T18:24:53Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]npm notice
+[2m2026-05-05T18:24:53Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]npm notice New major version of npm available! 10.8.2 -> 11.13.0
+[2m2026-05-05T18:24:53Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.13.0
+[2m2026-05-05T18:24:53Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]npm notice To update run: npm install -g npm@11.13.0
+[2m2026-05-05T18:24:53Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]npm notice
+[2m2026-05-05T18:24:53Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m][32m INFO[0m Main child exited normally with code: 1
+[2m2026-05-05T18:24:53Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m][32m INFO[0m Starting clean up.
+[2m2026-05-05T18:24:53Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m][    4.068904] reboot: Restarting system
+[2m2026-05-05T18:25:22Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]2026-05-05T18:25:22.814402737 [01KQWP2G8PF4HDM39BHR251BFF:main] Running Firecracker v1.14.4
+[2m2026-05-05T18:25:22Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]2026-05-05T18:25:22.814663841 [01KQWP2G8PF4HDM39BHR251BFF:main] Listening on API socket ("/fc.sock").
+[2m2026-05-05T18:25:23Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m][32m INFO[0m Starting init (commit: 3040ac0)...
+[2m2026-05-05T18:25:23Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m][32m INFO[0m Preparing to run: `sh start.sh` as root
+[2m2026-05-05T18:25:23Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m][32m INFO[0m [fly api proxy] listening at /.fly/api
+[2m2026-05-05T18:25:23Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]+ PORT=8080 HOST=0.0.0.0 npm run start
+[2m2026-05-05T18:25:24Z[0m runner[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]Machine started in 1.589s
+[2m2026-05-05T18:25:24Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]2026/05/05 18:25:24 INFO SSH listening listen_address=[fdaa:2:225d:a7b:6a7:7c2b:c560:2]:22
+[2m2026-05-05T18:25:25Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]> start
+[2m2026-05-05T18:25:25Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]> remix-serve build
+[2m2026-05-05T18:25:26Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]/myapp/node_modules/@supabase/realtime-js/src/lib/websocket-factory.ts:178
+[2m2026-05-05T18:25:26Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]    throw new Error(errorMessage)
+[2m2026-05-05T18:25:26Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]          ^
+[2m2026-05-05T18:25:26Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]Error: Node.js 20 detected without native WebSocket support.
+[2m2026-05-05T18:25:26Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]Suggested solution: For Node.js < 22, install "ws" package and provide it via the transport option:
+[2m2026-05-05T18:25:26Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]import ws from "ws"
+[2m2026-05-05T18:25:26Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]new RealtimeClient(url, { transport: ws })
+[2m2026-05-05T18:25:26Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]    at Function.getWebSocketConstructor (/myapp/node_modules/@supabase/realtime-js/src/lib/websocket-factory.ts:178:11)
+[2m2026-05-05T18:25:26Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]    at RealtimeClient._initializeOptions (/myapp/node_modules/@supabase/realtime-js/src/RealtimeClient.ts:763:63)
+[2m2026-05-05T18:25:26Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]    at new RealtimeClient (/myapp/node_modules/@supabase/realtime-js/src/RealtimeClient.ts:242:39)
+[2m2026-05-05T18:25:26Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]    at SupabaseClient._initRealtimeClient (/myapp/node_modules/@supabase/supabase-js/src/SupabaseClient.ts:279:12)
+[2m2026-05-05T18:25:26Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]    at new SupabaseClient (/myapp/node_modules/@supabase/supabase-js/src/SupabaseClient.ts:119:26)
+[2m2026-05-05T18:25:26Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]    at createClient (/myapp/node_modules/@supabase/supabase-js/src/index.ts:38:10)
+[2m2026-05-05T18:25:26Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]    at getSupabaseClient (/myapp/build/index.js:253:46)
+[2m2026-05-05T18:25:26Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]    at Object.<anonymous> (/myapp/build/index.js:268:22)
+[2m2026-05-05T18:25:26Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]    at Module._compile (node:internal/modules/cjs/loader:1521:14)
+[2m2026-05-05T18:25:26Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]    at Object.Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+[2m2026-05-05T18:25:26Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]npm notice
+[2m2026-05-05T18:25:26Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]npm notice New major version of npm available! 10.8.2 -> 11.13.0
+[2m2026-05-05T18:25:26Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.13.0
+[2m2026-05-05T18:25:26Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]npm notice To update run: npm install -g npm@11.13.0
+[2m2026-05-05T18:25:26Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]npm notice
+[2m2026-05-05T18:25:26Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m][32m INFO[0m Main child exited normally with code: 1
+[2m2026-05-05T18:25:26Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m][32m INFO[0m Starting clean up.
+[2m2026-05-05T18:25:26Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m][    4.048158] reboot: Restarting system
+[2m2026-05-05T18:25:42Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]2026-05-05T18:25:42.942304219 [01KQWP2G8PF4HDM39BHR251BFF:main] Running Firecracker v1.14.4
+[2m2026-05-05T18:25:42Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]2026-05-05T18:25:42.942574883 [01KQWP2G8PF4HDM39BHR251BFF:main] Listening on API socket ("/fc.sock").
+[2m2026-05-05T18:25:43Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m][32m INFO[0m Starting init (commit: 3040ac0)...
+[2m2026-05-05T18:25:44Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m][32m INFO[0m Preparing to run: `sh start.sh` as root
+[2m2026-05-05T18:25:44Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m][32m INFO[0m [fly api proxy] listening at /.fly/api
+[2m2026-05-05T18:25:44Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]+ PORT=8080 HOST=0.0.0.0 npm run start
+[2m2026-05-05T18:25:44Z[0m runner[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]Machine started in 1.608s
+[2m2026-05-05T18:25:44Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]2026/05/05 18:25:44 INFO SSH listening listen_address=[fdaa:2:225d:a7b:6a7:7c2b:c560:2]:22
+[2m2026-05-05T18:25:45Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]> start
+[2m2026-05-05T18:25:45Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]> remix-serve build
+[2m2026-05-05T18:25:46Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]/myapp/node_modules/@supabase/realtime-js/src/lib/websocket-factory.ts:178
+[2m2026-05-05T18:25:46Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]    throw new Error(errorMessage)
+[2m2026-05-05T18:25:46Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]          ^
+[2m2026-05-05T18:25:46Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]Error: Node.js 20 detected without native WebSocket support.
+[2m2026-05-05T18:25:46Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]Suggested solution: For Node.js < 22, install "ws" package and provide it via the transport option:
+[2m2026-05-05T18:25:46Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]import ws from "ws"
+[2m2026-05-05T18:25:46Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]new RealtimeClient(url, { transport: ws })
+[2m2026-05-05T18:25:46Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]    at Function.getWebSocketConstructor (/myapp/node_modules/@supabase/realtime-js/src/lib/websocket-factory.ts:178:11)
+[2m2026-05-05T18:25:46Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]    at RealtimeClient._initializeOptions (/myapp/node_modules/@supabase/realtime-js/src/RealtimeClient.ts:763:63)
+[2m2026-05-05T18:25:46Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]    at new RealtimeClient (/myapp/node_modules/@supabase/realtime-js/src/RealtimeClient.ts:242:39)
+[2m2026-05-05T18:25:46Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]    at SupabaseClient._initRealtimeClient (/myapp/node_modules/@supabase/supabase-js/src/SupabaseClient.ts:279:12)
+[2m2026-05-05T18:25:46Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]    at new SupabaseClient (/myapp/node_modules/@supabase/supabase-js/src/SupabaseClient.ts:119:26)
+[2m2026-05-05T18:25:46Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]    at createClient (/myapp/node_modules/@supabase/supabase-js/src/index.ts:38:10)
+[2m2026-05-05T18:25:46Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]    at getSupabaseClient (/myapp/build/index.js:253:46)
+[2m2026-05-05T18:25:46Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]    at Object.<anonymous> (/myapp/build/index.js:268:22)
+[2m2026-05-05T18:25:46Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]    at Module._compile (node:internal/modules/cjs/loader:1521:14)
+[2m2026-05-05T18:25:46Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]    at Object.Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+[2m2026-05-05T18:25:46Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]npm notice
+[2m2026-05-05T18:25:46Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]npm notice New major version of npm available! 10.8.2 -> 11.13.0
+[2m2026-05-05T18:25:46Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.13.0
+[2m2026-05-05T18:25:46Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]npm notice To update run: npm install -g npm@11.13.0
+[2m2026-05-05T18:25:46Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]npm notice
+[2m2026-05-05T18:25:47Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m][32m INFO[0m Main child exited normally with code: 1
+[2m2026-05-05T18:25:47Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m][32m INFO[0m Starting clean up.
+[2m2026-05-05T18:25:47Z[0m app[86d552ae9023d8] [32mlhr[0m [[34minfo[0m][    4.017076] reboot: Restarting system
+[2m2026-05-05T18:25:49Z[0m runner[86d552ae9023d8] [32mlhr[0m [[34minfo[0m]machine has reached its max restart count of 10
