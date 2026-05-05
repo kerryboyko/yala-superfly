@@ -1,29 +1,35 @@
-@use "sass:map";
 /* 
 
 hover color for elements will usually be lighten($base-elements, 20%);
 */
-@use "sass:map";
 /* 
 
 hover color for elements will usually be lighten($base-elements, 20%);
 */
-@use "color";
 .editor {
-  margin: 1rem; }
-  .editor__header__margin {
-    margin-bottom: 1rem; }
-  .editor__content {
-    display: flex;
-    flex-direction: column;
-    flex: 1; }
-    .editor__content__editor > .ql-container {
-      min-height: 8rem; }
-  .editor__footer {
-    display: flex;
-    justify-content: flex-end; }
-    .editor__footer__button-submit {
-      margin-left: 1rem; }
-  .editor__preview {
-    padding: 1rem 2rem;
-    background-color: rgba(191, 138, 88, 0.3); }
+  margin: 1rem;
+}
+.editor__header__margin {
+  margin-bottom: 1rem;
+}
+.editor__content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.editor__content__editor > .ql-container {
+  min-height: 8rem;
+}
+.editor__footer {
+  display: flex;
+  justify-content: flex-end;
+}
+.editor__footer__button-submit {
+  margin-left: 1rem;
+}
+.editor__preview {
+  padding: 1rem 2rem;
+  background-color: rgba(191, 138, 88, 0.3);
+}
+
+/*# sourceMappingURL=editor.css.map */

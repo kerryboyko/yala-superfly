@@ -1,11 +1,11 @@
-@use "sass:map";
 /* 
 
 hover color for elements will usually be lighten($base-elements, 20%);
 */
 .social-login-buttons {
   display: flex;
-  justify-content: center; }
+  justify-content: center;
+}
 
 .sign-in-with-google {
   box-shadow: 2px 2px 4px 1px #392719;
@@ -13,16 +13,22 @@ hover color for elements will usually be lighten($base-elements, 20%);
   height: 2rem;
   border-radius: 0.5rem;
   background-position: center;
-  background-image: url("/images/google-auth/btn_google_signin_light_normal_web.png"); }
-  .sign-in-with-google:active {
-    box-shadow: 1px 1px 3px 1px #392719;
-    transform: translate3d(0, 0.125rem, 0);
-    background-image: url("/images/google-auth/btn_google_signin_light_pressed_web.png"); }
-  .sign-in-with-google:focus {
-    box-shadow: 1px 1px 3px 1px #392719;
-    transform: translate3d(0, 0.125rem, 0);
-    background-image: url("/images/google-auth/btn_google_signin_light_focus_web.png"); }
-  .sign-in-with-google:disabled {
-    box-shadow: 1px 1px 3px 1px #392719;
-    transform: translate3d(0, 0.125rem, 0);
-    background-image: url("/images/google-auth/btn_google_signin_light_disabled_web.png"); }
+  background-image: url("/images/google-auth/btn_google_signin_light_normal_web.png");
+}
+.sign-in-with-google:active {
+  box-shadow: 1px 1px 3px 1px #392719;
+  transform: translate3d(0, 0.125rem, 0);
+  background-image: url("/images/google-auth/btn_google_signin_light_pressed_web.png");
+}
+.sign-in-with-google:focus {
+  box-shadow: 1px 1px 3px 1px #392719;
+  transform: translate3d(0, 0.125rem, 0);
+  background-image: url("/images/google-auth/btn_google_signin_light_focus_web.png");
+}
+.sign-in-with-google:disabled {
+  box-shadow: 1px 1px 3px 1px #392719;
+  transform: translate3d(0, 0.125rem, 0);
+  background-image: url("/images/google-auth/btn_google_signin_light_disabled_web.png");
+}
+
+/*# sourceMappingURL=social-login-buttons.css.map */

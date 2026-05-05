@@ -1,6 +1,5 @@
 @import "palette";
 @import "component/button";
-@use "color";
 
 .editor {
   margin: 1rem;
@@ -26,8 +25,8 @@
   &__footer {
     display: flex;
     justify-content: flex-end;
-    &__button-preview {
-    }
+    // &__button-preview {
+    // }
     &__button-submit {
       margin-left: 1rem;
     }

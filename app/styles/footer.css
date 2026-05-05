@@ -1,7 +1,9 @@
-@use "sass:map";
 /* 
 
 hover color for elements will usually be lighten($base-elements, 20%);
 */
 .footer {
-  background-color: #b1cdd8; }
+  background-color: #b1cdd8;
+}
+
+/*# sourceMappingURL=footer.css.map */

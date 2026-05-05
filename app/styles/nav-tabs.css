@@ -1,9 +1,9 @@
 :root {
   --breakpoint-mobile: 480px;
   --breakpoint-tablet: 768px;
-  --breakpoint-desktop: 1200px; }
+  --breakpoint-desktop: 1200px;
+}
 
-@use "sass:map";
 /* 
 
 hover color for elements will usually be lighten($base-elements, 20%);
@@ -12,8 +12,9 @@ hover color for elements will usually be lighten($base-elements, 20%);
   .nav-tabs {
     display: flex;
     justify-content: center;
-    width: 100%; } }
-
+    width: 100%;
+  }
+}
 .nav-tabs__container {
   display: flex;
   flex-basis: auto;
@@ -22,14 +23,16 @@ hover color for elements will usually be lighten($base-elements, 20%);
   color: #717171;
   border: 1px solid #e7e7e4;
   border-radius: 0.5rem;
-  padding: 0.25rem; }
-  @media (min-width: 768px) {
-    .nav-tabs__container {
-      font-size: 1rem;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center; } }
-
+  padding: 0.25rem;
+}
+@media (min-width: 768px) {
+  .nav-tabs__container {
+    font-size: 1rem;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+}
 .nav-tabs__tab {
   display: flex;
   flex-direction: row;
@@ -45,23 +48,27 @@ hover color for elements will usually be lighten($base-elements, 20%);
   line-height: 1.25rem;
   text-align: center;
   cursor: pointer;
-  position: relative; }
-  .nav-tabs__tab.is-active {
-    background-color: white;
-    border-radius: 0.5rem;
-    color: #ca0000; }
-  @media (min-width: 768px) {
-    .nav-tabs__tab {
-      font-size: 1rem;
-      padding: 0.5rem 1.25rem; } }
-
+  position: relative;
+}
+.nav-tabs__tab.is-active {
+  background-color: white;
+  border-radius: 0.5rem;
+  color: #ca0000;
+}
+@media (min-width: 768px) {
+  .nav-tabs__tab {
+    font-size: 1rem;
+    padding: 0.5rem 1.25rem;
+  }
+}
 .nav-tabs__label {
   display: flex;
   flex-direction: row;
-  align-items: center; }
-  .nav-tabs__label .icon {
-    margin-right: 0.5rem; }
-
+  align-items: center;
+}
+.nav-tabs__label .icon {
+  margin-right: 0.5rem;
+}
 .nav-tabs__count {
   font-family: "Ubuntu";
   font-size: 0.75rem;
@@ -71,6 +78,10 @@ hover color for elements will usually be lighten($base-elements, 20%);
   line-height: 1rem;
   color: white;
   background-color: #144566;
-  border-radius: 1rem; }
-  .nav-tabs__count.is-active {
-    background-color: #ca0000; }
+  border-radius: 1rem;
+}
+.nav-tabs__count.is-active {
+  background-color: #ca0000;
+}
+
+/*# sourceMappingURL=nav-tabs.css.map */

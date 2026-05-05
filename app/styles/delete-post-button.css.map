@@ -1,0 +1,1 @@
+{"version":3,"sourceRoot":"","sources":["../../styles/_palette.scss","../../styles/delete-post-button.scss"],"names":[],"mappings":"AAgEA;;AAAA;AAAA;AC9DA;EACE;EACA,ODiDQ;EChDR;EACA;EACA;EACA;EACA;EACA;;AACA;EACE;EACA;EACA;;AAEF;EACE;EACA;;;AAMA;EACE,ODwBU;ECvBV;EACA;;AAOJ;EACE;EACA,ODiBM;EChBN;;AACA;EACE,kBDcI;ECbJ","file":"delete-post-button.css"}

@@ -1,4 +1,3 @@
-@use "sass:map";
 /* 
 
 hover color for elements will usually be lighten($base-elements, 20%);
@@ -6,84 +5,111 @@ hover color for elements will usually be lighten($base-elements, 20%);
 :root {
   --breakpoint-mobile: 480px;
   --breakpoint-tablet: 768px;
-  --breakpoint-desktop: 1200px; }
+  --breakpoint-desktop: 1200px;
+}
 
 .framing {
-  margin-top: 1rem; }
-  @media (min-width: 768px) {
-    .framing {
-      display: flex;
-      flex-direction: row;
-      width: 100%;
-      justify-content: space-between; } }
+  margin-top: 1rem;
+}
+@media (min-width: 768px) {
+  .framing {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+  }
+}
 
 .outlet {
   padding: 0 1rem;
-  width: 100%; }
+  width: 100%;
+}
 
 .profile {
   min-width: 18rem;
   text-align: center;
   padding: 0 1rem;
-  margin-bottom: 1rem; }
-  .profile__header {
-    font-family: "Noto Sans";
-    font-weight: 700;
-    font-size: 1.25rem; }
-  .profile__joined {
-    font-family: "Noto Sans";
-    font-size: 1rem; }
-  .profile a {
-    text-decoration: none;
-    color: #144566; }
+}
+.profile__header {
+  font-family: "Noto Sans";
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+.profile__joined {
+  font-family: "Noto Sans";
+  font-size: 1rem;
+}
+.profile {
+  margin-bottom: 1rem;
+}
+.profile a {
+  text-decoration: none;
+  color: #144566;
+}
 
 .card-area {
-  width: 100%; }
+  width: 100%;
+}
 
 .card.latest {
-  margin-bottom: 1rem; }
+  margin-bottom: 1rem;
+}
 
 .comment-summary {
-  padding: 1rem; }
-  .comment-summary:not(:last-child) {
-    border-bottom: 1px dotted rgba(57, 39, 25, 0.5); }
-  .comment-summary__link {
-    font-family: "Noto Sans";
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-decoration: none;
-    cursor: pointer;
-    margin-bottom: 0.5rem; }
-    .comment-summary__link__post-title {
-      font-size: 1rem; }
-    .comment-summary__link__community-name {
-      font-size: 0.75rem; }
-  .comment-summary__text {
-    font-family: "Noto Sans";
-    margin-left: 2rem;
-    font-size: 0.75rem;
-    margin-bottom: 0.25rem; }
-  .comment-summary__permalink {
-    font-family: "Noto Sans";
-    font-weight: 700;
-    cursor: pointer;
-    text-decoration: none;
-    text-align: right; }
+  padding: 1rem;
+}
+.comment-summary:not(:last-child) {
+  border-bottom: 1px dotted rgba(57, 39, 25, 0.5);
+}
+.comment-summary__link {
+  font-family: "Noto Sans";
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+}
+.comment-summary__link__post-title {
+  font-size: 1rem;
+}
+.comment-summary__link__community-name {
+  font-size: 0.75rem;
+}
+.comment-summary__text {
+  font-family: "Noto Sans";
+  margin-left: 2rem;
+  font-size: 0.75rem;
+  margin-bottom: 0.25rem;
+}
+.comment-summary__permalink {
+  font-family: "Noto Sans";
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: right;
+}
 
 .comment-summary-small {
   padding: 0.25rem 0.25rem 0.75rem 0.25rem;
-  margin-bottom: 0.5rem; }
-  .comment-summary-small:not(:last-child) {
-    border-bottom: 1px dotted rgba(57, 39, 25, 0.5); }
-  .comment-summary-small__link {
-    font-family: "Ubuntu";
-    text-decoration: none;
-    cursor: pointer;
-    font-size: 0.75rem; }
-  .comment-summary-small__text {
-    font-family: "Noto Sans";
-    font-size: 0.825rem;
-    margin-left: 2rem; }
+  margin-bottom: 0.5rem;
+}
+.comment-summary-small:not(:last-child) {
+  border-bottom: 1px dotted rgba(57, 39, 25, 0.5);
+}
+.comment-summary-small__link {
+  font-family: "Ubuntu";
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 0.75rem;
+}
+.comment-summary-small__text {
+  font-family: "Noto Sans";
+  font-size: 0.825rem;
+  margin-left: 2rem;
+}
 
 .user-subscribes__card__content .subscription:not(:last-child) {
-  border-bottom: 1px dotted rgba(57, 39, 25, 0.5); }
+  border-bottom: 1px dotted rgba(57, 39, 25, 0.5);
+}
+
+/*# sourceMappingURL=user.css.map */

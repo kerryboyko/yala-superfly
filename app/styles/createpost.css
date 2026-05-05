@@ -1,9 +1,7 @@
-@use "sass:map";
 /* 
 
 hover color for elements will usually be lighten($base-elements, 20%);
 */
-@use "sass:map";
 /* 
 
 hover color for elements will usually be lighten($base-elements, 20%);
@@ -11,43 +9,55 @@ hover color for elements will usually be lighten($base-elements, 20%);
 .drag-drop-file-container {
   display: flex;
   flex-direction: row;
-  margin: 1rem 0; }
+  margin: 1rem 0;
+}
 
 .file-warning {
-  color: #cd212e; }
+  color: #cd212e;
+}
 
 .image-preview {
-  position: relative; }
-  .image-preview__image {
-    margin: 1rem 0.5rem; }
-    .image-preview__image--image {
-      max-height: 14rem; }
-  .image-preview__button-cancel {
-    padding: 0;
-    margin: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-    background-color: #cd212e; }
-    .image-preview__button-cancel:hover {
-      background-color: #b90e0a; }
-    .image-preview__button-cancel .icon {
-      height: 2rem;
-      width: 2rem; }
+  position: relative;
+}
+.image-preview__image {
+  margin: 1rem 0.5rem;
+}
+.image-preview__image--image {
+  max-height: 14rem;
+}
+.image-preview__button-cancel {
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  background-color: #cd212e;
+}
+.image-preview__button-cancel:hover {
+  background-color: #b90e0a;
+}
+.image-preview__button-cancel .icon {
+  height: 2rem;
+  width: 2rem;
+}
 
 #form-file-upload {
   width: 100%;
   min-height: 10rem;
   max-width: 100%;
   text-align: center;
-  position: relative; }
-  @media (min-width: 560px) {
-    #form-file-upload {
-      height: 16rem;
-      max-width: 28rem; } }
+  position: relative;
+}
+@media (min-width: 560px) {
+  #form-file-upload {
+    height: 16rem;
+    max-width: 28rem;
+  }
+}
 
 #input-file-upload {
-  display: none; }
+  display: none;
+}
 
 #label-file-upload {
   height: 100%;
@@ -58,9 +68,11 @@ hover color for elements will usually be lighten($base-elements, 20%);
   border-radius: 1rem;
   border-style: dashed;
   border-color: #cbd5e1;
-  background-color: #f8fafc; }
-  #label-file-upload.size--small {
-    padding: 2rem; }
+  background-color: #f8fafc;
+}
+#label-file-upload.size--small {
+  padding: 2rem;
+}
 
 .upload-button {
   cursor: pointer;
@@ -68,13 +80,16 @@ hover color for elements will usually be lighten($base-elements, 20%);
   font-size: 1rem;
   border: none;
   font-family: "Oswald", sans-serif;
-  background-color: transparent; }
+  background-color: transparent;
+}
 
 .upload-button:hover {
-  text-decoration-line: underline; }
+  text-decoration-line: underline;
+}
 
 #label-file-upload.drag-active {
-  background-color: #ffffff; }
+  background-color: #ffffff;
+}
 
 #drag-file-element {
   position: absolute;
@@ -84,120 +99,149 @@ hover color for elements will usually be lighten($base-elements, 20%);
   top: 0px;
   right: 0px;
   bottom: 0px;
-  left: 0px; }
+  left: 0px;
+}
 
-@use "color";
 .create-post__container {
-  margin-top: 1rem; }
-
+  margin-top: 1rem;
+}
 .create-post .header__condensed-padding.bottom {
-  padding-bottom: 0.25rem; }
-
+  padding-bottom: 0.25rem;
+}
 .create-post .header__condensed-padding.top {
-  padding-top: 0.5rem; }
-
+  padding-top: 0.5rem;
+}
 .create-post .content__condensed-padding {
-  padding-bottom: 0.25rem; }
-
+  padding-bottom: 0.25rem;
+}
 .create-post__content__embed-image__display--image {
   border-radius: 0.5rem;
   border: 1px solid #bf8a58;
-  margin: 1rem 0; }
-
+  margin: 1rem 0;
+}
 .create-post__content__embed-image__loading {
-  display: flex; }
-  .create-post__content__embed-image__loading.icon {
-    animation: spin 4s linear infinite;
-    color: #144566; }
-
+  display: flex;
+}
+.create-post__content__embed-image__loading.icon {
+  animation: spin 4s linear infinite;
+  color: #144566;
+}
 .create-post .editor__content {
-  position: relative; }
-  .create-post .editor__content__editor__markdown-supported {
-    position: absolute;
-    right: 1.5rem;
-    top: -1rem;
-    font-family: "Ubuntu";
-    font-size: 0.75rem; }
-  .create-post .editor__content__images__footer {
-    display: flex;
-    justify-content: flex-end; }
-
+  position: relative;
+}
+.create-post .editor__content__editor__markdown-supported {
+  position: absolute;
+  right: 1.5rem;
+  top: -1rem;
+  font-family: "Ubuntu";
+  font-size: 0.75rem;
+}
+.create-post .editor__content__images__footer {
+  display: flex;
+  justify-content: flex-end;
+}
 .create-post__warning {
   color: #cd212e;
-  margin: 0.25rem 2rem; }
+  margin: 0.25rem 2rem;
+}
 
 .editor__header__image-header {
-  padding: 0 1.5rem; }
-
+  padding: 0 1.5rem;
+}
 .editor__footer {
   display: flex;
-  justify-content: flex-end; }
-  .editor__footer__show-preview {
-    display: flex;
-    align-items: center; }
-    .editor__footer__show-preview--switch {
-      margin-right: 0.5rem; }
-      .editor__footer__show-preview--switch[data-state="checked"] {
-        background-color: #ca0000; }
-      .editor__footer__show-preview--switch[data-state="unchecked"] {
-        background-color: #144566; }
-  .editor__footer__button {
-    margin-left: 0.5rem;
-    background-color: #144566; }
-    .editor__footer__button:hover {
-      background-color: #257fbb; }
-    .editor__footer__button.preview--active {
-      font-style: italic; }
-
+  justify-content: flex-end;
+}
+.editor__footer__show-preview {
+  display: flex;
+  align-items: center;
+}
+.editor__footer__show-preview--switch {
+  margin-right: 0.5rem;
+}
+.editor__footer__show-preview--switch[data-state=checked] {
+  background-color: #ca0000;
+}
+.editor__footer__show-preview--switch[data-state=unchecked] {
+  background-color: #144566;
+}
+.editor__footer__button {
+  margin-left: 0.5rem;
+  background-color: #144566;
+}
+.editor__footer__button:hover {
+  background-color: rgb(36.7213114754, 126.6885245902, 187.2786885246);
+}
+.editor__footer__button.preview--active {
+  font-style: italic;
+}
 .editor__content__images__footer {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 0.5rem; }
-  .editor__content__images__footer__editor {
-    display: flex;
-    justify-content: flex-end;
-    margin: 0 1.5rem 0.5rem 1.5rem; }
-
+  margin-bottom: 0.5rem;
+}
+.editor__content__images__footer__editor {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 1.5rem 0.5rem 1.5rem;
+}
 .editor__content__images__add-image {
-  background-color: #144566; }
-  .editor__content__images__add-image .icon {
-    margin-right: 0.5rem; }
+  background-color: #144566;
+}
+.editor__content__images__add-image .icon {
+  margin-right: 0.5rem;
+}
 
 .post-preview {
   background-color: rgba(191, 138, 88, 0.3);
-  padding-top: 1rem; }
-  .post-preview__title {
-    font-family: "Noto Sans";
-    font-weight: 700;
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem; }
-  .post-preview__link {
-    text-decoration: none;
-    color: #144566; }
-    .post-preview__link:hover {
-      text-decoration: underline;
-      color: #144566; }
-  .post-preview__body {
-    margin-bottom: 0.5rem;
-    font-family: "Noto Sans"; }
+  padding-top: 1rem;
+}
+.post-preview__title {
+  font-family: "Noto Sans";
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.post-preview__link {
+  text-decoration: none;
+  color: #144566;
+}
+.post-preview__link:hover {
+  text-decoration: underline;
+  color: #144566;
+}
+.post-preview__body {
+  margin-bottom: 0.5rem;
+  font-family: "Noto Sans";
+}
 
 .post-image-field {
-  padding: 0.5rem 1.5rem; }
-  .post-image-field__preview {
-    margin: 1rem 0; }
-  .post-image-field__input-field {
-    width: 100%; }
-  .post-image-field__buttons {
-    display: flex;
-    justify-content: flex-end;
-    margin: 0.5rem 0; }
-    .post-image-field__buttons--button {
-      background-color: #144566;
-      margin-left: 0.5rem; }
-      .post-image-field__buttons--button:hover {
-        background-color: #257fbb; }
+  padding: 0.5rem 1.5rem;
+}
+.post-image-field__preview {
+  margin: 1rem 0;
+}
+.post-image-field__input-field {
+  width: 100%;
+}
+.post-image-field__buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0.5rem 0;
+}
+.post-image-field__buttons--button {
+  background-color: #144566;
+  margin-left: 0.5rem;
+}
+.post-image-field__buttons--button:hover {
+  background-color: rgb(36.7213114754, 126.6885245902, 187.2786885246);
+}
 
 @keyframes spin {
   100% {
     -webkit-transform: rotate(360deg);
-    transform: rotate(360deg); } }
+    transform: rotate(360deg);
+  }
+}
+
+/*# sourceMappingURL=createpost.css.map */

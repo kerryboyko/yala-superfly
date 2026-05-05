@@ -2,32 +2,45 @@
 .about {
   display: flex;
   justify-content: center;
-  padding: 2rem 1rem 4rem 1rem; }
-  .about__text {
-    font-size: 1rem;
-    max-width: 48rem; }
-    .about__text a {
-      font-weight: 700; }
-    .about__text li {
-      padding-bottom: 0.25rem; }
-    .about__text ul {
-      padding-top: 0.25rem; }
-    .about__text blockquote p {
-      padding-bottom: 0.5rem; }
+  padding: 2rem 1rem 4rem 1rem;
+}
+.about__text {
+  font-size: 1rem;
+  max-width: 48rem;
+}
+.about__text a {
+  font-weight: 700;
+}
+.about__text li {
+  padding-bottom: 0.25rem;
+}
+.about__text ul {
+  padding-top: 0.25rem;
+}
+.about__text blockquote p {
+  padding-bottom: 0.5rem;
+}
 
 .content-box {
-  max-width: 48rem; }
+  max-width: 48rem;
+}
 
 .privacy-policy,
 .terms-of-service {
-  padding: 1rem; }
-  .privacy-policy ul,
-  .terms-of-service ul {
-    padding-top: 0.25rem; }
-  .privacy-policy li,
-  .terms-of-service li {
-    padding-bottom: 0.25rem;
-    margin-left: 0.5rem; }
-    .privacy-policy li:before,
-    .terms-of-service li:before {
-      content: "• "; }
+  padding: 1rem;
+}
+.privacy-policy ul,
+.terms-of-service ul {
+  padding-top: 0.25rem;
+}
+.privacy-policy li,
+.terms-of-service li {
+  padding-bottom: 0.25rem;
+  margin-left: 0.5rem;
+}
+.privacy-policy li:before,
+.terms-of-service li:before {
+  content: "• ";
+}
+
+/*# sourceMappingURL=about.css.map */

@@ -4,7 +4,7 @@ export default defineConfig({
   e2e: {
     setupNodeEvents: (on, config) => {
       const isDev = config.watchForFileChanges;
-      const port = process.env.PORT ?? (isDev ? "3000" : "8811");
+      const port = process.env.PORT ?? (isDev ? "8080" : "8811");
       const configOverrides: Partial<Cypress.PluginConfigOptions> = {
         baseUrl: `http://localhost:${port}`,
         video: false,

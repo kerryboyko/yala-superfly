@@ -1,9 +1,7 @@
-@use "sass:map";
 /* 
 
 hover color for elements will usually be lighten($base-elements, 20%);
 */
-@use "sass:map";
 /* 
 
 hover color for elements will usually be lighten($base-elements, 20%);
@@ -11,43 +9,55 @@ hover color for elements will usually be lighten($base-elements, 20%);
 .drag-drop-file-container {
   display: flex;
   flex-direction: row;
-  margin: 1rem 0; }
+  margin: 1rem 0;
+}
 
 .file-warning {
-  color: #cd212e; }
+  color: #cd212e;
+}
 
 .image-preview {
-  position: relative; }
-  .image-preview__image {
-    margin: 1rem 0.5rem; }
-    .image-preview__image--image {
-      max-height: 14rem; }
-  .image-preview__button-cancel {
-    padding: 0;
-    margin: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-    background-color: #cd212e; }
-    .image-preview__button-cancel:hover {
-      background-color: #b90e0a; }
-    .image-preview__button-cancel .icon {
-      height: 2rem;
-      width: 2rem; }
+  position: relative;
+}
+.image-preview__image {
+  margin: 1rem 0.5rem;
+}
+.image-preview__image--image {
+  max-height: 14rem;
+}
+.image-preview__button-cancel {
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  background-color: #cd212e;
+}
+.image-preview__button-cancel:hover {
+  background-color: #b90e0a;
+}
+.image-preview__button-cancel .icon {
+  height: 2rem;
+  width: 2rem;
+}
 
 #form-file-upload {
   width: 100%;
   min-height: 10rem;
   max-width: 100%;
   text-align: center;
-  position: relative; }
-  @media (min-width: 560px) {
-    #form-file-upload {
-      height: 16rem;
-      max-width: 28rem; } }
+  position: relative;
+}
+@media (min-width: 560px) {
+  #form-file-upload {
+    height: 16rem;
+    max-width: 28rem;
+  }
+}
 
 #input-file-upload {
-  display: none; }
+  display: none;
+}
 
 #label-file-upload {
   height: 100%;
@@ -58,9 +68,11 @@ hover color for elements will usually be lighten($base-elements, 20%);
   border-radius: 1rem;
   border-style: dashed;
   border-color: #cbd5e1;
-  background-color: #f8fafc; }
-  #label-file-upload.size--small {
-    padding: 2rem; }
+  background-color: #f8fafc;
+}
+#label-file-upload.size--small {
+  padding: 2rem;
+}
 
 .upload-button {
   cursor: pointer;
@@ -68,13 +80,16 @@ hover color for elements will usually be lighten($base-elements, 20%);
   font-size: 1rem;
   border: none;
   font-family: "Oswald", sans-serif;
-  background-color: transparent; }
+  background-color: transparent;
+}
 
 .upload-button:hover {
-  text-decoration-line: underline; }
+  text-decoration-line: underline;
+}
 
 #label-file-upload.drag-active {
-  background-color: #ffffff; }
+  background-color: #ffffff;
+}
 
 #drag-file-element {
   position: absolute;
@@ -84,61 +99,72 @@ hover color for elements will usually be lighten($base-elements, 20%);
   top: 0px;
   right: 0px;
   bottom: 0px;
-  left: 0px; }
+  left: 0px;
+}
 
 .warning-red {
-  color: #cd212e; }
+  color: #cd212e;
+}
 
 .safety-orange {
-  color: #ff7900; }
+  color: #ff7900;
+}
 
 .create-community .input-container {
-  position: relative; }
-
+  position: relative;
+}
 .create-community .input {
-  border-radius: 0.5rem; }
-
+  border-radius: 0.5rem;
+}
 .create-community .char-count {
   position: absolute;
   font-family: "Ubuntu";
   font-size: 0.75rem;
   bottom: -1rem;
-  right: 0; }
-
+  right: 0;
+}
 .create-community__route {
-  padding: 0 1rem; }
-
+  padding: 0 1rem;
+}
 .create-community__footer {
-  justify-content: flex-end; }
-  .create-community__footer__button {
-    background-color: #144566; }
-    .create-community__footer__button:hover {
-      background-color: #257fbb; }
-    .create-community__footer__button__icon {
-      margin-right: 0.5rem; }
-      .create-community__footer__button__icon.loading {
-        animation: spin 4s linear infinite; }
-
+  justify-content: flex-end;
+}
+.create-community__footer__button {
+  background-color: #144566;
+}
+.create-community__footer__button:hover {
+  background-color: rgb(36.7213114754, 126.6885245902, 187.2786885246);
+}
+.create-community__footer__button__icon {
+  margin-right: 0.5rem;
+}
+.create-community__footer__button__icon.loading {
+  animation: spin 4s linear infinite;
+}
 .create-community__content__header-image__display--image {
   border-radius: 0.5rem;
   border: 1px solid #b1cdd8;
-  margin: 1rem 0; }
-
+  margin: 1rem 0;
+}
 .create-community__content__header-image__loading {
-  display: flex; }
-  .create-community__content__header-image__loading.icon {
-    margin-left: 0rem; }
+  display: flex;
+}
+.create-community__content__header-image__loading.icon {
+  margin-left: 0rem;
+}
 
 @keyframes spin {
   100% {
     -webkit-transform: rotate(360deg);
-    transform: rotate(360deg); } }
-
+    transform: rotate(360deg);
+  }
+}
 .icon.trash {
   border: 2px solid white;
   border-radius: 0.25rem;
   padding: 0.125rem;
-  margin: 0.125rem; }
+  margin: 0.125rem;
+}
 
 .edit-community-link {
   display: flex;
@@ -149,15 +175,21 @@ hover color for elements will usually be lighten($base-elements, 20%);
   height: auto;
   padding: 0 0.5rem;
   margin-top: 1rem;
-  cursor: pointer; }
-  .edit-community-link--link-box {
-    display: flex;
-    justify-content: center;
-    align-items: center; }
-    .edit-community-link--link-box:hover {
-      background-color: transparent;
-      text-decoration: underline; }
-  .edit-community-link--icon {
-    height: 1rem;
-    width: 1rem;
-    margin-right: 0.25rem; }
+  cursor: pointer;
+}
+.edit-community-link--link-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.edit-community-link--link-box:hover {
+  background-color: transparent;
+  text-decoration: underline;
+}
+.edit-community-link--icon {
+  height: 1rem;
+  width: 1rem;
+  margin-right: 0.25rem;
+}
+
+/*# sourceMappingURL=createcommunity.css.map */

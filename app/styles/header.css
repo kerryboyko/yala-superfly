@@ -1,9 +1,7 @@
-@use "sass:map";
 /* 
 
 hover color for elements will usually be lighten($base-elements, 20%);
 */
-@use "sass:map";
 /* 
 
 hover color for elements will usually be lighten($base-elements, 20%);
@@ -11,94 +9,123 @@ hover color for elements will usually be lighten($base-elements, 20%);
 :root {
   --breakpoint-mobile: 480px;
   --breakpoint-tablet: 768px;
-  --breakpoint-desktop: 1200px; }
+  --breakpoint-desktop: 1200px;
+}
 
 .header {
   font-family: "Ubuntu";
   display: grid;
   grid-template-areas: "logo auth" "links links";
   grid-template-rows: auto;
+}
+@media (min-width: 875px) {
+  .header {
+    grid-template-areas: "logo auth" "logo links";
+    grid-template-columns: 15rem auto;
+  }
+}
+@media (min-width: 1200px) {
+  .header {
+    grid-template-rows: auto 2rem;
+  }
+}
+.header {
   background-color: #b1cdd8;
-  width: 100%; }
-  @media (min-width: 875px) {
-    .header {
-      grid-template-areas: "logo auth" "logo links";
-      grid-template-columns: 15rem auto; } }
-  @media (min-width: 1200px) {
-    .header {
-      grid-template-rows: auto 2rem; } }
-  .header__main {
-    padding: 0;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center; }
-  .header__command-menu {
-    margin: 1rem; }
-  .header__site-name {
-    font-family: "Ubuntu";
-    font-weight: 700;
-    font-size: 1.5rem;
-    margin: 0.5rem 1rem;
-    grid-area: logo;
-    color: #ca0000; }
-    .header__site-name a {
-      color: #ca0000; }
-  .header__site {
-    height: 10rem;
-    width: 15rem;
-    max-width: 15rem;
-    grid-area: logo; }
-    .header__site--logo {
-      height: 10rem;
-      max-width: 15rem; }
-  .header__auth {
-    grid-area: auth;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: center; }
-    .header__auth .login-buttons {
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-end;
-      align-items: center;
-      margin-left: 0.5rem;
-      margin-right: 0.5rem; }
-      .header__auth .login-buttons__buttons__login {
-        margin-left: 0.5rem; }
+  width: 100%;
+}
+.header__main {
+  padding: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.header__command-menu {
+  margin: 1rem;
+}
+.header__site-name {
+  font-family: "Ubuntu";
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin: 0.5rem 1rem;
+  grid-area: logo;
+  color: #ca0000;
+}
+.header__site-name a {
+  color: #ca0000;
+}
+.header__site {
+  height: 10rem;
+  width: 15rem;
+  max-width: 15rem;
+  grid-area: logo;
+}
+.header__site--logo {
+  height: 10rem;
+  max-width: 15rem;
+}
+.header__auth {
+  grid-area: auth;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+.header__auth .login-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+.header__auth .login-buttons__buttons__login {
+  margin-left: 0.5rem;
+}
+.header__link-navigation {
+  width: 100%;
+  grid-area: links;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  grid-area: links;
+  padding: 0.25rem 0;
+}
+.header__link-navigation--link {
+  font-weight: 700;
+  padding: 0 1rem;
+}
+@media (min-width: 875px) {
   .header__link-navigation {
-    width: 100%;
-    grid-area: links;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    grid-area: links;
-    padding: 0.25rem 0; }
-    .header__link-navigation--link {
-      font-weight: 700;
-      padding: 0 1rem; }
-    @media (min-width: 875px) {
-      .header__link-navigation {
-        flex-direction: row; }
-        .header__link-navigation--link:not(:last-child) {
-          border-right: 1px solid #392719; } }
+    flex-direction: row;
+  }
+  .header__link-navigation--link:not(:last-child) {
+    border-right: 1px solid #392719;
+  }
+}
 
 .button {
   font-family: "Ubuntu";
   margin-left: 0.25rem;
   margin-right: 0.25rem;
-  background-color: #144566; }
-  .button:hover {
-    background-color: #257fbb; }
+  background-color: #144566;
+}
+.button:hover {
+  background-color: rgb(36.7213114754, 126.6885245902, 187.2786885246);
+}
 
 .command-icon__badge {
   margin: 0 1rem;
-  background-color: #144566; }
-  .command-icon__badge:hover {
-    background-color: #257fbb; }
-  .command-icon__badge__text {
-    text-transform: uppercase;
-    padding-left: 0.5rem; }
+  background-color: #144566;
+}
+.command-icon__badge:hover {
+  background-color: rgb(36.7213114754, 126.6885245902, 187.2786885246);
+}
+.command-icon__badge__text {
+  text-transform: uppercase;
+  padding-left: 0.5rem;
+}
+
+/*# sourceMappingURL=header.css.map */

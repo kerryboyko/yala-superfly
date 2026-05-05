@@ -1,4 +1,3 @@
-@use "sass:map";
 /* 
 
 hover color for elements will usually be lighten($base-elements, 20%);
@@ -8,22 +7,31 @@ hover color for elements will usually be lighten($base-elements, 20%);
   display: flex;
   justify-content: center;
   margin: 0;
-  object-fit: contain; }
-  .post-image__display img {
-    max-width: none;
-    max-height: none;
-    max-height: 90vh;
-    max-width: 90vw; }
-  .post-image__display .dialog-close-button {
-    position: absolute;
-    background-color: #144566;
-    color: white;
-    height: 1.5rem;
-    width: 1.5rem;
-    right: 0.5rem;
-    top: 0.5rem; }
-    .post-image__display .dialog-close-button:hover {
-      background-color: #ca0000; }
-    .post-image__display .dialog-close-button svg {
-      width: 1.5rem;
-      height: 1.5rem; }
+  object-fit: contain;
+}
+.post-image__display img {
+  max-width: none;
+  max-height: none;
+  max-height: 90vh;
+  max-width: 90vw;
+}
+.post-image__display .dialog-close-button {
+  position: absolute;
+  background-color: #144566;
+  color: white;
+}
+.post-image__display .dialog-close-button:hover {
+  background-color: #ca0000;
+}
+.post-image__display .dialog-close-button {
+  height: 1.5rem;
+  width: 1.5rem;
+  right: 0.5rem;
+  top: 0.5rem;
+}
+.post-image__display .dialog-close-button svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/*# sourceMappingURL=post-image.css.map */

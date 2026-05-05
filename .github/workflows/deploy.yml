@@ -93,11 +93,11 @@ jobs:
         uses: SpicyPizza/create-envfile@v1.3
         with:
           envkey_SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
-          envkey_SUPABASE_ANON_PUBLIC: ${{ secrets.SUPABASE_ANON_PUBLIC }}
-          envkey_SUPABASE_SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE }}
+          envkey_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          envkey_SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           envkey_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           envkey_SERVER_URL: ${{ secrets.SERVER_URL }}
-          envkey_DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          envkey_DB_CONNECTION_STRING: ${{ secrets.DB_CONNECTION_STRING }}
           file_name: .env
 
       - name: ⎔ Setup node

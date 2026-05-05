@@ -1,4 +1,3 @@
-@use "sass:map";
 /* 
 
 hover color for elements will usually be lighten($base-elements, 20%);
@@ -8,39 +7,55 @@ hover color for elements will usually be lighten($base-elements, 20%);
   font-family: "Ubuntu";
   display: grid;
   align-items: center;
+}
+.subscription:not(:last-child),
+.moderation:not(:last-child) {
+  border-bottom: 1px dotted rgba(57, 39, 25, 0.5);
+}
+.subscription,
+.moderation {
   padding-bottom: 0.25rem;
-  margin-bottom: 0.5rem; }
-  .subscription:not(:last-child),
-  .moderation:not(:last-child) {
-    border-bottom: 1px dotted rgba(57, 39, 25, 0.5); }
-  .subscription__name,
-  .moderation__name {
-    grid-area: name;
-    font-weight: 700; }
-    .subscription__name__moderate-link,
-    .moderation__name__moderate-link {
-      color: #ca0000; }
-  .subscription__route,
-  .moderation__route {
-    grid-area: route; }
-  .subscription__stats,
-  .moderation__stats {
-    grid-area: stats; }
-  .subscription__description,
-  .moderation__description {
-    grid-area: description;
-    margin-top: 0.25rem;
-    font-family: "Lato"; }
+  margin-bottom: 0.5rem;
+}
+.subscription__name,
+.moderation__name {
+  grid-area: name;
+  font-weight: 700;
+}
+.subscription__name__moderate-link,
+.moderation__name__moderate-link {
+  color: #ca0000;
+}
+.subscription__route,
+.moderation__route {
+  grid-area: route;
+}
+.subscription__stats,
+.moderation__stats {
+  grid-area: stats;
+}
+.subscription__description,
+.moderation__description {
+  grid-area: description;
+  margin-top: 0.25rem;
+  font-family: "Lato";
+}
 
 .subscription {
   grid-template-areas: "name route stats button" "description description description description";
-  grid-template-columns: 1fr 1fr 1fr 7rem; }
-  .subscription__subscribe {
-    grid-area: button; }
+  grid-template-columns: 1fr 1fr 1fr 7rem;
+}
+.subscription__subscribe {
+  grid-area: button;
+}
 
 .moderation {
   grid-template-areas: "name route stats" "description description description";
-  grid-template-columns: 1fr 1fr 1fr; }
+  grid-template-columns: 1fr 1fr 1fr;
+}
 
 .button.show-descriptions {
-  width: 100%; }
+  width: 100%;
+}
+
+/*# sourceMappingURL=subscriptions.css.map */

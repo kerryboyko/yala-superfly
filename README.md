@@ -16,13 +16,13 @@
 - "Project API keys"
 - Add the following to the .env file:
   - `SUPABASE_URL`,
-  - `SERVER_URL` (is your localhost on dev, likely "http://localhost:3000"),
-  - `SUPABASE_SERVICE_ROLE` (aka `service_role` `secret`),
-  - `SUPABASE_ANON_PUBLIC` (aka `anon` `public`) and
+  - `SERVER_URL` (is your localhost on dev, likely "http://localhost:8080"),
+  - `SUPABASE_SERVICE_ROLE_KEY` (aka `service_role` `secret`),
+  - `SUPABASE_ANON_KEY` (aka `anon` `public`) and
   - `DATABASE_PASSWORD`
   - `SESSION_SECRET` (a secret to use with sessions)
   - `SUPABASE_REFERENCE_ID` (ie., the random name superbase assigns your project)
-  - `OAUTH_CALLBACK` (needs to be full URL. For dev, this should be `http://localhost:3000/oauth/callback`)
+  - `OAUTH_CALLBACK` (needs to be full URL. For dev, this should be `http://localhost:8080/oauth/callback`)
   - `DB_CONNECTION_STRING` (`postgresql://postgres:<YOUR DATABASE PASSWORD>@db.<SUPABASE REFERENCE ID>.supabase.co:5432/postgres`)
   - `HEADER_IMAGE_STORAGE_BUCKET` (set to `yala-header-images` - and create a 'yala-header-images' bucket in your supabase)
 
