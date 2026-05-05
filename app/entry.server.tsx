@@ -12,15 +12,15 @@ import updateHotness from "./modules/post/updateHotness.server";
 
 const ABORT_DELAY = 5000;
 
-// this is basically a job that runs every 3 hours to recalculate the hotness of posts.
-const RECALC_HOTNESS_DELAY = 1000 * 60 * 60 * 3;
+// this is basically a job that runs every 48 hours to recalculate the hotness of posts.
+// const RECALC_HOTNESS_DELAY = 1000 * 60 * 60 * 48;
 
-const recalcHotness = () => {
-  console.info("Recalculating Hotness");
-  updateHotness();
-  setTimeout(recalcHotness, RECALC_HOTNESS_DELAY);
-};
-recalcHotness();
+// const recalcHotness = () => {
+//   console.info("Recalculating Hotness");
+//   updateHotness();
+//   setTimeout(recalcHotness, RECALC_HOTNESS_DELAY);
+// };
+// recalcHotness();
 
 export default async function handleRequest(
   request: Request,
